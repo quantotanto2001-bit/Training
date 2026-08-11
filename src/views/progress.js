@@ -1,11 +1,51 @@
 import { h, fmtDate } from '../ui.js';
 import { PLAN, TYPES, TYPE_LABELS, allExercises } from '../plan.js';
-import { getExerciseHistory } from '../db.js';
+import { getExerciseHistory, getAllSessionLogs } from '../db.js';
+import { getCurrentProgramState } from '../state.js';
 import { formatLoggedSet } from '../setForms.js';
+
+function bentoTile(value, label) {
+  return h('div', { class: 'bento-tile' }, [
+    h('div', { class: 'bento-value' }, String(value)),
+    h('div', { class: 'bento-label' }, label),
+  ]);
+}
+
+async function computeOverviewStats() {
+  const [programState, logs] = await Promise.all([getCurrentProgramState(), getAllSessionLogs()]);
+  const completedCount = logs.filter((l) => l.status === 'completed').length;
+
+  let currentPrCount = 0;
+  for (const exercise of allExercises()) {
+    const history = await getExerciseHistory(exercise.id);
+    if (!history.length) continue;
+    const pb = computePB(exercise, history);
+    if (!pb) continue;
+    const latestBest = Math.max(...history[0].sets.filter((s) => !s.isWarmup).map((s) => pbValue(exercise, s)).filter((v) => v != null), -Infinity);
+    if (latestBest === pb.val) currentPrCount += 1;
+  }
+
+  return {
+    cycle: programState.currentCycle,
+    dayPosition: `${programState.currentDayOrder + 1}/${PLAN.length}`,
+    completedCount,
+    currentPrCount,
+  };
+}
 
 export async function renderProgressList() {
   const wrap = h('div', { class: 'view' });
-  wrap.appendChild(h('div', { class: 'header' }, [h('h1', {}, 'Fortschritt'), h('p', { class: 'muted' }, 'Uebung waehlen')]));
+  wrap.appendChild(h('div', { class: 'header' }, [h('h1', {}, 'Fortschritt')]));
+
+  const stats = await computeOverviewStats();
+  wrap.appendChild(h('div', { class: 'bento-grid' }, [
+    bentoTile(stats.cycle, 'Aktueller Zyklus'),
+    bentoTile(stats.dayPosition, 'Trainingstag'),
+    bentoTile(stats.completedCount, 'Einheiten absolviert'),
+    bentoTile(stats.currentPrCount, 'Aktuelle Bestleistungen'),
+  ]));
+
+  wrap.appendChild(h('p', { class: 'muted small' }, 'Uebung waehlen'));
 
   for (const day of PLAN) {
     wrap.appendChild(h('h3', { class: 'section-title' }, day.name));

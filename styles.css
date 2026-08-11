@@ -127,6 +127,33 @@ html, body {
 }
 .reason-btn-selected { border-color: var(--accent); color: var(--accent-strong); }
 
+/* Fortschritt: Bento-Statistik-Kacheln */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.bento-tile {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bento-value {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.bento-label {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
 /* Plan: Zyklus-Checkliste */
 .cycle-status-card { gap: 10px; }
 .cycle-checklist { display: flex; flex-direction: column; gap: 7px; }
