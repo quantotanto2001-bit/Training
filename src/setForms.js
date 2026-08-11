@@ -1,8 +1,8 @@
 import { h } from './ui.js';
 import { TYPES } from './plan.js';
 
-// Baut das Eingabeformular fuer einen neuen Satz, passend zum Uebungstyp.
-// Gibt { el, read } zurueck. read() liefert das Satz-Objekt oder null (ungueltig).
+// Baut das Eingabeformular für einen neuen Satz, passend zum Übungstyp.
+// Gibt { el, read } zurück. read() liefert das Satz-Objekt oder null (ungültig).
 
 function numInput({ id, label, placeholder, step = 'any', value }) {
   return h('label', { class: 'field' }, [
@@ -75,7 +75,7 @@ export function buildSetForm(exercise, defaults = {}) {
       fields = [
         numInput({ id: ids.reps, label: 'Wiederholungen', step: '1', value: defaults.reps }),
         numInput({ id: ids.hold, label: 'Haltezeit (s, optional)', step: '1', value: defaults.holdSec }),
-        textInput({ id: ids.support, label: 'Unterstuetzung', placeholder: 'z.B. keine / Band / Stuetze', value: defaults.support }),
+        textInput({ id: ids.support, label: 'Unterstützung', placeholder: 'z.B. keine / Band / Stütze', value: defaults.support }),
         textInput({ id: ids.rom, label: 'ROM-Position', placeholder: 'z.B. voll / 3/4 / leicht limitiert', value: defaults.romPosition }),
       ];
       read = () => ({
@@ -89,7 +89,7 @@ export function buildSetForm(exercise, defaults = {}) {
         numInput({ id: ids.weight, label: 'Gewicht (kg, optional)', step: '0.5', value: defaults.weightKg }),
         numInput({ id: ids.reps, label: 'Wiederholungen', step: '1', value: defaults.reps }),
         numInput({ id: ids.hold, label: 'Haltezeit (s, optional)', step: '1', value: defaults.holdSec }),
-        textInput({ id: ids.support, label: 'Unterstuetzung', placeholder: 'z.B. keine / Stuetze', value: defaults.support }),
+        textInput({ id: ids.support, label: 'Unterstützung', placeholder: 'z.B. keine / Stütze', value: defaults.support }),
         textInput({ id: ids.rom, label: 'ROM-Position', placeholder: 'z.B. voll / 3/4', value: defaults.romPosition }),
       ];
       read = () => ({
@@ -101,7 +101,7 @@ export function buildSetForm(exercise, defaults = {}) {
     case TYPES.STRETCH_STATIC: {
       fields = [
         numInput({ id: ids.hold, label: 'Haltezeit (s)', step: '1', value: defaults.holdSec }),
-        textInput({ id: ids.support, label: 'Unterstuetzung', placeholder: 'z.B. Blocks / keine', value: defaults.support }),
+        textInput({ id: ids.support, label: 'Unterstützung', placeholder: 'z.B. Blocks / keine', value: defaults.support }),
         textInput({ id: ids.rom, label: 'ROM-Position', placeholder: 'z.B. Tiefe/Winkel', value: defaults.romPosition }),
       ];
       read = () => ({
@@ -113,7 +113,7 @@ export function buildSetForm(exercise, defaults = {}) {
       fields = [
         numInput({ id: ids.hold, label: 'Haltezeit (s, optional)', step: '1', value: defaults.holdSec }),
         numInput({ id: ids.reps, label: 'Versuche/Wdh. (optional)', step: '1', value: defaults.reps }),
-        textInput({ id: ids.note, label: 'Notiz (z.B. Variante/Qualitaet)', placeholder: 'z.B. Tuck L-Sit, sauber', value: defaults.note }),
+        textInput({ id: ids.note, label: 'Notiz (z.B. Variante/Qualität)', placeholder: 'z.B. Tuck L-Sit, sauber', value: defaults.note }),
       ];
       read = () => ({ holdSec: readNum(ids.hold), reps: readNum(ids.reps), note: readText(ids.note) });
       break;
@@ -137,7 +137,7 @@ export function buildSetForm(exercise, defaults = {}) {
     case TYPES.FINISHER: {
       fields = [
         numInput({ id: ids.rounds, label: 'Runden', step: '1', value: defaults.rounds }),
-        textInput({ id: ids.note, label: 'Notiz', placeholder: 'z.B. Uebungen/Reps pro Runde', value: defaults.note }),
+        textInput({ id: ids.note, label: 'Notiz', placeholder: 'z.B. Übungen/Reps pro Runde', value: defaults.note }),
       ];
       read = () => ({ rounds: readNum(ids.rounds), note: readText(ids.note) });
       break;

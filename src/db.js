@@ -1,4 +1,4 @@
-// Minimale IndexedDB-Persistenzschicht. Keine externen Abhaengigkeiten.
+// Minimale IndexedDB-Persistenzschicht. Keine externen Abhängigkeiten.
 
 const DB_NAME = 'universal-athlete-db';
 const DB_VERSION = 2;
@@ -56,14 +56,14 @@ export async function getAllSessionLogs() {
   return all.sort((a, b) => (b.startedAt || '').localeCompare(a.startedAt || ''));
 }
 
-// Nur wirklich abgeschlossene (nicht uebersprungene) Sessions -> Basis fuer
-// Uebungshistorie, Fortschritt und Progressionsempfehlung.
+// Nur wirklich abgeschlossene (nicht übersprungene) Sessions -> Basis für
+// Übungshistorie, Fortschritt und Progressionsempfehlung.
 export async function getCompletedSessionLogs() {
   const all = await getAllSessionLogs();
   return all.filter((s) => s.status === 'completed' || (!s.status && s.finishedAt));
 }
 
-// Rueckwaertskompatibler Alias.
+// Rückwärtskompatibler Alias.
 export const getFinishedSessionLogs = getCompletedSessionLogs;
 
 export async function saveSessionLog(log) {
@@ -93,7 +93,7 @@ export async function clearActiveSession() {
   await setActiveSession(null);
 }
 
-// Liefert alle geloggten Saetze einer Uebung ueber alle abgeschlossenen Sessions,
+// Liefert alle geloggten Sätze einer Übung über alle abgeschlossenen Sessions,
 // neueste zuerst (jede Session-Historie einzeln, damit "letztes Training" klar bleibt).
 export async function getExerciseHistory(exerciseId) {
   const logs = await getFinishedSessionLogs();
@@ -127,7 +127,7 @@ export async function setProgramState(state) {
   await reqToPromise(store.put({ ...state, id: 'program' }));
 }
 
-// --- Backup: Export/Import, da alle Daten sonst nur lokal auf dem Geraet liegen ---
+// --- Backup: Export/Import, da alle Daten sonst nur lokal auf dem Gerät liegen ---
 
 export async function exportAllData() {
   const [logs, programState] = await Promise.all([getAllSessionLogs(), getProgramState()]);
@@ -137,10 +137,10 @@ export async function exportAllData() {
   };
 }
 
-// Fuegt importierte Sessions additiv hinzu (upsert nach id, ueberschreibt lokale
-// Duplikate nicht mit aelteren Daten) und stellt den Programmzustand wieder her.
+// Fügt importierte Sessions additiv hinzu (upsert nach id, überschreibt lokale
+// Duplikate nicht mit älteren Daten) und stellt den Programmzustand wieder her.
 export async function importAllData(data) {
-  if (!data || !Array.isArray(data.sessionLogs)) throw new Error('Ungueltige Backup-Datei');
+  if (!data || !Array.isArray(data.sessionLogs)) throw new Error('Ungültige Backup-Datei');
   const store = await tx(STORE_LOGS, 'readwrite');
   for (const log of data.sessionLogs) {
     await reqToPromise(store.put(log));

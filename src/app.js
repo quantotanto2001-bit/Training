@@ -62,7 +62,7 @@ async function route() {
     } else {
       view = await renderHome();
     }
-    if (myToken !== routeToken) return; // ueberholt durch neuere Navigation
+    if (myToken !== routeToken) return; // überholt durch neuere Navigation
     main.innerHTML = '';
     main.scrollTop = 0;
     main.appendChild(view);
@@ -75,7 +75,7 @@ async function route() {
   }
 }
 
-// Fuer Aktionen, die den Zustand aendern, aber nicht zwingend den Hash (z.B.
+// Für Aktionen, die den Zustand ändern, aber nicht zwingend den Hash (z.B.
 // Skip von der Startseite aus): erzwingt ein Neu-Rendern der aktuellen Route.
 export function rerender() {
   route();
@@ -91,8 +91,8 @@ export function navigate(hash) {
   }
 }
 
-// Module-Skripte laufen erst nach dem HTML-Parsing (wie defer), ein zusaetzlicher
-// DOMContentLoaded-Listener wuerde zu einer Race Condition mit doppeltem Rendern fuehren.
+// Module-Skripte laufen erst nach dem HTML-Parsing (wie defer), ein zusätzlicher
+// DOMContentLoaded-Listener würde zu einer Race Condition mit doppeltem Rendern führen.
 window.addEventListener('hashchange', route);
 route();
 

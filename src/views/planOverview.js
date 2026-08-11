@@ -31,7 +31,6 @@ export async function renderPlanOverview() {
     const details = h('details', { class: 'card plan-day' });
     details.appendChild(h('summary', {}, [
       h('span', { class: 'plan-day-title' }, `${day.name}${day.subtitle ? ' — ' + day.subtitle : ''}`),
-      h('span', { class: 'muted small' }, day.dayHint),
     ]));
     if (day.mobilitySkillFocus) {
       details.appendChild(h('p', { class: 'muted small' }, 'Mobility/Skill: ' + day.mobilitySkillFocus));
@@ -44,18 +43,7 @@ export async function renderPlanOverview() {
       const list = h('div', { class: 'exercise-list' });
       for (const exArr of [block.exercises]) {
         for (const exx of exArr) {
-          list.appendChild(h('div', { class: 'exercise-row' }, [
-            h('div', {}, [
-              h('div', { class: 'exercise-name' }, exx.name),
-              h('div', { class: 'muted small' }, [
-                exx.dosage || '', exx.restSec ? ` · Pause ${fmtRestRange(exx.restSec)}` : '',
-              ].join('')),
-            ]),
-            h('div', { class: 'exercise-row-right' }, [
-              h('span', { class: 'badge badge-neutral' }, TYPE_LABELS[exx.type] || exx.type),
-              exx.video ? matchBadge(exx.video.match) : null,
-            ]),
-          ]));
+          list.appendChild(renderExerciseDetail(exx));
         }
       }
       details.appendChild(list);
@@ -64,4 +52,40 @@ export async function renderPlanOverview() {
   }
 
   return wrap;
+}
+
+function renderExerciseDetail(exx) {
+  const item = h('details', { class: 'exercise-detail' });
+  item.appendChild(h('summary', {}, [
+    h('div', {}, [
+      h('div', { class: 'exercise-name' }, exx.name),
+      h('div', { class: 'muted small' }, [
+        exx.dosage || '', exx.restSec ? ` · Pause ${fmtRestRange(exx.restSec)}` : '',
+      ].join('')),
+    ]),
+    h('div', { class: 'exercise-row-right' }, [
+      h('span', { class: 'badge badge-neutral' }, TYPE_LABELS[exx.type] || exx.type),
+      exx.video ? matchBadge(exx.video.match) : null,
+    ]),
+  ]));
+
+  const body = h('div', { class: 'exercise-detail-body' });
+  if (exx.note) body.appendChild(h('p', { class: 'small' }, exx.note));
+  if (exx.video) {
+    body.appendChild(h('a', { href: exx.video.url, target: '_blank', rel: 'noopener noreferrer', class: 'btn btn-small video-link-btn' }, 'Video ansehen ↗'));
+    body.appendChild(h('p', { class: 'muted small' }, exx.video.label));
+    if (exx.video.match === 'ähnlich' && exx.video.note) {
+      body.appendChild(h('div', { class: 'adaptation-note' }, [
+        h('strong', {}, 'Ähnliche Ausführung — für deinen Plan folgende Änderungen vornehmen:'),
+        h('p', {}, exx.video.note),
+      ]));
+    } else if (exx.video.note) {
+      body.appendChild(h('p', { class: 'small' }, exx.video.note));
+    }
+    if (exx.video.cues) body.appendChild(h('p', { class: 'small cues' }, '🎯 ' + exx.video.cues));
+  } else {
+    body.appendChild(h('p', { class: 'muted small' }, 'Kein Technikvideo nötig für diese Übung.'));
+  }
+  item.appendChild(body);
+  return item;
 }

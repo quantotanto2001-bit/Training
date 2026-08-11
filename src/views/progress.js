@@ -45,7 +45,7 @@ export async function renderProgressList() {
     bentoTile(stats.currentPrCount, 'Aktuelle Bestleistungen'),
   ]));
 
-  wrap.appendChild(h('p', { class: 'muted small' }, 'Uebung waehlen'));
+  wrap.appendChild(h('p', { class: 'muted small' }, 'Übung wählen'));
 
   for (const day of PLAN) {
     wrap.appendChild(h('h3', { class: 'section-title' }, day.name));
@@ -81,7 +81,7 @@ function pbValue(exercise, s) {
     case TYPES.POWER:
     case TYPES.MOBILITY_LOADED:
       if (s.weightKg != null) return s.weightKg;
-      if (s.reps != null) return s.reps / 1000; // Fallback falls koerpergewichtsbasiert
+      if (s.reps != null) return s.reps / 1000; // Fallback falls körpergewichtsbasiert
       return null;
     case TYPES.MOBILITY_ACTIVE:
       return s.holdSec != null ? s.holdSec : (s.reps != null ? s.reps / 1000 : null);
@@ -101,7 +101,7 @@ export async function renderProgressDetail(exerciseId) {
   const exercise = allExercises().find((e) => e.id === exerciseId);
   const wrap = h('div', { class: 'view' });
   if (!exercise) {
-    wrap.appendChild(h('div', { class: 'card' }, 'Uebung nicht gefunden.'));
+    wrap.appendChild(h('div', { class: 'card' }, 'Übung nicht gefunden.'));
     return wrap;
   }
   const history = await getExerciseHistory(exerciseId);
@@ -113,14 +113,14 @@ export async function renderProgressDetail(exerciseId) {
   ]));
 
   if (!history.length) {
-    wrap.appendChild(h('div', { class: 'card muted-card' }, 'Noch keine Daten fuer diese Uebung.'));
+    wrap.appendChild(h('div', { class: 'card muted-card' }, 'Noch keine Daten für diese Übung.'));
     return wrap;
   }
 
   const pb = computePB(exercise, history);
   if (pb) {
     wrap.appendChild(h('div', { class: 'card card-accent' }, [
-      h('div', { class: 'card-label' }, 'Persoenliche Bestleistung'),
+      h('div', { class: 'card-label' }, 'Persönliche Bestleistung'),
       h('p', {}, formatLoggedSet(exercise, pb.set)),
       h('p', { class: 'muted small' }, fmtDate(pb.date)),
     ]));

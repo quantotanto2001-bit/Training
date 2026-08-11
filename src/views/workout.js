@@ -8,13 +8,16 @@ import { navigate } from '../app.js';
 
 export async function renderWorkout() {
   let active = await getActiveSession();
+  // Nur eine bereits vorher (in einem früheren Aufruf) tatsächlich gespeicherte
+  // Session gilt als "gestartet". Blosses Ansehen der Einheit ohne einen einzigen
+  // eingetragenen Satz soll Zuhause nicht als "Training läuft" auftauchen.
+  let started = !!active;
   if (!active) {
     const day = await getCurrentDay();
     active = {
       dayId: day.id, dayName: day.name + (day.subtitle ? ' — ' + day.subtitle : ''),
       startedAt: new Date().toISOString(), finishedAt: null, currentIndex: 0, entries: {},
     };
-    await setActiveSession(active);
   }
   const day = PLAN.find((d) => d.id === active.dayId);
   const steps = day.blocks.flatMap((b) => b.exercises.map((exx) => ({ blockTitle: b.title, exercise: exx })));
@@ -39,6 +42,13 @@ export async function renderWorkout() {
   wrap.appendChild(timerBarEl);
 
   function persist() {
+    if (!started) return; // reines Ansehen ohne geloggten Satz wird nicht gespeichert
+    active.currentIndex = stepIndex;
+    setActiveSession(active);
+  }
+
+  function markStartedAndPersist() {
+    started = true;
     active.currentIndex = stepIndex;
     setActiveSession(active);
   }
@@ -48,7 +58,7 @@ export async function renderWorkout() {
     headerEl.appendChild(h('div', { class: 'workout-header-row' }, [
       h('div', {}, [
         h('h1', {}, active.dayName),
-        h('p', { class: 'muted small' }, `Uebung ${stepIndex + 1} / ${steps.length}`),
+        h('p', { class: 'muted small' }, `Übung ${stepIndex + 1} / ${steps.length}`),
       ]),
       h('button', { class: 'btn btn-ghost btn-small', onclick: onAbort }, 'Abbrechen'),
     ]));
@@ -74,12 +84,17 @@ export async function renderWorkout() {
     timerBarEl.appendChild(h('div', { class: 'timer-controls' }, [
       h('button', { class: 'btn btn-small', onclick: () => restTimer.extend(30) }, '+30s'),
       h('button', { class: 'btn btn-small', onclick: () => restTimer.togglePause() }, restTimer.running ? 'Pause' : 'Weiter'),
-      h('button', { class: 'btn btn-small btn-ghost', onclick: () => restTimer.skip() }, 'Ueberspringen'),
+      h('button', { class: 'btn btn-small btn-ghost', onclick: () => restTimer.skip() }, 'Überspringen'),
     ]));
   }
 
   async function onAbort() {
-    if (!window.confirm('Training abbrechen? Bisherige Eintraege bleiben gespeichert, du kannst spaeter fortsetzen. Der Trainingsfortschritt bewegt sich dabei nicht weiter.')) return;
+    if (!started) {
+      // Nichts wurde eingetragen -> nichts zu verlieren, kein Nachfragen nötig.
+      navigate('#/');
+      return;
+    }
+    if (!window.confirm('Training abbrechen? Bisherige Einträge bleiben gespeichert, du kannst später fortsetzen. Der Trainingsfortschritt bewegt sich dabei nicht weiter.')) return;
     navigate('#/');
   }
 
@@ -132,7 +147,7 @@ export async function renderWorkout() {
         h('div', { class: 'card-label' }, 'Letztes Training'),
         h('div', { class: 'small' }, lastWork.length
           ? lastWork.map((s) => formatLoggedSet(exercise, s)).join(' | ')
-          : 'Keine Arbeitssaetze vermerkt'),
+          : 'Keine Arbeitssätze vermerkt'),
       ]));
     }
 
@@ -141,7 +156,7 @@ export async function renderWorkout() {
       card.appendChild(renderWarmupBox(exercise, progression, lastPerf));
     }
 
-    // Bereits geloggte Saetze
+    // Bereits geloggte Sätze
     const loggedWrap = h('div', { class: 'logged-sets' });
     renderLoggedSets();
     card.appendChild(loggedWrap);
@@ -153,20 +168,20 @@ export async function renderWorkout() {
         loggedWrap.appendChild(h('div', { class: 'logged-set-row' }, [
           h('span', { class: 'set-index' }, `Satz ${idx + 1}`),
           h('span', { class: 'set-summary' }, formatLoggedSet(exercise, s)),
-          h('button', { class: 'btn-icon', 'aria-label': 'Loeschen', onclick: () => removeSet(s) }, '✕'),
+          h('button', { class: 'btn-icon', 'aria-label': 'Löschen', onclick: () => removeSet(s) }, '✕'),
         ]));
       });
     }
 
     function removeSet(setObj) {
-      if (!window.confirm('Diesen Satz loeschen?')) return;
+      if (!window.confirm('Diesen Satz löschen?')) return;
       entry.sets = entry.sets.filter((s) => s !== setObj);
       persist();
       renderLoggedSets();
       renderDots();
     }
 
-    // Satz hinzufuegen
+    // Satz hinzufügen
     const workSetsNow = entry.sets.filter((s) => !s.isWarmup);
     const defaults = computeDefaults(exercise, workSetsNow, lastPerf, progression);
     let form = buildSetForm(exercise, defaults);
@@ -178,7 +193,7 @@ export async function renderWorkout() {
       onclick: () => {
         const values = form.read();
         entry.sets.push({ ...values, isWarmup: false, loggedAt: new Date().toISOString() });
-        persist();
+        markStartedAndPersist();
         renderLoggedSets();
         renderDots();
         // Pausentimer automatisch starten
@@ -186,7 +201,7 @@ export async function renderWorkout() {
           restTimer.start(exercise.restSec.min);
           renderTimerBar();
         }
-        // Formular fuer naechsten Satz neu aufbauen mit aktualisierten Defaults
+        // Formular für nächsten Satz neu aufbauen mit aktualisierten Defaults
         const newDefaults = computeDefaults(exercise, entry.sets.filter((s) => !s.isWarmup), lastPerf, progression);
         form = buildSetForm(exercise, newDefaults);
         formWrap.replaceChild(form.el, formWrap.children[1]);
@@ -199,7 +214,7 @@ export async function renderWorkout() {
     if (exercise.video) {
       card.appendChild(renderVideoCard(exercise.video));
     } else {
-      card.appendChild(h('p', { class: 'muted small' }, 'Keine Videoreferenz noetig fuer diese Uebung.'));
+      card.appendChild(h('p', { class: 'muted small' }, 'Keine Videoreferenz nötig für diese Übung.'));
     }
 
     exerciseEl.appendChild(card);
@@ -207,7 +222,7 @@ export async function renderWorkout() {
 
   function renderNav() {
     navEl.innerHTML = '';
-    navEl.appendChild(h('button', { class: 'btn', disabled: stepIndex === 0 ? '' : null, onclick: () => goTo(stepIndex - 1) }, '← Zurueck'));
+    navEl.appendChild(h('button', { class: 'btn', disabled: stepIndex === 0 ? '' : null, onclick: () => goTo(stepIndex - 1) }, '← Zurück'));
     if (stepIndex < steps.length - 1) {
       navEl.appendChild(h('button', { class: 'btn btn-primary', onclick: () => goTo(stepIndex + 1) }, 'Weiter →'));
     } else {
@@ -287,9 +302,9 @@ function renderVideoCard(video) {
   ]));
   box.appendChild(h('a', { href: video.url, target: '_blank', rel: 'noopener noreferrer', class: 'btn btn-small video-link-btn' }, 'Video ansehen ↗'));
   box.appendChild(h('p', { class: 'muted small' }, video.label));
-  if (video.match === 'aehnlich' && video.note) {
+  if (video.match === 'ähnlich' && video.note) {
     box.appendChild(h('div', { class: 'adaptation-note' }, [
-      h('strong', {}, 'Aehnliche Ausfuehrung — fuer deinen Plan folgende Aenderungen vornehmen:'),
+      h('strong', {}, 'Ähnliche Ausführung — für deinen Plan folgende Änderungen vornehmen:'),
       h('p', {}, video.note),
     ]));
   } else if (video.note) {

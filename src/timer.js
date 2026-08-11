@@ -1,5 +1,5 @@
 // Pausentimer: startet automatisch nach einem geloggten Satz.
-// Kann verlaengert, pausiert und uebersprungen werden.
+// Kann verlängert, pausiert und übersprungen werden.
 
 export class RestTimer {
   constructor({ onTick, onDone }) {

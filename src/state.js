@@ -5,8 +5,8 @@ import {
 } from './db.js';
 
 // Kernidee: current_training_day/current_cycle sind ein expliziter Zeiger,
-// getrennt von der Historie. Kalendertage aendern daran nichts - nur ein
-// bewusstes "abschliessen" oder "ueberspringen" bewegt den Zeiger.
+// getrennt von der Historie. Kalendertage ändern daran nichts - nur ein
+// bewusstes "abschliessen" oder "überspringen" bewegt den Zeiger.
 
 export async function getCurrentDay() {
   const state = await getProgramState();
@@ -27,7 +27,7 @@ async function advance() {
   return { cycleJustCompleted, completedCycleNumber };
 }
 
-// Wird aufgerufen, wenn eine gestartete Einheit bewusst vollstaendig abgeschlossen wird.
+// Wird aufgerufen, wenn eine gestartete Einheit bewusst vollständig abgeschlossen wird.
 export async function completeCurrentDay(activeSession) {
   const state = await getProgramState();
   const day = PLAN.find((d) => d.order === state.currentDayOrder);
@@ -44,7 +44,7 @@ export async function completeCurrentDay(activeSession) {
   return advance();
 }
 
-// Bewusstes Ueberspringen einer noch nicht gestarteten Einheit (kein aktives Training noetig).
+// Bewusstes Überspringen einer noch nicht gestarteten Einheit (kein aktives Training nötig).
 export async function skipCurrentDay(reason) {
   const state = await getProgramState();
   const day = PLAN.find((d) => d.order === state.currentDayOrder);
@@ -69,19 +69,19 @@ function suggestedIncrement(weightKg) {
 }
 
 // Implementiert exakt die im Plan genannte Regel (Progression & Sicherheitsregeln):
-// "obere Wiederholungsgrenze in allen Arbeitssaetzen erreicht -> Last moderat
-// erhoehen, sonst Gewicht beibehalten." Keine erfundenen Scores, keine KI-Einschaetzung.
-// Historie (was tatsaechlich war) und Empfehlung (was als Naechstes sinnvoll waere)
-// bleiben getrennt - die App uebernimmt nichts automatisch.
+// "obere Wiederholungsgrenze in allen Arbeitssätzen erreicht -> Last moderat
+// erhöhen, sonst Gewicht beibehalten." Keine erfundenen Scores, keine KI-Einschätzung.
+// Historie (was tatsächlich war) und Empfehlung (was als Nächstes sinnvoll wäre)
+// bleiben getrennt - die App übernimmt nichts automatisch.
 export async function getProgressionSuggestion(exercise) {
   if (![TYPES.STRENGTH, TYPES.POWER].includes(exercise.type)) return null;
   const last = await getLastPerformance(exercise.id);
   if (!last) {
-    return { status: 'no-data', text: 'Noch keine Daten. Waehle ein Gewicht, mit dem du die Zielwiederholungen bei 1-2 RIR gerade so schaffst.' };
+    return { status: 'no-data', text: 'Noch keine Daten. Wähle ein Gewicht, mit dem du die Zielwiederholungen bei 1-2 RIR gerade so schaffst.' };
   }
   const workSets = last.sets.filter((s) => !s.isWarmup && typeof s.reps === 'number');
   if (!workSets.length) {
-    return { status: 'no-data', text: 'Keine Arbeitssaetze im letzten Log gefunden.' };
+    return { status: 'no-data', text: 'Keine Arbeitssätze im letzten Log gefunden.' };
   }
   const repMax = exercise.reps ? exercise.reps.max : null;
   const lastWeight = workSets[workSets.length - 1].weightKg;
@@ -91,7 +91,7 @@ export async function getProgressionSuggestion(exercise) {
   if (anyTechLoss) {
     return {
       status: 'keep', lastWeight,
-      text: 'Letztes Mal Technik-/ROM-Verlust vermerkt. Gewicht beibehalten und Ausfuehrung priorisieren.',
+      text: 'Letztes Mal Technik-/ROM-Verlust vermerkt. Gewicht beibehalten und Ausführung priorisieren.',
     };
   }
   if (allAtTop) {
@@ -99,27 +99,27 @@ export async function getProgressionSuggestion(exercise) {
     if (inc == null) {
       return {
         status: 'increase-difficulty', lastWeight,
-        text: 'Obere Wiederholungsgrenze in allen Arbeitssaetzen erreicht. Da koerpergewichtsbasiert: schwerere Variante oder mehr ROM erwaegen.',
+        text: 'Obere Wiederholungsgrenze in allen Arbeitssätzen erreicht. Da körpergewichtsbasiert: schwerere Variante oder mehr ROM erwägen.',
       };
     }
     const suggested = roundToIncrement(lastWeight + inc, inc);
     return {
       status: 'increase', lastWeight, suggestedWeight: suggested,
-      text: `Letztes Mal obere Wiederholungsgrenze (${repMax}) in allen Saetzen erreicht -> Empfehlung: Gewicht moderat erhoehen, z.B. auf ${suggested} kg.`,
+      text: `Letztes Mal obere Wiederholungsgrenze (${repMax}) in allen Sätzen erreicht -> Empfehlung: Gewicht moderat erhöhen, z.B. auf ${suggested} kg.`,
     };
   }
   return {
     status: 'keep', lastWeight,
-    text: `Empfehlung: Gewicht beibehalten (${lastWeight != null ? lastWeight + ' kg' : 'wie zuletzt'}), bis obere Wiederholungsgrenze in allen Saetzen erreicht wird.`,
+    text: `Empfehlung: Gewicht beibehalten (${lastWeight != null ? lastWeight + ' kg' : 'wie zuletzt'}), bis obere Wiederholungsgrenze in allen Sätzen erreicht wird.`,
   };
 }
 
 const RECOVERY_THRESHOLD_HOURS = 18;
 
-// Reiner Regel-Hinweis (kein Recovery-Score, keine KI): wenn die naechste
+// Reiner Regel-Hinweis (kein Recovery-Score, keine KI): wenn die nächste
 // Einheit selbst eine intensive Full-Body-Einheit ist UND die letzte
 // abgeschlossene Full-Body-Einheit erst vor kurzem war, wird ein Hinweis
-// angeboten. Die Entscheidung bleibt beim Nutzer, der Plan wird nicht veraendert.
+// angeboten. Die Entscheidung bleibt beim Nutzer, der Plan wird nicht verändert.
 export async function getRecoveryHint(day) {
   if (!day.isFullBody) return null;
   const fullBodyIds = new Set(PLAN.filter((d) => d.isFullBody).map((d) => d.id));
@@ -128,7 +128,7 @@ export async function getRecoveryHint(day) {
   if (!lastFullBody || !lastFullBody.finishedAt) return null;
   const hoursSince = (Date.now() - new Date(lastFullBody.finishedAt).getTime()) / 3600000;
   if (hoursSince < 0 || hoursSince >= RECOVERY_THRESHOLD_HOURS) return null;
-  return 'Du hast vor kurzer Zeit bereits eine intensive Ganzkoerpereinheit absolviert. Etwas zusaetzliche Erholung waere sinnvoll.';
+  return 'Du hast vor kurzer Zeit bereits eine intensive Ganzkörpereinheit absolviert. Etwas zusätzliche Erholung wäre sinnvoll.';
 }
 
 export async function computeCycleSummary(cycleNumber) {

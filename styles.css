@@ -19,7 +19,7 @@
 
 * { box-sizing: border-box; }
 
-/* Flex-/Grid-Kinder duerfen ihren Container nicht durch Content-Intrinsic-Breite
+/* Flex-/Grid-Kinder dürfen ihren Container nicht durch Content-Intrinsic-Breite
    (Default min-width:auto) horizontal sprengen -> alles darf auf 0 schrumpfen. */
 .view, .view * { min-width: 0; }
 
@@ -85,7 +85,7 @@ html, body {
 .section-title { margin: 10px 0 -4px; font-size: 0.92rem; color: var(--text-muted); font-weight: 600; }
 .card-label-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 
-/* Home / naechste Einheit */
+/* Home / nächste Einheit */
 .next-card { gap: 10px; }
 .next-day-title { font-size: 1.3rem; font-weight: 650; letter-spacing: -0.01em; }
 .next-card-links { display: flex; justify-content: space-between; align-items: center; margin-top: 4px; }
@@ -93,7 +93,7 @@ html, body {
 .link-button { background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }
 .btn-block { width: 100%; }
 
-/* Overlay (Recovery-Hinweis, Skip-Bestaetigung) */
+/* Overlay (Recovery-Hinweis, Skip-Bestätigung) */
 .overlay-backdrop {
   position: fixed; inset: 0; background: rgba(0,0,0,0.6);
   display: flex; align-items: flex-end; justify-content: center;
@@ -233,7 +233,7 @@ html, body {
 .plan-day summary::-webkit-details-marker { display: none; }
 .plan-day-title { font-weight: 650; }
 .block-title { color: var(--accent-strong); font-size: 0.83rem; font-weight: 600; margin: 10px 0 2px; }
-.exercise-list { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.exercise-list { display: flex; flex-direction: column; gap: 0; margin-top: 6px; }
 .exercise-row {
   display: flex; justify-content: space-between; align-items: center; gap: 8px;
   padding: 8px 0; border-top: 1px solid var(--border);
@@ -242,6 +242,19 @@ html, body {
 .exercise-row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 .exercise-row-link { text-decoration: none; color: inherit; }
 .exercise-name { font-weight: 550; }
+
+.exercise-detail { border-top: 1px solid var(--border); }
+.exercise-detail:first-child { border-top: none; }
+.exercise-detail summary {
+  cursor: pointer; list-style: none;
+  display: flex; justify-content: space-between; align-items: center; gap: 8px;
+  padding: 10px 0;
+}
+.exercise-detail summary::-webkit-details-marker { display: none; }
+.exercise-detail-body {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 0 0 14px;
+}
 
 /* Workout view */
 .workout-header-row { display: flex; justify-content: space-between; align-items: flex-start; }

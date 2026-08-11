@@ -39,7 +39,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// App-Shell: cache-first (offline nutzbar). Externe Video-Links laufen normal ueber das Netz.
+// App-Shell: cache-first (offline nutzbar). Externe Video-Links laufen normal über das Netz.
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;

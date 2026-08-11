@@ -6,7 +6,7 @@ import { rerender } from '../app.js';
 
 function statusLabel(status) {
   if (status === 'completed') return 'Abgeschlossen';
-  if (status === 'skipped') return 'Uebersprungen';
+  if (status === 'skipped') return 'Übersprungen';
   if (status === 'in_progress') return 'Begonnen, nicht abgeschlossen';
   return status;
 }
@@ -44,7 +44,7 @@ export async function renderHistoryList() {
       ]),
       h('h2', {}, day ? day.name + (day.subtitle ? ' — ' + day.subtitle : '') : log.dayId),
       log.status === 'skipped' && log.skipReason ? h('p', { class: 'muted small' }, 'Grund: ' + log.skipReason) : null,
-      log.status !== 'skipped' ? h('p', { class: 'muted small' }, `${exCount} Uebung(en) geloggt`) : null,
+      log.status !== 'skipped' ? h('p', { class: 'muted small' }, `${exCount} Übung(en) geloggt`) : null,
     ]));
   }
 
@@ -63,18 +63,18 @@ function renderBackupSection() {
         const text = await file.text();
         const data = JSON.parse(text);
         const count = Array.isArray(data.sessionLogs) ? data.sessionLogs.length : 0;
-        if (!window.confirm(`${count} Trainingsereignis(se) aus der Datei importieren? Vorhandene lokale Daten bleiben erhalten, der aktuelle Zyklus-Fortschritt wird aus der Datei uebernommen.`)) return;
+        if (!window.confirm(`${count} Trainingsereignis(se) aus der Datei importieren? Vorhandene lokale Daten bleiben erhalten, der aktuelle Zyklus-Fortschritt wird aus der Datei übernommen.`)) return;
         await importAllData(data);
         statusEl.textContent = `${count} Ereignis(se) importiert.`;
         rerender();
       } catch (err) {
-        statusEl.textContent = 'Import fehlgeschlagen: Datei ungueltig.';
+        statusEl.textContent = 'Import fehlgeschlagen: Datei ungültig.';
       }
     },
   });
 
   return h('div', { class: 'backup-section' }, [
-    h('p', { class: 'muted small' }, 'Alle Daten liegen nur lokal auf diesem Geraet. Regelmaessig sichern empfohlen.'),
+    h('p', { class: 'muted small' }, 'Alle Daten liegen nur lokal auf diesem Gerät. Regelmässig sichern empfohlen.'),
     h('div', { class: 'backup-actions' }, [
       h('button', {
         class: 'btn btn-ghost btn-small',
@@ -117,7 +117,7 @@ export async function renderHistoryDetail(id) {
 
   if (log.status === 'skipped') {
     wrap.appendChild(h('div', { class: 'card' }, [
-      h('p', {}, 'Diese Einheit wurde bewusst uebersprungen.'),
+      h('p', {}, 'Diese Einheit wurde bewusst übersprungen.'),
       log.skipReason ? h('p', { class: 'muted small' }, 'Grund: ' + log.skipReason) : null,
     ]));
   }
@@ -137,11 +137,11 @@ export async function renderHistoryDetail(id) {
   wrap.appendChild(h('button', {
     class: 'btn btn-ghost',
     onclick: async () => {
-      if (!window.confirm('Diesen Eintrag endgueltig loeschen?')) return;
+      if (!window.confirm('Diesen Eintrag endgültig löschen?')) return;
       await deleteSessionLog(log.id);
       window.location.hash = '#/history';
     },
-  }, 'Eintrag loeschen'));
+  }, 'Eintrag löschen'));
 
   return wrap;
 }

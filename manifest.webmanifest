@@ -1,7 +1,7 @@
 {
   "name": "Universal Athlete",
   "short_name": "U. Athlete",
-  "description": "Digitaler Begleiter fuer den Universal Athlete v3.2 Trainingsplan",
+  "description": "Digitaler Begleiter für den Universal Athlete v3.2 Trainingsplan",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

@@ -1,4 +1,4 @@
-// Kleine DOM-Hilfsfunktionen, keine Frameworks noetig.
+// Kleine DOM-Hilfsfunktionen, keine Frameworks nötig.
 
 export function h(tag, attrs = {}, children = []) {
   const node = document.createElement(tag);
@@ -45,7 +45,7 @@ export function fmtRestRange(restSec) {
 
 export function matchBadge(match) {
   const cls = match === 'passend' ? 'badge badge-green' : 'badge badge-yellow';
-  const text = match === 'passend' ? 'PASSEND' : 'AEHNLICH';
+  const text = match === 'passend' ? 'PASSEND' : 'ÄHNLICH';
   return h('span', { class: cls }, text);
 }
 
