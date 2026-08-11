@@ -1,14 +1,15 @@
 import { h, fmtRestRange, fmtMinSec, matchBadge } from '../ui.js';
 import { PLAN, TYPES, TYPE_LABELS, WARMUP_KINDS, computeRampSets } from '../plan.js';
-import { getActiveSession, setActiveSession, saveSessionLog, getLastPerformance, uid, clearActiveSession } from '../db.js';
-import { getNextDay, getProgressionSuggestion } from '../state.js';
+import { getActiveSession, setActiveSession, getLastPerformance } from '../db.js';
+import { getCurrentDay, getProgressionSuggestion, completeCurrentDay } from '../state.js';
 import { buildSetForm, formatLoggedSet } from '../setForms.js';
 import { RestTimer } from '../timer.js';
+import { navigate } from '../app.js';
 
 export async function renderWorkout() {
   let active = await getActiveSession();
   if (!active) {
-    const day = await getNextDay();
+    const day = await getCurrentDay();
     active = {
       dayId: day.id, dayName: day.name + (day.subtitle ? ' — ' + day.subtitle : ''),
       startedAt: new Date().toISOString(), finishedAt: null, currentIndex: 0, entries: {},
@@ -78,16 +79,18 @@ export async function renderWorkout() {
   }
 
   async function onAbort() {
-    if (!window.confirm('Training abbrechen? Bisherige Eintraege bleiben gespeichert, du kannst spaeter fortsetzen.')) return;
-    window.location.hash = '#/';
+    if (!window.confirm('Training abbrechen? Bisherige Eintraege bleiben gespeichert, du kannst spaeter fortsetzen. Der Trainingsfortschritt bewegt sich dabei nicht weiter.')) return;
+    navigate('#/');
   }
 
   async function onFinish() {
     if (!window.confirm('Einheit als abgeschlossen markieren?')) return;
-    active.finishedAt = new Date().toISOString();
-    await saveSessionLog({ ...active, id: active.id || uid() });
-    await clearActiveSession();
-    window.location.hash = '#/';
+    const { cycleJustCompleted, completedCycleNumber } = await completeCurrentDay(active);
+    if (cycleJustCompleted) {
+      navigate(`#/cycle-complete/${completedCycleNumber}`);
+    } else {
+      navigate('#/');
+    }
   }
 
   function goTo(i) {
@@ -279,10 +282,11 @@ function renderWarmupBox(exercise, progression, lastPerf) {
 function renderVideoCard(video) {
   const box = h('div', { class: 'video-card' });
   box.appendChild(h('div', { class: 'video-card-head' }, [
-    h('span', { class: 'card-label' }, 'Technikreferenz'),
+    h('span', { class: 'card-label' }, 'Technik'),
     matchBadge(video.match),
   ]));
-  box.appendChild(h('a', { href: video.url, target: '_blank', rel: 'noopener noreferrer', class: 'video-link' }, video.label + ' ↗'));
+  box.appendChild(h('a', { href: video.url, target: '_blank', rel: 'noopener noreferrer', class: 'btn btn-small video-link-btn' }, 'Video ansehen ↗'));
+  box.appendChild(h('p', { class: 'muted small' }, video.label));
   if (video.match === 'aehnlich' && video.note) {
     box.appendChild(h('div', { class: 'adaptation-note' }, [
       h('strong', {}, 'Aehnliche Ausfuehrung — fuer deinen Plan folgende Aenderungen vornehmen:'),

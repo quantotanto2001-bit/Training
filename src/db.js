@@ -1,9 +1,10 @@
 // Minimale IndexedDB-Persistenzschicht. Keine externen Abhaengigkeiten.
 
 const DB_NAME = 'universal-athlete-db';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const STORE_LOGS = 'sessionLogs';
 const STORE_ACTIVE = 'activeSession';
+const STORE_PROGRAM = 'programState';
 
 let dbPromise = null;
 
@@ -20,6 +21,12 @@ function openDb() {
       }
       if (!db.objectStoreNames.contains(STORE_ACTIVE)) {
         db.createObjectStore(STORE_ACTIVE, { keyPath: 'id' });
+      }
+      // Expliziter Programmzustand (current_training_day / current_cycle), getrennt
+      // von der Historie einzelner Sessions -> Skip/Recovery/Zyklus brauchen einen
+      // Zeiger, der NICHT jedes Mal aus der Historie neu abgeleitet wird.
+      if (!db.objectStoreNames.contains(STORE_PROGRAM)) {
+        db.createObjectStore(STORE_PROGRAM, { keyPath: 'id' });
       }
     };
     req.onsuccess = () => resolve(req.result);
@@ -49,10 +56,15 @@ export async function getAllSessionLogs() {
   return all.sort((a, b) => (b.startedAt || '').localeCompare(a.startedAt || ''));
 }
 
-export async function getFinishedSessionLogs() {
+// Nur wirklich abgeschlossene (nicht uebersprungene) Sessions -> Basis fuer
+// Uebungshistorie, Fortschritt und Progressionsempfehlung.
+export async function getCompletedSessionLogs() {
   const all = await getAllSessionLogs();
-  return all.filter((s) => s.finishedAt);
+  return all.filter((s) => s.status === 'completed' || (!s.status && s.finishedAt));
 }
+
+// Rueckwaertskompatibler Alias.
+export const getFinishedSessionLogs = getCompletedSessionLogs;
 
 export async function saveSessionLog(log) {
   const store = await tx(STORE_LOGS, 'readwrite');
@@ -98,4 +110,19 @@ export async function getExerciseHistory(exerciseId) {
 export async function getLastPerformance(exerciseId) {
   const history = await getExerciseHistory(exerciseId);
   return history[0] || null;
+}
+
+// --- Programmzustand: current_training_day (0-basiert) + current_cycle ---
+
+const DEFAULT_PROGRAM_STATE = { id: 'program', currentDayOrder: 0, currentCycle: 1 };
+
+export async function getProgramState() {
+  const store = await tx(STORE_PROGRAM, 'readonly');
+  const existing = await reqToPromise(store.get('program'));
+  return existing || { ...DEFAULT_PROGRAM_STATE };
+}
+
+export async function setProgramState(state) {
+  const store = await tx(STORE_PROGRAM, 'readwrite');
+  await reqToPromise(store.put({ ...state, id: 'program' }));
 }

@@ -4,6 +4,7 @@ import { renderWorkout } from './views/workout.js';
 import { renderHistoryList, renderHistoryDetail } from './views/history.js';
 import { renderProgressList, renderProgressDetail } from './views/progress.js';
 import { renderPlanOverview } from './views/planOverview.js';
+import { renderCycleComplete } from './views/cycleComplete.js';
 
 const root = document.getElementById('app');
 const main = h('main', { class: 'main', id: 'main' });
@@ -56,6 +57,8 @@ async function route() {
       view = await renderProgressList();
     } else if (parts[0] === 'plan') {
       view = await renderPlanOverview();
+    } else if (parts[0] === 'cycle-complete' && parts[1]) {
+      view = await renderCycleComplete(parts[1]);
     } else {
       view = await renderHome();
     }
@@ -69,6 +72,22 @@ async function route() {
       h('h2', {}, 'Etwas ist schiefgelaufen'),
       h('p', {}, String(err && err.message ? err.message : err)),
     ]));
+  }
+}
+
+// Fuer Aktionen, die den Zustand aendern, aber nicht zwingend den Hash (z.B.
+// Skip von der Startseite aus): erzwingt ein Neu-Rendern der aktuellen Route.
+export function rerender() {
+  route();
+}
+
+// Navigiert zu einem Hash; wenn der Hash bereits aktiv ist, feuert
+// 'hashchange' nicht von selbst -> dann manuell neu rendern.
+export function navigate(hash) {
+  if (window.location.hash === hash) {
+    route();
+  } else {
+    window.location.hash = hash;
   }
 }
 

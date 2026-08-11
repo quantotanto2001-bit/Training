@@ -16,6 +16,7 @@ const APP_SHELL = [
   './src/views/history.js',
   './src/views/progress.js',
   './src/views/planOverview.js',
+  './src/views/cycleComplete.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',

@@ -1,25 +1,60 @@
 import { PLAN, TYPES } from './plan.js';
-import { getFinishedSessionLogs, getLastPerformance } from './db.js';
+import {
+  getCompletedSessionLogs, getAllSessionLogs, getLastPerformance,
+  getProgramState, setProgramState, saveSessionLog, clearActiveSession, uid,
+} from './db.js';
 
-// Kernidee: Der Plan ist eine fixe Reihenfolge von 6 Einheiten, die Wochentage
-// im PDF sind nur Beispielverteilung. Die App rotiert einfach durch die Reihenfolge,
-// unabhaengig davon, an welchem Kalendertag trainiert wird.
-export async function getNextDay() {
-  const logs = await getFinishedSessionLogs();
-  if (!logs.length) return PLAN[0];
-  const last = logs[0];
-  const lastDay = PLAN.find((d) => d.id === last.dayId);
-  const lastOrder = lastDay ? lastDay.order : -1;
-  const nextOrder = (lastOrder + 1) % PLAN.length;
-  return PLAN.find((d) => d.order === nextOrder) || PLAN[0];
+// Kernidee: current_training_day/current_cycle sind ein expliziter Zeiger,
+// getrennt von der Historie. Kalendertage aendern daran nichts - nur ein
+// bewusstes "abschliessen" oder "ueberspringen" bewegt den Zeiger.
+
+export async function getCurrentDay() {
+  const state = await getProgramState();
+  return PLAN.find((d) => d.order === state.currentDayOrder) || PLAN[0];
 }
 
-export async function getLastCompletedInfo() {
-  const logs = await getFinishedSessionLogs();
-  if (!logs.length) return null;
-  const last = logs[0];
-  const day = PLAN.find((d) => d.id === last.dayId);
-  return { day, finishedAt: last.finishedAt };
+export async function getCurrentProgramState() {
+  return getProgramState();
+}
+
+async function advance() {
+  const state = await getProgramState();
+  const completedCycleNumber = state.currentCycle;
+  const nextOrder = (state.currentDayOrder + 1) % PLAN.length;
+  const cycleJustCompleted = nextOrder === 0; // Tag 6 -> Tag 1 gewechselt
+  const nextCycle = cycleJustCompleted ? state.currentCycle + 1 : state.currentCycle;
+  await setProgramState({ currentDayOrder: nextOrder, currentCycle: nextCycle });
+  return { cycleJustCompleted, completedCycleNumber };
+}
+
+// Wird aufgerufen, wenn eine gestartete Einheit bewusst vollstaendig abgeschlossen wird.
+export async function completeCurrentDay(activeSession) {
+  const state = await getProgramState();
+  const day = PLAN.find((d) => d.order === state.currentDayOrder);
+  const log = {
+    ...activeSession,
+    id: activeSession.id || uid(),
+    dayId: day.id,
+    status: 'completed',
+    cycle: state.currentCycle,
+    finishedAt: new Date().toISOString(),
+  };
+  await saveSessionLog(log);
+  await clearActiveSession();
+  return advance();
+}
+
+// Bewusstes Ueberspringen einer noch nicht gestarteten Einheit (kein aktives Training noetig).
+export async function skipCurrentDay(reason) {
+  const state = await getProgramState();
+  const day = PLAN.find((d) => d.order === state.currentDayOrder);
+  const now = new Date().toISOString();
+  const log = {
+    id: uid(), dayId: day.id, status: 'skipped', skipReason: reason || null,
+    cycle: state.currentCycle, startedAt: now, finishedAt: now, entries: {},
+  };
+  await saveSessionLog(log);
+  return advance();
 }
 
 function roundToIncrement(value, increment) {
@@ -34,8 +69,10 @@ function suggestedIncrement(weightKg) {
 }
 
 // Implementiert exakt die im Plan genannte Regel (Progression & Sicherheitsregeln):
-// "obere Wiederholungsgrenze in allen Arbeitssaetzen erreicht -> Last moderat erhoehen,
-// sonst Gewicht beibehalten." Keine erfundenen Scores, keine KI-Einschaetzung.
+// "obere Wiederholungsgrenze in allen Arbeitssaetzen erreicht -> Last moderat
+// erhoehen, sonst Gewicht beibehalten." Keine erfundenen Scores, keine KI-Einschaetzung.
+// Historie (was tatsaechlich war) und Empfehlung (was als Naechstes sinnvoll waere)
+// bleiben getrennt - die App uebernimmt nichts automatisch.
 export async function getProgressionSuggestion(exercise) {
   if (![TYPES.STRENGTH, TYPES.POWER].includes(exercise.type)) return null;
   const last = await getLastPerformance(exercise.id);
@@ -53,8 +90,7 @@ export async function getProgressionSuggestion(exercise) {
 
   if (anyTechLoss) {
     return {
-      status: 'keep',
-      lastWeight,
+      status: 'keep', lastWeight,
       text: 'Letztes Mal Technik-/ROM-Verlust vermerkt. Gewicht beibehalten und Ausfuehrung priorisieren.',
     };
   }
@@ -62,22 +98,52 @@ export async function getProgressionSuggestion(exercise) {
     const inc = suggestedIncrement(lastWeight);
     if (inc == null) {
       return {
-        status: 'increase-difficulty',
-        lastWeight,
+        status: 'increase-difficulty', lastWeight,
         text: 'Obere Wiederholungsgrenze in allen Arbeitssaetzen erreicht. Da koerpergewichtsbasiert: schwerere Variante oder mehr ROM erwaegen.',
       };
     }
     const suggested = roundToIncrement(lastWeight + inc, inc);
     return {
-      status: 'increase',
-      lastWeight,
-      suggestedWeight: suggested,
-      text: `Letztes Mal obere Wiederholungsgrenze (${repMax}) in allen Saetzen erreicht -> Last moderat erhoehen, z.B. auf ${suggested} kg.`,
+      status: 'increase', lastWeight, suggestedWeight: suggested,
+      text: `Letztes Mal obere Wiederholungsgrenze (${repMax}) in allen Saetzen erreicht -> Empfehlung: Gewicht moderat erhoehen, z.B. auf ${suggested} kg.`,
     };
   }
   return {
-    status: 'keep',
-    lastWeight,
-    text: `Gewicht beibehalten (${lastWeight != null ? lastWeight + ' kg' : 'wie zuletzt'}), bis obere Wiederholungsgrenze in allen Saetzen erreicht wird.`,
+    status: 'keep', lastWeight,
+    text: `Empfehlung: Gewicht beibehalten (${lastWeight != null ? lastWeight + ' kg' : 'wie zuletzt'}), bis obere Wiederholungsgrenze in allen Saetzen erreicht wird.`,
   };
+}
+
+const RECOVERY_THRESHOLD_HOURS = 18;
+
+// Reiner Regel-Hinweis (kein Recovery-Score, keine KI): wenn die naechste
+// Einheit selbst eine intensive Full-Body-Einheit ist UND die letzte
+// abgeschlossene Full-Body-Einheit erst vor kurzem war, wird ein Hinweis
+// angeboten. Die Entscheidung bleibt beim Nutzer, der Plan wird nicht veraendert.
+export async function getRecoveryHint(day) {
+  if (!day.isFullBody) return null;
+  const fullBodyIds = new Set(PLAN.filter((d) => d.isFullBody).map((d) => d.id));
+  const logs = await getCompletedSessionLogs();
+  const lastFullBody = logs.find((l) => fullBodyIds.has(l.dayId));
+  if (!lastFullBody || !lastFullBody.finishedAt) return null;
+  const hoursSince = (Date.now() - new Date(lastFullBody.finishedAt).getTime()) / 3600000;
+  if (hoursSince < 0 || hoursSince >= RECOVERY_THRESHOLD_HOURS) return null;
+  return 'Du hast vor kurzer Zeit bereits eine intensive Ganzkoerpereinheit absolviert. Etwas zusaetzliche Erholung waere sinnvoll.';
+}
+
+export async function computeCycleSummary(cycleNumber) {
+  const logs = await getAllSessionLogs();
+  const inCycle = logs.filter((l) => l.cycle === cycleNumber);
+  const completed = inCycle.filter((l) => l.status === 'completed');
+  const skipped = inCycle.filter((l) => l.status === 'skipped');
+  const dates = inCycle.map((l) => l.startedAt).filter(Boolean).sort();
+  let durationDays = null;
+  if (dates.length >= 2) {
+    const first = new Date(dates[0]);
+    const last = new Date(dates[dates.length - 1]);
+    durationDays = Math.max(1, Math.round((last - first) / (1000 * 60 * 60 * 24)) + 1);
+  } else if (dates.length === 1) {
+    durationDays = 1;
+  }
+  return { cycleNumber, completedCount: completed.length, skippedCount: skipped.length, durationDays };
 }

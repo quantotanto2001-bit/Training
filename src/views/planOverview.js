@@ -1,11 +1,30 @@
 import { h, fmtRestRange, matchBadge } from '../ui.js';
 import { PLAN, TYPE_LABELS } from '../plan.js';
+import { getCurrentProgramState } from '../state.js';
+import { getActiveSession } from '../db.js';
 
 export async function renderPlanOverview() {
+  const [programState, active] = await Promise.all([getCurrentProgramState(), getActiveSession()]);
+
   const wrap = h('div', { class: 'view' });
   wrap.appendChild(h('div', { class: 'header' }, [
     h('h1', {}, 'Der Plan'),
     h('p', { class: 'muted' }, 'Reihenfolge der 6 Einheiten. Wochentage sind nur Beispiele, kein Zwang.'),
+  ]));
+
+  wrap.appendChild(h('div', { class: 'card cycle-status-card' }, [
+    h('div', { class: 'card-label' }, `Aktuell: Trainingstag ${programState.currentDayOrder + 1} von ${PLAN.length} · Zyklus ${programState.currentCycle}`),
+    h('div', { class: 'cycle-checklist' }, PLAN.map((d) => {
+      const isCurrent = d.order === programState.currentDayOrder;
+      const isDone = d.order < programState.currentDayOrder;
+      const marker = isCurrent ? '->' : (isDone ? '[x]' : '[ ]');
+      const row = h('div', { class: 'cycle-check-row' + (isCurrent ? ' cycle-check-current' : '') }, [
+        h('span', { class: 'cycle-check-marker' }, marker),
+        h('span', { class: 'cycle-check-label' }, `Tag ${d.order + 1} — ${d.name}${d.subtitle ? ': ' + d.subtitle : ''}`),
+        isCurrent && active ? h('span', { class: 'badge badge-yellow' }, 'In Bearbeitung') : null,
+      ]);
+      return row;
+    })),
   ]));
 
   for (const day of PLAN) {

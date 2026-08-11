@@ -1,51 +1,104 @@
-import { h, fmtDateTime } from '../ui.js';
-import { getNextDay, getLastCompletedInfo } from '../state.js';
-import { getActiveSession, getFinishedSessionLogs } from '../db.js';
+import { h } from '../ui.js';
+import { PLAN } from '../plan.js';
+import { getCurrentDay, getCurrentProgramState, getRecoveryHint, skipCurrentDay } from '../state.js';
+import { getActiveSession } from '../db.js';
+import { navigate } from '../app.js';
+
+const SKIP_REASONS = ['Verletzung / Beschwerden', 'Equipment nicht verfuegbar', 'Zeit', 'Sonstiges'];
 
 export async function renderHome() {
-  const [active, nextDay, lastInfo, finished] = await Promise.all([
-    getActiveSession(),
-    getNextDay(),
-    getLastCompletedInfo(),
-    getFinishedSessionLogs(),
+  const [active, day, programState] = await Promise.all([
+    getActiveSession(), getCurrentDay(), getCurrentProgramState(),
   ]);
 
-  const wrap = h('div', { class: 'view' });
+  const wrap = h('div', { class: 'view home-view' });
   wrap.appendChild(h('div', { class: 'header' }, [
     h('h1', {}, 'Universal Athlete'),
-    h('p', { class: 'muted' }, 'Kraft - Power - Ausdauer - Mobility'),
   ]));
 
+  const overlayHost = h('div', {});
+  wrap.appendChild(overlayHost);
+
   if (active) {
-    const day = active.dayName || active.dayId;
-    const doneCount = Object.values(active.entries || {}).filter((e) => e.sets && e.sets.length).length;
-    wrap.appendChild(h('div', { class: 'card card-accent' }, [
-      h('div', { class: 'card-label' }, 'Laeuft gerade'),
-      h('h2', {}, day),
-      h('p', { class: 'muted' }, `${doneCount} Uebung(en) mit Eintraegen`),
-      h('a', { href: '#/workout', class: 'btn btn-primary' }, 'Training fortsetzen'),
+    wrap.appendChild(h('div', { class: 'card card-accent next-card' }, [
+      h('div', { class: 'card-label' }, 'Training laeuft'),
+      h('h2', { class: 'next-day-title' }, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
+      h('p', { class: 'muted small' }, `Trainingstag ${day.order + 1} von ${PLAN.length}`),
+      h('a', { href: '#/workout', class: 'btn btn-primary btn-block' }, 'Training fortsetzen'),
+    ]));
+    return wrap;
+  }
+
+  const exCount = day.blocks.flatMap((b) => b.exercises).length;
+  const nextCard = h('div', { class: 'card card-accent next-card' }, [
+    h('div', { class: 'card-label' }, 'Als Naechstes'),
+    h('h2', { class: 'next-day-title' }, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
+    h('p', { class: 'muted small' }, `Trainingstag ${day.order + 1} von ${PLAN.length} · Zyklus ${programState.currentCycle} · ${exCount} Uebungen`),
+    h('button', { class: 'btn btn-primary btn-block', onclick: onStartClick }, 'Training starten'),
+    h('div', { class: 'next-card-links' }, [
+      h('a', { href: '#/plan', class: 'link-small' }, 'Plan ansehen'),
+      h('button', { class: 'link-small link-button', onclick: onSkipClick }, 'Einheit ueberspringen'),
+    ]),
+  ]);
+  wrap.appendChild(nextCard);
+
+  async function onStartClick() {
+    const hint = await getRecoveryHint(day);
+    if (hint) {
+      showRecoveryOverlay(hint);
+    } else {
+      window.location.hash = '#/workout';
+    }
+  }
+
+  function showRecoveryOverlay(hint) {
+    overlayHost.innerHTML = '';
+    overlayHost.appendChild(h('div', { class: 'overlay-backdrop' }, [
+      h('div', { class: 'overlay-card' }, [
+        h('p', {}, hint),
+        h('div', { class: 'overlay-actions' }, [
+          h('button', { class: 'btn', onclick: () => { overlayHost.innerHTML = ''; } }, 'Spaeter trainieren'),
+          h('button', { class: 'btn btn-primary', onclick: () => { navigate('#/workout'); } }, 'Trotzdem starten'),
+        ]),
+      ]),
     ]));
   }
 
-  wrap.appendChild(h('div', { class: 'card' }, [
-    h('div', { class: 'card-label' }, active ? 'Danach als naechstes' : 'Als naechstes dran'),
-    h('h2', {}, nextDay.name + (nextDay.subtitle ? ' — ' + nextDay.subtitle : '')),
-    nextDay.mobilitySkillFocus ? h('p', { class: 'muted' }, 'Mobility/Skill: ' + nextDay.mobilitySkillFocus) : null,
-    h('p', { class: 'muted small' }, `${nextDay.blocks.flatMap(b => b.exercises).length} Uebungen`),
-    !active ? h('a', { href: '#/workout', class: 'btn btn-primary' }, 'Training starten') : null,
-  ]));
+  function onSkipClick() {
+    overlayHost.innerHTML = '';
+    let selectedReason = null;
+    const reasonList = h('div', { class: 'reason-list' }, SKIP_REASONS.map((r) => {
+      const btn = h('button', { class: 'reason-btn', onclick: () => {
+        selectedReason = r;
+        Array.from(reasonList.children).forEach((c) => c.classList.remove('reason-btn-selected'));
+        btn.classList.add('reason-btn-selected');
+      } }, r);
+      return btn;
+    }));
 
-  wrap.appendChild(h('div', { class: 'card' }, [
-    h('div', { class: 'card-label' }, 'Zuletzt abgeschlossen'),
-    lastInfo
-      ? h('p', {}, `${lastInfo.day.name} — ${fmtDateTime(lastInfo.finishedAt)}`)
-      : h('p', { class: 'muted' }, 'Noch keine Einheit abgeschlossen. Leg los!'),
-    h('p', { class: 'muted small' }, `${finished.length} Einheit(en) insgesamt geloggt`),
-  ]));
-
-  wrap.appendChild(h('div', { class: 'card muted-card' }, [
-    h('p', { class: 'small' }, 'Kein starrer Wochenplan: die Reihenfolge der 6 Einheiten bleibt gleich, der Zeitpunkt ist frei. Trainiere, wann es passt — die App merkt sich, was als naechstes drankommt.'),
-  ]));
+    overlayHost.appendChild(h('div', { class: 'overlay-backdrop' }, [
+      h('div', { class: 'overlay-card' }, [
+        h('h3', {}, `${day.name} wirklich ueberspringen?`),
+        h('p', { class: 'muted small' }, 'Grund (optional):'),
+        reasonList,
+        h('div', { class: 'overlay-actions' }, [
+          h('button', { class: 'btn', onclick: () => { overlayHost.innerHTML = ''; } }, 'Abbrechen'),
+          h('button', {
+            class: 'btn btn-primary',
+            onclick: async () => {
+              overlayHost.innerHTML = '';
+              const { cycleJustCompleted, completedCycleNumber } = await skipCurrentDay(selectedReason);
+              if (cycleJustCompleted) {
+                navigate(`#/cycle-complete/${completedCycleNumber}`);
+              } else {
+                navigate('#/');
+              }
+            },
+          }, 'Ueberspringen'),
+        ]),
+      ]),
+    ]));
+  }
 
   return wrap;
 }
