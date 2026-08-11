@@ -1,7 +1,8 @@
 import { h, fmtDateTime, fmtDate } from '../ui.js';
-import { getAllSessionLogs, getActiveSession, deleteSessionLog } from '../db.js';
+import { getAllSessionLogs, getActiveSession, deleteSessionLog, exportAllData, importAllData } from '../db.js';
 import { PLAN } from '../plan.js';
 import { formatLoggedSet } from '../setForms.js';
+import { rerender } from '../app.js';
 
 function statusLabel(status) {
   if (status === 'completed') return 'Abgeschlossen';
@@ -28,6 +29,7 @@ export async function renderHistoryList() {
 
   if (!entries.length) {
     wrap.appendChild(h('div', { class: 'card muted-card' }, 'Noch keine Trainingsereignisse.'));
+    wrap.appendChild(renderBackupSection());
     return wrap;
   }
 
@@ -45,7 +47,53 @@ export async function renderHistoryList() {
       log.status !== 'skipped' ? h('p', { class: 'muted small' }, `${exCount} Uebung(en) geloggt`) : null,
     ]));
   }
+
+  wrap.appendChild(renderBackupSection());
   return wrap;
+}
+
+function renderBackupSection() {
+  const statusEl = h('p', { class: 'muted small' }, '');
+  const fileInput = h('input', {
+    type: 'file', accept: 'application/json', class: 'hidden-file-input',
+    onchange: async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const data = JSON.parse(text);
+        const count = Array.isArray(data.sessionLogs) ? data.sessionLogs.length : 0;
+        if (!window.confirm(`${count} Trainingsereignis(se) aus der Datei importieren? Vorhandene lokale Daten bleiben erhalten, der aktuelle Zyklus-Fortschritt wird aus der Datei uebernommen.`)) return;
+        await importAllData(data);
+        statusEl.textContent = `${count} Ereignis(se) importiert.`;
+        rerender();
+      } catch (err) {
+        statusEl.textContent = 'Import fehlgeschlagen: Datei ungueltig.';
+      }
+    },
+  });
+
+  return h('div', { class: 'backup-section' }, [
+    h('p', { class: 'muted small' }, 'Alle Daten liegen nur lokal auf diesem Geraet. Regelmaessig sichern empfohlen.'),
+    h('div', { class: 'backup-actions' }, [
+      h('button', {
+        class: 'btn btn-ghost btn-small',
+        onclick: async () => {
+          const data = await exportAllData();
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = h('a', { href: url, download: `universal-athlete-backup-${new Date().toISOString().slice(0, 10)}.json` });
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+        },
+      }, 'Daten exportieren'),
+      h('button', { class: 'btn btn-ghost btn-small', onclick: () => fileInput.click() }, 'Daten importieren'),
+    ]),
+    fileInput,
+    statusEl,
+  ]);
 }
 
 export async function renderHistoryDetail(id) {

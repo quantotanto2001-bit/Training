@@ -344,4 +344,16 @@ html, body {
 
 .back-link { color: var(--accent-strong); text-decoration: none; font-size: 0.85rem; }
 
+/* Backup: Export/Import */
+.backup-section {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.backup-actions { display: flex; gap: 10px; }
+.hidden-file-input { display: none; }
+
 a { color: inherit; }

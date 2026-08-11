@@ -126,3 +126,27 @@ export async function setProgramState(state) {
   const store = await tx(STORE_PROGRAM, 'readwrite');
   await reqToPromise(store.put({ ...state, id: 'program' }));
 }
+
+// --- Backup: Export/Import, da alle Daten sonst nur lokal auf dem Geraet liegen ---
+
+export async function exportAllData() {
+  const [logs, programState] = await Promise.all([getAllSessionLogs(), getProgramState()]);
+  return {
+    app: 'universal-athlete', exportVersion: 1, exportedAt: new Date().toISOString(),
+    programState, sessionLogs: logs,
+  };
+}
+
+// Fuegt importierte Sessions additiv hinzu (upsert nach id, ueberschreibt lokale
+// Duplikate nicht mit aelteren Daten) und stellt den Programmzustand wieder her.
+export async function importAllData(data) {
+  if (!data || !Array.isArray(data.sessionLogs)) throw new Error('Ungueltige Backup-Datei');
+  const store = await tx(STORE_LOGS, 'readwrite');
+  for (const log of data.sessionLogs) {
+    await reqToPromise(store.put(log));
+  }
+  if (data.programState) {
+    await setProgramState(data.programState);
+  }
+  return { importedCount: data.sessionLogs.length };
+}
