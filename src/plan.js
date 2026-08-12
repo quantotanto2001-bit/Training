@@ -521,6 +521,47 @@ export function findDayByExerciseId(id) {
   return PLAN.find((day) => day.blocks.some((b) => b.exercises.some((e) => e.id === id))) || null;
 }
 
+// Icon-Zuordnung pro Uebung (nach Bewegungsart, nicht nur grobem Uebungstyp) -
+// sorgt dafuer, dass z.B. Dips und Klimmzuege trotz gleichem Uebungstyp
+// unterschiedliche, passende Symbole bekommen.
+const EXERCISE_ICONS = {
+  'mo-jump': 'jump', 'mo-pullup': 'pull', 'mo-dip': 'dip', 'mo-splitsquat': 'squat',
+  'mo-rdl': 'hinge', 'mo-calf': 'calf', 'mo-extrot': 'rotate',
+  'di-atg': 'squat', 'di-rdl-light': 'hinge', 'di-aslr': 'rotate', 'di-hipflexor': 'stretch', 'di-frontsplit': 'stretch',
+  'mi-shouldercars': 'rotate', 'mi-9090': 'rotate', 'mi-cossack': 'squat', 'mi-squatpry': 'squat',
+  'mi-thoracic': 'rotate', 'mi-catcow': 'rotate', 'mi-wrist': 'rotate', 'mi-hang': 'pull',
+  'do-handstand': 'handstand', 'do-pistol': 'squat', 'do-bench': 'push', 'do-ringrow': 'pull',
+  'do-hipthrust': 'hinge', 'do-revnordic': 'hinge', 'do-lsit': 'core', 'do-scappullup': 'pull',
+  'do-straddlegm': 'hinge', 'do-pikelift': 'core', 'do-pancake': 'stretch', 'do-wallshoulder': 'rotate', 'do-latstretch': 'stretch',
+  'fr-cossack': 'squat', 'fr-laterallunge': 'squat', 'fr-horsestance': 'squat', 'fr-adductor': 'rotate',
+  'fr-frog': 'stretch', 'fr-middlesplit': 'stretch',
+  'sa-pogo': 'jump', 'sa-jumpvar': 'jump', 'sa-explosivepullup': 'pull', 'sa-revlunge': 'squat',
+  'sa-ringpushup': 'dip', 'sa-cablerow': 'pull', 'sa-leraise': 'core', 'sa-tibialis': 'calf', 'sa-finisher': 'finisher',
+};
+
+export function iconFor(exercise) {
+  if (exercise.type === TYPES.CARDIO) return 'cardio';
+  return EXERCISE_ICONS[exercise.id] || 'push';
+}
+
+// Grobe Zeitschaetzung je Einheit aus echten Plandaten (Saetze x (Pause + ca. 40s
+// Ausfuehrungszeit) bzw. Cardio-Dauer) - kein fixer erfundener Wert, auf 5 Min gerundet.
+export function estimateDurationMin(day) {
+  let totalSec = 0;
+  for (const block of day.blocks) {
+    for (const ex of block.exercises) {
+      if (ex.durationSec) {
+        totalSec += (ex.durationSec.min + ex.durationSec.max) / 2;
+      } else {
+        const sets = ex.sets || 3;
+        const restAvg = ex.restSec ? (ex.restSec.min + ex.restSec.max) / 2 : 60;
+        totalSec += sets * (restAvg + 40);
+      }
+    }
+  }
+  return Math.max(10, Math.round(totalSec / 60 / 5) * 5);
+}
+
 export function computeRampSets(kind, workWeightKg) {
   const def = WARMUP_KINDS[kind];
   if (!def || !def.ramp) return [];

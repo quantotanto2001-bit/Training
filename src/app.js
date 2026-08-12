@@ -1,4 +1,4 @@
-import { h } from './ui.js';
+import { h, navIcon } from './ui.js';
 import { renderHome } from './views/home.js';
 import { renderWorkout } from './views/workout.js';
 import { renderHistoryList, renderHistoryDetail } from './views/history.js';
@@ -13,14 +13,14 @@ root.appendChild(h('div', { class: 'app-shell' }, [main, nav]));
 
 function buildNav() {
   const items = [
-    { href: '#/', label: 'Start', icon: '🏠' },
-    { href: '#/plan', label: 'Plan', icon: '📋' },
-    { href: '#/progress', label: 'Fortschritt', icon: '📈' },
-    { href: '#/history', label: 'Verlauf', icon: '🗓️' },
+    { href: '#/', label: 'Start', icon: 'home' },
+    { href: '#/plan', label: 'Plan', icon: 'plan' },
+    { href: '#/progress', label: 'Fortschritt', icon: 'progress' },
+    { href: '#/history', label: 'Verlauf', icon: 'history' },
   ];
   const nav = h('nav', { class: 'bottom-nav' },
     items.map((it) => h('a', { href: it.href, class: 'nav-item', 'data-href': it.href }, [
-      h('span', { class: 'nav-icon' }, it.icon),
+      h('span', { class: 'nav-icon' }, navIcon(it.icon)),
       h('span', { class: 'nav-label' }, it.label),
     ])));
   return nav;

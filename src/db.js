@@ -1,10 +1,11 @@
 // Minimale IndexedDB-Persistenzschicht. Keine externen Abhängigkeiten.
 
 const DB_NAME = 'universal-athlete-db';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const STORE_LOGS = 'sessionLogs';
 const STORE_ACTIVE = 'activeSession';
 const STORE_PROGRAM = 'programState';
+const STORE_EX_NOTES = 'exerciseNotes';
 
 let dbPromise = null;
 
@@ -27,6 +28,11 @@ function openDb() {
       // Zeiger, der NICHT jedes Mal aus der Historie neu abgeleitet wird.
       if (!db.objectStoreNames.contains(STORE_PROGRAM)) {
         db.createObjectStore(STORE_PROGRAM, { keyPath: 'id' });
+      }
+      // Dauerhafte Notiz + "Nächstes Mal"-Absicht pro Übung, unabhängig von
+      // einzelnen Sessions (z.B. "Sitzposition 3", "nächstes Mal 82.5kg").
+      if (!db.objectStoreNames.contains(STORE_EX_NOTES)) {
+        db.createObjectStore(STORE_EX_NOTES, { keyPath: 'exerciseId' });
       }
     };
     req.onsuccess = () => resolve(req.result);
@@ -127,13 +133,31 @@ export async function setProgramState(state) {
   await reqToPromise(store.put({ ...state, id: 'program' }));
 }
 
+// --- Übungsnotizen: dauerhafte Notiz + "Nächstes Mal"-Absicht pro Übung ---
+
+export async function getExerciseNote(exerciseId) {
+  const store = await tx(STORE_EX_NOTES, 'readonly');
+  const existing = await reqToPromise(store.get(exerciseId));
+  return existing || { exerciseId, note: '', nextTimeIntent: '' };
+}
+
+export async function getAllExerciseNotes() {
+  const store = await tx(STORE_EX_NOTES, 'readonly');
+  return reqToPromise(store.getAll());
+}
+
+export async function setExerciseNote(exerciseId, { note, nextTimeIntent }) {
+  const store = await tx(STORE_EX_NOTES, 'readwrite');
+  await reqToPromise(store.put({ exerciseId, note: note || '', nextTimeIntent: nextTimeIntent || '', updatedAt: new Date().toISOString() }));
+}
+
 // --- Backup: Export/Import, da alle Daten sonst nur lokal auf dem Gerät liegen ---
 
 export async function exportAllData() {
-  const [logs, programState] = await Promise.all([getAllSessionLogs(), getProgramState()]);
+  const [logs, programState, exerciseNotes] = await Promise.all([getAllSessionLogs(), getProgramState(), getAllExerciseNotes()]);
   return {
-    app: 'universal-athlete', exportVersion: 1, exportedAt: new Date().toISOString(),
-    programState, sessionLogs: logs,
+    app: 'universal-athlete', exportVersion: 2, exportedAt: new Date().toISOString(),
+    programState, sessionLogs: logs, exerciseNotes,
   };
 }
 
@@ -144,6 +168,12 @@ export async function importAllData(data) {
   const store = await tx(STORE_LOGS, 'readwrite');
   for (const log of data.sessionLogs) {
     await reqToPromise(store.put(log));
+  }
+  if (Array.isArray(data.exerciseNotes)) {
+    const notesStore = await tx(STORE_EX_NOTES, 'readwrite');
+    for (const n of data.exerciseNotes) {
+      await reqToPromise(notesStore.put(n));
+    }
   }
   if (data.programState) {
     await setProgramState(data.programState);

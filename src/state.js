@@ -37,7 +37,9 @@ export async function completeCurrentDay(activeSession) {
     dayId: day.id,
     status: 'completed',
     cycle: state.currentCycle,
-    finishedAt: new Date().toISOString(),
+    // Beim nachtraeglichen Eintragen setzt die Workout-Ansicht finishedAt bereits
+    // bewusst auf ein vergangenes Datum -> dann nicht mit "jetzt" ueberschreiben.
+    finishedAt: activeSession.finishedAt || new Date().toISOString(),
   };
   await saveSessionLog(log);
   await clearActiveSession();

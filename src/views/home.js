@@ -1,5 +1,5 @@
-import { h } from '../ui.js';
-import { PLAN } from '../plan.js';
+import { h, typeIcon } from '../ui.js';
+import { PLAN, estimateDurationMin, iconFor } from '../plan.js';
 import { getCurrentDay, getCurrentProgramState, getRecoveryHint, skipCurrentDay } from '../state.js';
 import { getActiveSession, clearActiveSession } from '../db.js';
 import { navigate } from '../app.js';
@@ -13,52 +13,81 @@ export async function renderHome() {
 
   const wrap = h('div', { class: 'view home-view' });
   wrap.appendChild(h('div', { class: 'header' }, [
-    h('h1', {}, 'Universal Athlete'),
+    h('h1', {}, 'Hallo, Jona'),
   ]));
 
   const overlayHost = h('div', {});
   wrap.appendChild(overlayHost);
 
+  const exCount = day.blocks.flatMap((b) => b.exercises).length;
+  const durationMin = estimateDurationMin(day);
+
+  wrap.appendChild(h('p', { class: 'section-title' }, active ? 'TRAINING LÄUFT' : 'HEUTE'));
+
   if (active) {
-    wrap.appendChild(h('div', { class: 'card card-accent next-card' }, [
-      h('div', { class: 'card-label' }, 'Training läuft'),
-      h('h2', { class: 'next-day-title' }, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
-      h('p', { class: 'muted small' }, `Trainingstag ${day.order + 1} von ${PLAN.length}`),
-      h('a', { href: '#/workout', class: 'btn btn-primary btn-block' }, 'Training fortsetzen'),
-      h('div', { class: 'next-card-links' }, [
-        h('button', {
-          class: 'link-small link-button',
-          onclick: async () => {
-            if (!window.confirm('Laufendes Training verwerfen? Bisherige Einträge dieser Einheit gehen verloren, der Trainingstag bleibt derselbe.')) return;
-            await clearActiveSession();
-            navigate('#/');
-          },
-        }, 'Training verwerfen'),
+    const doneCount = day.blocks.flatMap((b) => b.exercises).filter((exx) => {
+      const e = active.entries && active.entries[exx.id];
+      return e && e.sets && e.sets.some((s) => !s.isWarmup);
+    }).length;
+    const pct = exCount ? Math.round((doneCount / exCount) * 100) : 0;
+    wrap.appendChild(h('div', { class: 'card today-card' }, [
+      h('div', { class: 'today-card-head' }, [
+        h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]))),
+        h('div', {}, [
+          h('h2', {}, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
+          h('p', { class: 'muted small' }, `ca. ${durationMin} Min · ${exCount} Übungen`),
+        ]),
       ]),
+      h('div', { class: 'progress-track' }, [h('div', { class: 'progress-fill', style: `width:${pct}%` })]),
+      h('p', { class: 'muted small' }, `${doneCount} / ${exCount} Übungen`),
+      h('a', { href: '#/workout', class: 'btn btn-primary btn-block' }, 'Training fortsetzen'),
+      h('button', {
+        class: 'link-small link-button',
+        onclick: async () => {
+          if (!window.confirm('Laufendes Training verwerfen? Bisherige Einträge dieser Einheit gehen verloren, der Trainingstag bleibt derselbe.')) return;
+          await clearActiveSession();
+          navigate('#/');
+        },
+      }, 'Training verwerfen'),
     ]));
     return wrap;
   }
 
-  const exCount = day.blocks.flatMap((b) => b.exercises).length;
-  const nextCard = h('div', { class: 'card card-accent next-card' }, [
-    h('div', { class: 'card-label' }, 'Als Nächstes'),
-    h('h2', { class: 'next-day-title' }, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
-    h('p', { class: 'muted small' }, `Trainingstag ${day.order + 1} von ${PLAN.length} · Zyklus ${programState.currentCycle} · ${exCount} Übungen`),
+  wrap.appendChild(h('div', { class: 'card today-card' }, [
+    h('div', { class: 'today-card-head' }, [
+      h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]))),
+      h('div', {}, [
+        h('h2', {}, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
+        h('p', { class: 'muted small' }, `ca. ${durationMin} Min · ${exCount} Übungen`),
+      ]),
+    ]),
+    h('div', { class: 'progress-track' }, [h('div', { class: 'progress-fill', style: 'width:0%' })]),
+    h('p', { class: 'muted small' }, `0 / ${exCount} Übungen · Zyklus ${programState.currentCycle}`),
     h('button', { class: 'btn btn-primary btn-block', onclick: onStartClick }, 'Training starten'),
     h('div', { class: 'next-card-links' }, [
       h('a', { href: '#/plan', class: 'link-small' }, 'Plan ansehen'),
       h('button', { class: 'link-small link-button', onclick: onSkipClick }, 'Einheit überspringen'),
     ]),
-  ]);
-  wrap.appendChild(nextCard);
+  ]));
+
+  const upcoming = [1, 2].map((offset) => PLAN[(day.order + offset) % PLAN.length]);
+  wrap.appendChild(h('p', { class: 'section-title' }, 'NÄCHSTE EINHEITEN'));
+  wrap.appendChild(h('div', { class: 'card upcoming-card' }, upcoming.map((d) => {
+    const dCount = d.blocks.flatMap((b) => b.exercises).length;
+    return h('a', { href: '#/plan', class: 'upcoming-row' }, [
+      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(d.blocks[0].exercises[0]))),
+      h('div', { class: 'workout-exercise-row-main' }, [
+        h('div', { class: 'exercise-name' }, d.name + (d.subtitle ? ' — ' + d.subtitle : '')),
+        h('div', { class: 'muted small' }, `ca. ${estimateDurationMin(d)} Min · ${dCount} Übungen`),
+      ]),
+      h('span', { class: 'chevron' }, '›'),
+    ]);
+  })));
 
   async function onStartClick() {
     const hint = await getRecoveryHint(day);
-    if (hint) {
-      showRecoveryOverlay(hint);
-    } else {
-      window.location.hash = '#/workout';
-    }
+    if (hint) showRecoveryOverlay(hint);
+    else window.location.hash = '#/workout';
   }
 
   function showRecoveryOverlay(hint) {
@@ -98,11 +127,8 @@ export async function renderHome() {
             onclick: async () => {
               overlayHost.innerHTML = '';
               const { cycleJustCompleted, completedCycleNumber } = await skipCurrentDay(selectedReason);
-              if (cycleJustCompleted) {
-                navigate(`#/cycle-complete/${completedCycleNumber}`);
-              } else {
-                navigate('#/');
-              }
+              if (cycleJustCompleted) navigate(`#/cycle-complete/${completedCycleNumber}`);
+              else navigate('#/');
             },
           }, 'Überspringen'),
         ]),

@@ -1,5 +1,5 @@
-import { h, fmtRestRange, matchBadge } from '../ui.js';
-import { PLAN, TYPE_LABELS } from '../plan.js';
+import { h, fmtRestRange, matchBadge, openVideoModal, typeIcon } from '../ui.js';
+import { PLAN, TYPE_LABELS, iconFor } from '../plan.js';
 import { getCurrentProgramState } from '../state.js';
 import { getActiveSession } from '../db.js';
 
@@ -57,11 +57,14 @@ export async function renderPlanOverview() {
 function renderExerciseDetail(exx) {
   const item = h('details', { class: 'exercise-detail' });
   item.appendChild(h('summary', {}, [
-    h('div', {}, [
-      h('div', { class: 'exercise-name' }, exx.name),
-      h('div', { class: 'muted small' }, [
-        exx.dosage || '', exx.restSec ? ` · Pause ${fmtRestRange(exx.restSec)}` : '',
-      ].join('')),
+    h('div', { class: 'exercise-icon-row' }, [
+      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(exx))),
+      h('div', {}, [
+        h('div', { class: 'exercise-name' }, exx.name),
+        h('div', { class: 'muted small' }, [
+          exx.dosage || '', exx.restSec ? ` · Pause ${fmtRestRange(exx.restSec)}` : '',
+        ].join('')),
+      ]),
     ]),
     h('div', { class: 'exercise-row-right' }, [
       h('span', { class: 'badge badge-neutral' }, TYPE_LABELS[exx.type] || exx.type),
@@ -72,7 +75,7 @@ function renderExerciseDetail(exx) {
   const body = h('div', { class: 'exercise-detail-body' });
   if (exx.note) body.appendChild(h('p', { class: 'small' }, exx.note));
   if (exx.video) {
-    body.appendChild(h('a', { href: exx.video.url, target: '_blank', rel: 'noopener noreferrer', class: 'btn btn-small video-link-btn' }, 'Video ansehen ↗'));
+    body.appendChild(h('button', { class: 'btn btn-small video-link-btn', onclick: () => openVideoModal(exx.video) }, 'Video ansehen'));
     body.appendChild(h('p', { class: 'muted small' }, exx.video.label));
     if (exx.video.match === 'ähnlich' && exx.video.note) {
       body.appendChild(h('div', { class: 'adaptation-note' }, [
@@ -82,7 +85,7 @@ function renderExerciseDetail(exx) {
     } else if (exx.video.note) {
       body.appendChild(h('p', { class: 'small' }, exx.video.note));
     }
-    if (exx.video.cues) body.appendChild(h('p', { class: 'small cues' }, '🎯 ' + exx.video.cues));
+    if (exx.video.cues) body.appendChild(h('p', { class: 'small cues' }, exx.video.cues));
   } else {
     body.appendChild(h('p', { class: 'muted small' }, 'Kein Technikvideo nötig für diese Übung.'));
   }

@@ -25,6 +25,7 @@ export class RestTimer {
       this.remaining -= 1;
       if (this.remaining <= 0) {
         this.remaining = 0;
+        this.total = 0; // fertig -> "kein aktiver Timer" statt bei 0:00 haengen zu bleiben
         this.onTick && this.onTick(this);
         this.stop();
         this.onDone && this.onDone();
@@ -54,6 +55,7 @@ export class RestTimer {
 
   skip() {
     this.remaining = 0;
+    this.total = 0;
     this.stop();
     this.onTick && this.onTick(this);
     this.onDone && this.onDone();
