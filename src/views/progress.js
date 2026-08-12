@@ -102,7 +102,7 @@ export async function renderProgressList() {
       for (const exx of block.exercises) {
         list.appendChild(h('a', { href: `#/progress/${exx.id}`, class: 'exercise-row exercise-row-link' }, [
           h('div', { class: 'exercise-icon-row' }, [
-            h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(exx))),
+            h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(exx), exx.id)),
             h('div', { class: 'exercise-name' }, exx.name),
           ]),
           h('span', { class: 'badge badge-neutral' }, TYPE_LABELS[exx.type]),

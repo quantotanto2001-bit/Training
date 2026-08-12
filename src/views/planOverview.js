@@ -58,7 +58,7 @@ function renderExerciseDetail(exx) {
   const item = h('details', { class: 'exercise-detail' });
   item.appendChild(h('summary', {}, [
     h('div', { class: 'exercise-icon-row' }, [
-      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(exx))),
+      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(exx), exx.id)),
       h('div', {}, [
         h('div', { class: 'exercise-name' }, exx.name),
         h('div', { class: 'muted small' }, [

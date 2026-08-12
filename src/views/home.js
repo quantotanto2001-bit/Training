@@ -32,7 +32,7 @@ export async function renderHome() {
     const pct = exCount ? Math.round((doneCount / exCount) * 100) : 0;
     wrap.appendChild(h('div', { class: 'card today-card' }, [
       h('div', { class: 'today-card-head' }, [
-        h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]))),
+        h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]), day.blocks[0].exercises[0].id)),
         h('div', {}, [
           h('h2', {}, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
           h('p', { class: 'muted small' }, `ca. ${durationMin} Min · ${exCount} Übungen`),
@@ -55,7 +55,7 @@ export async function renderHome() {
 
   wrap.appendChild(h('div', { class: 'card today-card' }, [
     h('div', { class: 'today-card-head' }, [
-      h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]))),
+      h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]), day.blocks[0].exercises[0].id)),
       h('div', {}, [
         h('h2', {}, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
         h('p', { class: 'muted small' }, `ca. ${durationMin} Min · ${exCount} Übungen`),
@@ -75,7 +75,7 @@ export async function renderHome() {
   wrap.appendChild(h('div', { class: 'card upcoming-card' }, upcoming.map((d) => {
     const dCount = d.blocks.flatMap((b) => b.exercises).length;
     return h('a', { href: '#/plan', class: 'upcoming-row' }, [
-      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(d.blocks[0].exercises[0]))),
+      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(d.blocks[0].exercises[0]), d.blocks[0].exercises[0].id)),
       h('div', { class: 'workout-exercise-row-main' }, [
         h('div', { class: 'exercise-name' }, d.name + (d.subtitle ? ' — ' + d.subtitle : '')),
         h('div', { class: 'muted small' }, `ca. ${estimateDurationMin(d)} Min · ${dCount} Übungen`),

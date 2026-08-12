@@ -121,7 +121,7 @@ export async function renderWorkout() {
       const entry = active.entries[s.exercise.id];
       const done = isDone(s.exercise);
       list.appendChild(h('button', { class: 'workout-exercise-row', onclick: () => showExercise(i) }, [
-        h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(s.exercise))),
+        h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(s.exercise), s.exercise.id)),
         h('div', { class: 'workout-exercise-row-main' }, [
           h('div', { class: 'exercise-name' }, (entry && entry.substituteName) || s.exercise.name),
           h('div', { class: 'muted small' }, s.exercise.dosage || ''),
@@ -157,7 +157,11 @@ export async function renderWorkout() {
     if (blockTitle) box.appendChild(h('div', { class: 'card-label' }, blockTitle));
 
     const titleRow = h('div', { class: 'exercise-title-row' });
-    titleRow.appendChild(h('h2', {}, entry.substituteName || exercise.name));
+    const titleMain = h('div', { class: 'exercise-title-main' }, [
+      h('div', { class: 'exercise-icon-badge exercise-icon-badge-lg' }, typeIcon(iconFor(exercise), exercise.id)),
+      h('h2', {}, entry.substituteName || exercise.name),
+    ]);
+    titleRow.appendChild(titleMain);
     titleRow.appendChild(h('button', { class: 'link-small link-button', onclick: () => toggleSubstituteEditor() }, entry.substituteName ? 'Ersatz ändern' : 'Ersetzen'));
     box.appendChild(titleRow);
     if (entry.substituteName) box.appendChild(h('p', { class: 'muted small' }, `Ersetzt: ${exercise.name}`));
