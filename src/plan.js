@@ -117,8 +117,15 @@ export const PLAN = [
               cues: 'Vorderer Fuss voll belastet; kontrolliert tief; kein Aufprall unten; Becken stabil.' },
           }),
           ex({
+            id: 'mo-gobletsquat', name: 'Goblet Squat KH', dosage: '3 x 8-12', sets: 3, reps: { min: 8, max: 12 },
+            restSec: { min: 120, max: 180 }, type: TYPES.STRENGTH, warmup: 'moderate', targetRIR: '1-2',
+            video: { label: 'BuiltLean: Goblet Squats - Proper Form & Technique', url: 'https://www.youtube.com/watch?v=gCESNsDsbqk', match: 'passend',
+              note: 'Bilateraler Squat als Ergänzung zu den einbeinigen Kniebeuge-Varianten im Plan. Kurzhantel eng vor der Brust halten, Ellbogen zeigen nach unten in Richtung Knie.',
+              cues: 'Brust hoch; Knie folgen Fussrichtung; kontrolliert tief; Ellbogen touchieren Knie leicht.' },
+          }),
+          ex({
             id: 'mo-rdl', name: 'RDL KH/geführt, kontrollierte Tiefe', dosage: '3 x 6-10', sets: 3, reps: { min: 6, max: 10 },
-            restSec: { min: 120, max: 180 }, type: TYPES.STRENGTH, warmup: 'light', targetRIR: '1-2',
+            restSec: { min: 120, max: 180 }, type: TYPES.STRENGTH, warmup: 'moderate', targetRIR: '1-2',
             video: { label: 'E3 Rehab: Perfect RDL', url: 'https://www.youtube.com/watch?v=uhghy9pFIPY', match: 'passend', startSec: 82, endSec: 264,
               note: 'Video zeigt nur das Kapitel "So führst du RDLs richtig aus". Die Tiefe wird durch deinen kontrollierten Hip-Hinge bestimmt - nicht dadurch, wie tief das Gewicht kommt. Bei geführter Variante dieselbe Hüftmechanik beibehalten.',
               cues: 'Hüfte nach hinten; leichte Kniebeugung; Gewicht körpernah; Spannung in Hamstrings.' },
@@ -245,6 +252,13 @@ export const PLAN = [
             video: { label: 'Video-Suche: machine bench press technique', url: 'https://www.youtube.com/results?search_query=machine+chest+press+bench+press+full+range+technique', match: 'ähnlich',
               note: 'Bei geführter Maschine Sitz/Bank so einstellen, dass die Druckbahn zur Schulter passt. Für deinen Plan kontrollierte, schmerzfreie grosse ROM; nicht extra kurz für mehr Gewicht.',
               cues: 'Schulterblätter stabil; Handgelenke über Unterarmen; kontrolliert absenken.' },
+          }),
+          ex({
+            id: 'do-ohp', name: 'KH Schulterdrücken, kontrolliert', dosage: '3 x 6-10', sets: 3, reps: { min: 6, max: 10 },
+            restSec: { min: 150, max: 210 }, type: TYPES.STRENGTH, warmup: 'moderate', targetRIR: '1-2',
+            video: { label: 'Bodybuilding.com: Dumbbell Shoulder Press - Exercise Guide', url: 'https://www.youtube.com/watch?v=0JfYxMRsUCQ', match: 'passend',
+              note: 'Ergänzt Bankdrücken (horizontal) und Dips um eine progressive, geladene Überkopf-Druckbewegung. Sitzend oder stehend möglich - Rumpf stabil, keine übertriebene Hohlkreuz-Kompensation beim Hochdrücken.',
+              cues: 'Rippen unten; Kern angespannt; Kurzhanteln enden über den Schultern; kontrolliert absenken.' },
           }),
           ex({
             id: 'do-ringrow', name: 'Ring Row mit maximal sauberem ROM', dosage: '3 x 6-12', sets: 3, reps: { min: 6, max: 12 },
@@ -556,11 +570,11 @@ export function allExercises() {
 // unterschiedliche, passende Symbole bekommen.
 const EXERCISE_ICONS = {
   'mo-neck': 'rotate', 'mo-jump': 'jump', 'mo-pullup': 'pull', 'mo-dip': 'dip', 'mo-splitsquat': 'squat',
-  'mo-rdl': 'hinge', 'mo-nordic': 'hinge', 'mo-calf': 'calf', 'mo-extrot': 'rotate',
+  'mo-gobletsquat': 'squat', 'mo-rdl': 'hinge', 'mo-nordic': 'hinge', 'mo-calf': 'calf', 'mo-extrot': 'rotate',
   'di-atg': 'squat', 'di-rdl-light': 'hinge', 'di-aslr': 'rotate', 'di-hipflexor': 'stretch', 'di-frontsplit': 'stretch',
   'mi-shouldercars': 'rotate', 'mi-9090': 'rotate', 'mi-cossack': 'squat', 'mi-squatpry': 'squat',
   'mi-thoracic': 'rotate', 'mi-catcow': 'rotate', 'mi-wrist': 'rotate', 'mi-hang': 'pull',
-  'do-neck': 'rotate', 'do-handstand': 'handstand', 'do-pistol': 'squat', 'do-bench': 'push', 'do-ringrow': 'pull',
+  'do-neck': 'rotate', 'do-handstand': 'handstand', 'do-pistol': 'squat', 'do-bench': 'push', 'do-ohp': 'push', 'do-ringrow': 'pull',
   'do-hipthrust': 'hinge', 'do-revnordic': 'hinge', 'do-nordic': 'hinge', 'do-lsit': 'core', 'do-scappullup': 'pull',
   'do-straddlegm': 'hinge', 'do-pikelift': 'core', 'do-pancake': 'stretch', 'do-wallshoulder': 'rotate', 'do-latstretch': 'stretch',
   'fr-cossack': 'squat', 'fr-laterallunge': 'squat', 'fr-horsestance': 'squat', 'fr-adductor': 'rotate',

@@ -72,12 +72,14 @@ export function buildSetForm(exercise, defaults = {}) {
       break;
     }
     case TYPES.MOBILITY_ACTIVE: {
-      fields = [
-        numInput({ id: ids.reps, label: 'Wiederholungen', step: '1', value: defaults.reps }),
-        numInput({ id: ids.hold, label: 'Haltezeit (s, optional)', step: '1', value: defaults.holdSec }),
+      // Nur Felder zeigen, die für diese Übung laut Plan tatsächlich gemessen werden -
+      // eine reine Halteübung (nur holdSec) braucht kein leeres "Wiederholungen"-Feld.
+      if (exercise.reps) fields.push(numInput({ id: ids.reps, label: 'Wiederholungen', step: '1', value: defaults.reps }));
+      if (exercise.holdSec) fields.push(numInput({ id: ids.hold, label: 'Haltezeit (s)', step: '1', value: defaults.holdSec }));
+      fields.push(
         textInput({ id: ids.support, label: 'Unterstützung', placeholder: 'z.B. keine / Band / Stütze', value: defaults.support }),
         textInput({ id: ids.rom, label: 'ROM-Position', placeholder: 'z.B. voll / 3/4 / leicht limitiert', value: defaults.romPosition }),
-      ];
+      );
       read = () => ({
         reps: readNum(ids.reps), holdSec: readNum(ids.hold),
         support: readText(ids.support), romPosition: readText(ids.rom),
@@ -85,13 +87,13 @@ export function buildSetForm(exercise, defaults = {}) {
       break;
     }
     case TYPES.MOBILITY_LOADED: {
-      fields = [
-        numInput({ id: ids.weight, label: 'Gewicht (kg, optional)', step: '0.5', value: defaults.weightKg }),
-        numInput({ id: ids.reps, label: 'Wiederholungen', step: '1', value: defaults.reps }),
-        numInput({ id: ids.hold, label: 'Haltezeit (s, optional)', step: '1', value: defaults.holdSec }),
+      fields.push(numInput({ id: ids.weight, label: 'Gewicht (kg, optional)', step: '0.5', value: defaults.weightKg }));
+      if (exercise.reps) fields.push(numInput({ id: ids.reps, label: 'Wiederholungen', step: '1', value: defaults.reps }));
+      if (exercise.holdSec) fields.push(numInput({ id: ids.hold, label: 'Haltezeit (s)', step: '1', value: defaults.holdSec }));
+      fields.push(
         textInput({ id: ids.support, label: 'Unterstützung', placeholder: 'z.B. keine / Stütze', value: defaults.support }),
         textInput({ id: ids.rom, label: 'ROM-Position', placeholder: 'z.B. voll / 3/4', value: defaults.romPosition }),
-      ];
+      );
       read = () => ({
         weightKg: readNum(ids.weight), reps: readNum(ids.reps), holdSec: readNum(ids.hold),
         support: readText(ids.support), romPosition: readText(ids.rom),
