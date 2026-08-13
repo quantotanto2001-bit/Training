@@ -61,9 +61,12 @@ function ex(o) {
     warmup: null,
     video: null,
     note: null,
+    directions: null,
     ...o,
   };
 }
+
+const NECK_DIRECTIONS = ['Stirn', 'Hinterkopf', 'Seite links', 'Seite rechts'];
 
 export const PLAN = [
   {
@@ -79,7 +82,7 @@ export const PLAN = [
         title: null,
         exercises: [
           ex({
-            id: 'mo-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 },
+            id: 'mo-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 }, directions: NECK_DIRECTIONS,
             restSec: { min: 20, max: 30 }, type: TYPES.MOBILITY_ACTIVE,
             video: { label: 'Isometric 4 Way Manual Neck', url: 'https://www.youtube.com/watch?v=0-OLyDk7-Qk', match: 'ähnlich',
               note: 'Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',
@@ -215,7 +218,7 @@ export const PLAN = [
         title: null,
         exercises: [
           ex({
-            id: 'do-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 },
+            id: 'do-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 }, directions: NECK_DIRECTIONS,
             restSec: { min: 20, max: 30 }, type: TYPES.MOBILITY_ACTIVE,
             video: { label: 'Isometric 4 Way Manual Neck', url: 'https://www.youtube.com/watch?v=0-OLyDk7-Qk', match: 'ähnlich',
               note: 'Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',
@@ -413,7 +416,7 @@ export const PLAN = [
         title: null,
         exercises: [
           ex({
-            id: 'sa-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 },
+            id: 'sa-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 }, directions: NECK_DIRECTIONS,
             restSec: { min: 20, max: 30 }, type: TYPES.MOBILITY_ACTIVE,
             video: { label: 'Isometric 4 Way Manual Neck', url: 'https://www.youtube.com/watch?v=0-OLyDk7-Qk', match: 'ähnlich',
               note: 'Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',

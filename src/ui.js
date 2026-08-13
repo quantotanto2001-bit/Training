@@ -142,6 +142,11 @@ export function fmtRestRange(restSec) {
   return min === max ? `${min} min` : `${min}-${max} min`;
 }
 
+export function fmtRepRange(reps) {
+  if (!reps) return '';
+  return reps.min === reps.max ? `${reps.min}` : `${reps.min}-${reps.max}`;
+}
+
 export function matchBadge(match) {
   const cls = match === 'passend' ? 'badge badge-green' : 'badge badge-yellow';
   const text = match === 'passend' ? 'PASSEND' : 'ÄHNLICH';

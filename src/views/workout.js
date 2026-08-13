@@ -1,6 +1,6 @@
-import { h, fmtRestRange, fmtMinSec, matchBadge, openVideoModal, typeIcon } from '../ui.js';
+import { h, fmtRestRange, fmtRepRange, fmtMinSec, matchBadge, openVideoModal, typeIcon } from '../ui.js';
 import { PLAN, TYPES, TYPE_LABELS, WARMUP_KINDS, computeRampSets, iconFor } from '../plan.js';
-import { getActiveSession, setActiveSession, getLastPerformance, getExerciseNote, setExerciseNote } from '../db.js';
+import { getActiveSession, setActiveSession, clearActiveSession, getLastPerformance, getExerciseNote, setExerciseNote } from '../db.js';
 import { getCurrentDay, getProgressionSuggestion, completeCurrentDay } from '../state.js';
 import { buildSetForm, formatLoggedSet } from '../setForms.js';
 import { RestTimer } from '../timer.js';
@@ -30,6 +30,8 @@ export async function renderWorkout() {
   const wrap = h('div', { class: 'view workout-view' });
   const contentEl = h('div', {});
   wrap.appendChild(contentEl);
+  const overlayHost = h('div', {});
+  wrap.appendChild(overlayHost);
 
   let mode = 'overview';
   let stepIndex = Math.min(active.currentIndex || 0, steps.length - 1);
@@ -53,8 +55,25 @@ export async function renderWorkout() {
 
   async function onAbort() {
     if (!started) { navigate('#/'); return; }
-    if (!window.confirm('Training abbrechen? Bisherige Einträge bleiben gespeichert, du kannst später fortsetzen. Der Trainingsfortschritt bewegt sich dabei nicht weiter.')) return;
-    navigate('#/');
+    overlayHost.innerHTML = '';
+    overlayHost.appendChild(h('div', { class: 'overlay-backdrop' }, [
+      h('div', { class: 'overlay-card' }, [
+        h('h3', {}, 'Training abbrechen?'),
+        h('p', { class: 'muted small' }, 'Pausieren speichert deine bisherigen Einträge, du kannst später genau hier weitermachen. Verwerfen löscht alle Einträge dieser Einheit unwiderruflich.'),
+        h('div', { class: 'overlay-actions' }, [
+          h('button', { class: 'btn', onclick: () => { overlayHost.innerHTML = ''; } }, 'Weiter trainieren'),
+          h('button', { class: 'btn btn-primary', onclick: () => navigate('#/') }, 'Pausieren'),
+        ]),
+        h('button', {
+          class: 'link-small link-button',
+          onclick: async () => {
+            if (!window.confirm('Wirklich verwerfen? Alle Einträge dieser Einheit gehen unwiderruflich verloren.')) return;
+            await clearActiveSession();
+            navigate('#/');
+          },
+        }, 'Verwerfen (ohne zu speichern)'),
+      ]),
+    ]));
   }
 
   async function onFinish() {
@@ -228,6 +247,11 @@ export async function renderWorkout() {
       if (justLogged && exercise.restSec) {
         timerOwnerId = exercise.id;
         restTimer.start(exercise.restSec.min);
+      } else if (!justLogged && timerOwnerId === exercise.id) {
+        // Satz wieder entfernt -> der dafür gestartete Pausentimer ist hinfällig,
+        // sonst würde er die Eingabe weiter verdecken, bis er von selbst ausläuft.
+        restTimer.skip();
+        timerOwnerId = null;
       }
       renderTimerOrEntry();
     }
@@ -297,7 +321,7 @@ function renderSetTable(exercise, entry, lastPerf, progression, exNote, onChange
       const weightInput = h('input', { type: 'number', step: '0.5', inputmode: 'decimal', value: defaults.weightKg != null ? String(defaults.weightKg) : '' });
       const repsInput = h('input', {
         type: 'number', step: '1', inputmode: 'numeric', value: defaults.reps != null ? String(defaults.reps) : '',
-        placeholder: exercise.reps ? `${exercise.reps.min}-${exercise.reps.max}` : '',
+        placeholder: fmtRepRange(exercise.reps),
       });
       if (logged) { weightInput.disabled = true; repsInput.disabled = true; }
 
@@ -341,6 +365,23 @@ function renderSetTable(exercise, entry, lastPerf, progression, exNote, onChange
   return wrap;
 }
 
+// Übungen mit "directions" (z.B. Nacken 4-Wege) durchlaufen exercise.sets Sätze
+// je Richtung, nacheinander alle Richtungen durch - Gesamtzahl und aktuelle
+// Richtung werden daraus berechnet, nicht separat gepflegt.
+function directionForIndex(exercise, idx) {
+  if (!exercise.directions || !exercise.directions.length) return null;
+  const perDir = exercise.sets || 1;
+  const dirIdx = Math.min(Math.floor(idx / perDir), exercise.directions.length - 1);
+  return exercise.directions[dirIdx];
+}
+
+function setFormLabel(exercise, nextIndex) {
+  const totalPlanned = exercise.directions ? (exercise.sets || 1) * exercise.directions.length : null;
+  const dir = directionForIndex(exercise, nextIndex);
+  const countLabel = totalPlanned ? `Satz ${nextIndex + 1} von ${totalPlanned}` : `Satz ${nextIndex + 1}`;
+  return dir ? `${countLabel} eintragen — ${dir}` : `${countLabel} eintragen`;
+}
+
 // Für alle anderen Übungstypen (Mobility/Stretch/Skill/Cardio/Finisher) bleibt die
 // bestehende, an den jeweiligen Feld-Mix angepasste Eingabe erhalten.
 function renderGenericSetForm(exercise, entry, lastPerf, progression, onChange) {
@@ -351,8 +392,9 @@ function renderGenericSetForm(exercise, entry, lastPerf, progression, onChange) 
   function renderLogged() {
     loggedWrap.innerHTML = '';
     entry.sets.filter((s) => !s.isWarmup).forEach((s, idx) => {
+      const dir = directionForIndex(exercise, idx);
       loggedWrap.appendChild(h('div', { class: 'logged-set-row' }, [
-        h('span', { class: 'set-index' }, `Satz ${idx + 1}`),
+        h('span', { class: 'set-index' }, dir ? `Satz ${idx + 1} (${dir})` : `Satz ${idx + 1}`),
         h('span', { class: 'set-summary' }, formatLoggedSet(exercise, s)),
         h('button', {
           class: 'btn-icon', 'aria-label': 'Löschen',
@@ -367,7 +409,7 @@ function renderGenericSetForm(exercise, entry, lastPerf, progression, onChange) 
   const defaults = computeDefaults(exercise, workSetsNow, lastPerf, progression, null);
   let form = buildSetForm(exercise, defaults);
   const formWrap = h('div', { class: 'set-form' });
-  formWrap.appendChild(h('div', { class: 'card-label' }, `Satz ${workSetsNow.length + 1} eintragen`));
+  formWrap.appendChild(h('div', { class: 'card-label' }, setFormLabel(exercise, workSetsNow.length)));
   formWrap.appendChild(form.el);
   formWrap.appendChild(h('button', {
     class: 'btn btn-primary',
@@ -379,7 +421,7 @@ function renderGenericSetForm(exercise, entry, lastPerf, progression, onChange) 
       const newDefaults = computeDefaults(exercise, entry.sets.filter((s) => !s.isWarmup), lastPerf, progression, null);
       form = buildSetForm(exercise, newDefaults);
       formWrap.replaceChild(form.el, formWrap.children[1]);
-      formWrap.querySelector('.card-label').textContent = `Satz ${entry.sets.filter((s) => !s.isWarmup).length + 1} eintragen`;
+      formWrap.querySelector('.card-label').textContent = setFormLabel(exercise, entry.sets.filter((s) => !s.isWarmup).length);
     },
   }, 'Satz speichern'));
   wrap.appendChild(formWrap);
@@ -392,6 +434,7 @@ function renderWarmupBox(exercise, progression, entry, markStartedAndPersist, on
   box.appendChild(h('div', { class: 'card-label' }, def.label));
   box.appendChild(h('p', { class: 'small' }, def.desc));
 
+  let renderRamp = () => {};
   if (def.ramp) {
     const suggestedWork = progression && (progression.suggestedWeight || progression.lastWeight);
     const weightInput = h('input', {
@@ -402,10 +445,11 @@ function renderWarmupBox(exercise, progression, entry, markStartedAndPersist, on
     box.appendChild(h('label', { class: 'field' }, [h('span', {}, 'Arbeitsgewicht heute (kg)'), weightInput]));
     box.appendChild(h('p', { class: 'muted small' }, 'Der Reihe nach abhaken, nicht zur Auswahl - jeder Ramp-Satz baut auf dem vorherigen auf. Haken loggt den Satz direkt.'));
     box.appendChild(listEl);
-    function renderRamp() {
+    renderRamp = function renderRamp() {
       listEl.innerHTML = '';
       const w = Number(weightInput.value) || null;
       computeRampSets(exercise.warmup, w).forEach((r, i) => {
+        if (entry.sets.some((s) => s.isWarmup && s.rampIndex === i)) return;
         const label = r.weightKg != null
           ? `Ramp-Satz ${i + 1}: ${r.weightKg} kg x ${r.reps} (${r.pctLabel})${r.optional ? ' — optional' : ''}`
           : `Ramp-Satz ${i + 1}: ${r.pctLabel} Arbeitslast x ${r.reps}${r.optional ? ' — optional' : ''}`;
@@ -417,18 +461,17 @@ function renderWarmupBox(exercise, progression, entry, markStartedAndPersist, on
             entry.sets.push({
               weightKg: r.weightKg != null ? r.weightKg : null,
               reps: !isNaN(repMax) ? repMax : null,
-              isWarmup: true, loggedAt: new Date().toISOString(),
+              isWarmup: true, rampIndex: i, loggedAt: new Date().toISOString(),
             });
             markStartedAndPersist();
             renderLoggedWarmup();
-            e.target.closest('.field-checkbox').remove();
+            renderRamp();
           },
         });
         listEl.appendChild(h('label', { class: 'field field-checkbox' }, [checkbox, h('span', {}, label)]));
       });
-    }
+    };
     weightInput.addEventListener('input', renderRamp);
-    renderRamp();
   }
 
   const loggedWarmupWrap = h('div', { class: 'logged-sets' });
@@ -440,13 +483,19 @@ function renderWarmupBox(exercise, progression, entry, markStartedAndPersist, on
         h('span', { class: 'set-summary' }, formatLoggedSet(exercise, s)),
         h('button', {
           class: 'btn-icon', 'aria-label': 'Löschen',
-          onclick: () => { entry.sets = entry.sets.filter((x) => x !== s); markStartedAndPersist(); renderLoggedWarmup(); },
+          onclick: () => {
+            entry.sets = entry.sets.filter((x) => x !== s);
+            markStartedAndPersist();
+            renderLoggedWarmup();
+            if (def.ramp) renderRamp();
+          },
         }, '✕'),
       ]));
     });
   }
   renderLoggedWarmup();
   box.appendChild(loggedWarmupWrap);
+  if (def.ramp) renderRamp();
 
   // Manuelle Zusatz-Eingabe nur, wenn es keine feste Ramp-Sequenz gibt (light/power) -
   // bei heavy/moderate deckt die Ramp-Checkliste die noetigen Aufwaermsaetze komplett ab.

@@ -89,6 +89,11 @@ export async function getProgressionSuggestion(exercise) {
   const lastWeight = workSets[workSets.length - 1].weightKg;
   const allAtTop = repMax != null && workSets.every((s) => s.reps >= repMax);
   const anyTechLoss = workSets.some((s) => s.technikverlust);
+  // Nur der letzte (ermuedetste) Arbeitssatz zaehlt fuer das RIR-Signal - ein
+  // hohes RIR im ersten Satz ist normal (noch frisch) und kein Zeichen fuer zu
+  // leichtes Gewicht, wenn der letzte Satz trotzdem hart war.
+  const lastSetRir = workSets[workSets.length - 1].rir;
+  const lastSetHighRir = lastSetRir === '3' || lastSetRir === '4+';
 
   if (anyTechLoss) {
     return {
@@ -108,6 +113,20 @@ export async function getProgressionSuggestion(exercise) {
     return {
       status: 'increase', lastWeight, suggestedWeight: suggested,
       text: `Letztes Mal obere Wiederholungsgrenze (${repMax}) in allen Sätzen erreicht -> Empfehlung: Gewicht moderat erhöhen, z.B. auf ${suggested} kg.`,
+    };
+  }
+  if (lastSetHighRir) {
+    const inc = suggestedIncrement(lastWeight);
+    if (inc == null) {
+      return {
+        status: 'increase-difficulty', lastWeight,
+        text: `Letzter Arbeitssatz mit RIR ${lastSetRir} beendet (Ziel 1-2) - deutlich Luft nach oben. Da körpergewichtsbasiert: schwerere Variante oder mehr ROM erwägen.`,
+      };
+    }
+    const suggested = roundToIncrement(lastWeight + inc, inc);
+    return {
+      status: 'increase', lastWeight, suggestedWeight: suggested,
+      text: `Letzter Arbeitssatz mit RIR ${lastSetRir} beendet (Ziel 1-2) - deutlich Luft nach oben, auch ohne obere Wiederholungsgrenze -> Empfehlung: Gewicht moderat erhöhen, z.B. auf ${suggested} kg.`,
     };
   }
   return {
