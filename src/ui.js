@@ -148,10 +148,6 @@ export function matchBadge(match) {
   return h('span', { class: cls }, text);
 }
 
-export function typeBadge(labelText) {
-  return h('span', { class: 'badge badge-neutral' }, labelText);
-}
-
 export function renderBarChart(bars) {
   const max = Math.max(1, ...bars.map((b) => b.value));
   return h('div', { class: 'bar-chart' }, bars.map((b) => h('div', { class: 'bar-chart-col' }, [

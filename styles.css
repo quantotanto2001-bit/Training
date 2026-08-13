@@ -8,7 +8,7 @@
   --accent-strong: #ffffff;
   --text: #f2f2f4;
   --text-muted: #8a8a8f;
-  --text-faint: #5c5c60;
+  --text-faint: #767676;
   --border: rgba(255,255,255,0.1);
   --radius: 14px;
   --radius-sm: 10px;
@@ -339,14 +339,15 @@ html, body {
 .field { display: flex; flex-direction: column; gap: 5px; font-size: 0.72rem; letter-spacing: 0.02em; color: var(--text-muted); }
 .field input, .field select {
   width: 100%;
-  background: var(--bg-card-hover);
+  background: transparent;
   border: none;
+  border-bottom: 1px solid var(--line);
   color: var(--text);
-  border-radius: var(--radius-sm);
-  padding: 11px;
+  border-radius: 0;
+  padding: 10px 0;
   font-size: 0.95rem;
 }
-.field input:focus, .field select:focus { outline: none; box-shadow: 0 0 0 1px var(--text-muted) inset; }
+.field input:focus, .field select:focus { outline: none; border-bottom-color: var(--text); }
 .field-checkbox { flex-direction: row; align-items: center; grid-column: 1 / -1; }
 .field-checkbox input { width: auto; }
 
@@ -400,9 +401,10 @@ html, body {
 }
 .warmup-log-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; }
 .warmup-log-row input {
-  background: var(--bg-card-hover); border: none; color: var(--text);
-  border-radius: var(--radius-sm); padding: 9px; font-size: 0.9rem; width: 100%;
+  background: transparent; border: none; border-bottom: 1px solid var(--line); color: var(--text);
+  border-radius: 0; padding: 9px 0; font-size: 0.9rem; width: 100%;
 }
+.warmup-log-row input:focus { outline: none; border-bottom-color: var(--text); }
 .set-edit-wrap { padding: 12px 0 0; display: flex; flex-direction: column; gap: 8px; }
 .set-edit-hidden { display: none; }
 
@@ -475,10 +477,11 @@ html, body {
   display: grid; grid-template-columns: 28px 1fr 1fr 36px; gap: 10px; align-items: center;
 }
 .set-table-row input {
-  width: 100%; background: var(--bg-card-hover); border: none; color: var(--text);
-  border-radius: var(--radius-sm); padding: 9px; font-size: 0.92rem; text-align: center;
+  width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line); color: var(--text);
+  border-radius: 0; padding: 9px 0; font-size: 0.92rem; text-align: center;
 }
-.set-table-row input:disabled { opacity: 0.55; background: transparent; }
+.set-table-row input:focus { outline: none; border-bottom-color: var(--text); }
+.set-table-row input:disabled { opacity: 0.55; }
 .set-table-index { text-align: center; color: var(--text-muted); font-size: 0.85rem; }
 .set-check-btn {
   width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid var(--text-faint);

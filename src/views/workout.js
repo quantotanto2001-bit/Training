@@ -102,6 +102,9 @@ export async function renderWorkout() {
     box.appendChild(h('div', { class: 'progress-track' }, [
       h('div', { class: 'progress-fill', style: `width:${pct}%` }),
     ]));
+    if (day.warmupGeneral && !started) {
+      box.appendChild(h('p', { class: 'muted small warmup-general-hint' }, day.warmupGeneral));
+    }
     box.appendChild(h('label', { class: 'field retro-date-field' }, [
       h('span', {}, 'Datum dieser Einheit'),
       h('input', {
@@ -392,20 +395,36 @@ function renderWarmupBox(exercise, progression, entry, markStartedAndPersist, on
   if (def.ramp) {
     const suggestedWork = progression && (progression.suggestedWeight || progression.lastWeight);
     const weightInput = h('input', {
-      type: 'number', step: '0.5', inputmode: 'decimal', placeholder: 'Arbeitsgewicht heute (kg)',
+      type: 'number', step: '0.5', inputmode: 'decimal', placeholder: 'z.B. 42.5',
       value: suggestedWork != null ? String(suggestedWork) : '',
     });
     const listEl = h('div', { class: 'ramp-list' });
     box.appendChild(h('label', { class: 'field' }, [h('span', {}, 'Arbeitsgewicht heute (kg)'), weightInput]));
+    box.appendChild(h('p', { class: 'muted small' }, 'Der Reihe nach abhaken, nicht zur Auswahl - jeder Ramp-Satz baut auf dem vorherigen auf. Haken loggt den Satz direkt.'));
     box.appendChild(listEl);
     function renderRamp() {
       listEl.innerHTML = '';
       const w = Number(weightInput.value) || null;
-      computeRampSets(exercise.warmup, w).forEach((r) => {
+      computeRampSets(exercise.warmup, w).forEach((r, i) => {
         const label = r.weightKg != null
-          ? `${r.weightKg} kg x ${r.reps} (${r.pctLabel})${r.optional ? ' — optional' : ''}`
-          : `${r.pctLabel} Arbeitslast x ${r.reps}${r.optional ? ' — optional' : ''}`;
-        listEl.appendChild(h('label', { class: 'field field-checkbox' }, [h('input', { type: 'checkbox' }), h('span', {}, label)]));
+          ? `Ramp-Satz ${i + 1}: ${r.weightKg} kg x ${r.reps} (${r.pctLabel})${r.optional ? ' — optional' : ''}`
+          : `Ramp-Satz ${i + 1}: ${r.pctLabel} Arbeitslast x ${r.reps}${r.optional ? ' — optional' : ''}`;
+        const checkbox = h('input', {
+          type: 'checkbox',
+          onchange: (e) => {
+            if (!e.target.checked) return;
+            const repMax = parseInt(String(r.reps).split('-').pop(), 10);
+            entry.sets.push({
+              weightKg: r.weightKg != null ? r.weightKg : null,
+              reps: !isNaN(repMax) ? repMax : null,
+              isWarmup: true, loggedAt: new Date().toISOString(),
+            });
+            markStartedAndPersist();
+            renderLoggedWarmup();
+            e.target.closest('.field-checkbox').remove();
+          },
+        });
+        listEl.appendChild(h('label', { class: 'field field-checkbox' }, [checkbox, h('span', {}, label)]));
       });
     }
     weightInput.addEventListener('input', renderRamp);
@@ -429,21 +448,25 @@ function renderWarmupBox(exercise, progression, entry, markStartedAndPersist, on
   renderLoggedWarmup();
   box.appendChild(loggedWarmupWrap);
 
-  const wWeight = h('input', { type: 'number', step: '0.5', inputmode: 'decimal', placeholder: 'kg' });
-  const wReps = h('input', { type: 'number', step: '1', inputmode: 'numeric', placeholder: 'Wdh' });
-  box.appendChild(h('div', { class: 'warmup-log-row' }, [
-    wWeight, wReps,
-    h('button', {
-      class: 'btn btn-small',
-      onclick: () => {
-        if (!wWeight.value && !wReps.value) return;
-        entry.sets.push({ weightKg: wWeight.value ? Number(wWeight.value) : null, reps: wReps.value ? Number(wReps.value) : null, isWarmup: true, loggedAt: new Date().toISOString() });
-        wWeight.value = ''; wReps.value = '';
-        markStartedAndPersist();
-        renderLoggedWarmup();
-      },
-    }, '+ Aufwärmsatz'),
-  ]));
+  // Manuelle Zusatz-Eingabe nur, wenn es keine feste Ramp-Sequenz gibt (light/power) -
+  // bei heavy/moderate deckt die Ramp-Checkliste die noetigen Aufwaermsaetze komplett ab.
+  if (!def.ramp) {
+    const wWeight = h('input', { type: 'number', step: '0.5', inputmode: 'decimal', placeholder: 'kg' });
+    const wReps = h('input', { type: 'number', step: '1', inputmode: 'numeric', placeholder: 'Wdh' });
+    box.appendChild(h('div', { class: 'warmup-log-row' }, [
+      wWeight, wReps,
+      h('button', {
+        class: 'btn btn-small',
+        onclick: () => {
+          if (!wWeight.value && !wReps.value) return;
+          entry.sets.push({ weightKg: wWeight.value ? Number(wWeight.value) : null, reps: wReps.value ? Number(wReps.value) : null, isWarmup: true, loggedAt: new Date().toISOString() });
+          wWeight.value = ''; wReps.value = '';
+          markStartedAndPersist();
+          renderLoggedWarmup();
+        },
+      }, '+ Aufwärmsatz'),
+    ]));
+  }
 
   return box;
 }

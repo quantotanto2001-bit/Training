@@ -79,10 +79,10 @@ export const PLAN = [
         title: null,
         exercises: [
           ex({
-            id: 'mo-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s / Richtung', sets: 3, holdSec: { min: 15, max: 20 },
+            id: 'mo-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 },
             restSec: { min: 20, max: 30 }, type: TYPES.MOBILITY_ACTIVE,
             video: { label: 'Isometric 4 Way Manual Neck', url: 'https://www.youtube.com/watch?v=0-OLyDk7-Qk', match: 'ähnlich',
-              note: 'Im Video gibt ein Partner den Widerstand. Für deinen Plan Widerstand mit der eigenen Hand geben (Stirn, Hinterkopf, beide Seiten) - Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',
+              note: 'Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',
               cues: 'Kopf bleibt still; Kraft gleichmässig aufbauen; Nacken neutral, kein Ausweichen.' },
           }),
           ex({
@@ -123,7 +123,7 @@ export const PLAN = [
           ex({
             id: 'mo-nordic', name: 'Nordic Hamstring Curl', dosage: '3 x 6-10', sets: 3, reps: { min: 6, max: 10 },
             restSec: { min: 90, max: 150 }, type: TYPES.STRENGTH, warmup: 'light', targetRIR: '1-2',
-            video: { label: 'How to Set Up, Perform, & Program Nordic Hamstring Curls', url: 'https://www.youtube.com/watch?v=_e9vFU9-tkc', match: 'passend',
+            video: { label: 'How to Set Up, Perform, & Program Nordic Hamstring Curls', url: 'https://www.youtube.com/watch?v=_e9vFU9-tkc', match: 'passend', startSec: 56, endSec: 228,
               note: 'Video nutzt teils eine Rack-Halterung für die Füsse. Für deinen Plan Füsse stattdessen unter einer schweren, gegen die Wand gestemmten Kurzhantel/Langhantel oder unter der Hantelbank fixieren. Kontrolliert so tief absenken, wie du die Bewegung noch abbremsen kannst - kein freies Fallen.',
               cues: 'Gerade Linie Schulter-Hüfte-Knie; Bewegung nur aus den Hamstrings; kontrolliert bis zur Grenze, dann mit den Armen abfangen.' },
           }),
@@ -215,10 +215,10 @@ export const PLAN = [
         title: null,
         exercises: [
           ex({
-            id: 'do-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s / Richtung', sets: 3, holdSec: { min: 15, max: 20 },
+            id: 'do-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 },
             restSec: { min: 20, max: 30 }, type: TYPES.MOBILITY_ACTIVE,
             video: { label: 'Isometric 4 Way Manual Neck', url: 'https://www.youtube.com/watch?v=0-OLyDk7-Qk', match: 'ähnlich',
-              note: 'Im Video gibt ein Partner den Widerstand. Für deinen Plan Widerstand mit der eigenen Hand geben (Stirn, Hinterkopf, beide Seiten) - Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',
+              note: 'Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',
               cues: 'Kopf bleibt still; Kraft gleichmässig aufbauen; Nacken neutral, kein Ausweichen.' },
           }),
           ex({
@@ -267,7 +267,7 @@ export const PLAN = [
           ex({
             id: 'do-nordic', name: 'Nordic Hamstring Curl', dosage: '3 x 6-10', sets: 3, reps: { min: 6, max: 10 },
             restSec: { min: 90, max: 150 }, type: TYPES.STRENGTH, warmup: 'light', targetRIR: '1-2',
-            video: { label: 'How to Set Up, Perform, & Program Nordic Hamstring Curls', url: 'https://www.youtube.com/watch?v=_e9vFU9-tkc', match: 'passend',
+            video: { label: 'How to Set Up, Perform, & Program Nordic Hamstring Curls', url: 'https://www.youtube.com/watch?v=_e9vFU9-tkc', match: 'passend', startSec: 56, endSec: 228,
               note: 'Video nutzt teils eine Rack-Halterung für die Füsse. Für deinen Plan Füsse stattdessen unter einer schweren, gegen die Wand gestemmten Kurzhantel/Langhantel oder unter der Hantelbank fixieren. Ergänzt Reverse Nordic (vordere Oberschenkelkette) um die hintere Kette - zusammen komplette Ober­schenkel-Abdeckung.',
               cues: 'Gerade Linie Schulter-Hüfte-Knie; Bewegung nur aus den Hamstrings; kontrolliert bis zur Grenze, dann mit den Armen abfangen.' },
           }),
@@ -413,10 +413,10 @@ export const PLAN = [
         title: null,
         exercises: [
           ex({
-            id: 'sa-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s / Richtung', sets: 3, holdSec: { min: 15, max: 20 },
+            id: 'sa-neck', name: 'Nacken-Isometrie 4-Wege', dosage: '3 x 15-20 s x 4 Richtungen', sets: 3, holdSec: { min: 15, max: 20 },
             restSec: { min: 20, max: 30 }, type: TYPES.MOBILITY_ACTIVE,
             video: { label: 'Isometric 4 Way Manual Neck', url: 'https://www.youtube.com/watch?v=0-OLyDk7-Qk', match: 'ähnlich',
-              note: 'Im Video gibt ein Partner den Widerstand. Für deinen Plan Widerstand mit der eigenen Hand geben (Stirn, Hinterkopf, beide Seiten) - Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',
+              note: 'Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.',
               cues: 'Kopf bleibt still; Kraft gleichmässig aufbauen; Nacken neutral, kein Ausweichen.' },
           }),
           ex({
@@ -546,14 +546,6 @@ export const PLAN = [
 
 export function allExercises() {
   return PLAN.flatMap((day) => day.blocks.flatMap((b) => b.exercises));
-}
-
-export function findExercise(id) {
-  return allExercises().find((e) => e.id === id) || null;
-}
-
-export function findDayByExerciseId(id) {
-  return PLAN.find((day) => day.blocks.some((b) => b.exercises.some((e) => e.id === id))) || null;
 }
 
 // Icon-Zuordnung pro Uebung (nach Bewegungsart, nicht nur grobem Uebungstyp) -
