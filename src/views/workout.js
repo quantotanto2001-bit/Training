@@ -375,16 +375,11 @@ function directionForIndex(exercise, idx) {
   return exercise.directions[dirIdx];
 }
 
-function setFormLabel(exercise, nextIndex) {
-  const totalPlanned = exercise.directions ? (exercise.sets || 1) * exercise.directions.length : null;
-  const dir = directionForIndex(exercise, nextIndex);
-  const countLabel = totalPlanned ? `Satz ${nextIndex + 1} von ${totalPlanned}` : `Satz ${nextIndex + 1}`;
-  return dir ? `${countLabel} eintragen — ${dir}` : `${countLabel} eintragen`;
-}
-
 // Für alle anderen Übungstypen (Mobility/Stretch/Skill/Cardio/Finisher) bleibt die
 // bestehende, an den jeweiligen Feld-Mix angepasste Eingabe erhalten.
 function renderGenericSetForm(exercise, entry, lastPerf, progression, onChange) {
+  if (exercise.sets) return renderGenericSetTable(exercise, entry, onChange);
+
   const wrap = h('div', {});
   const loggedWrap = h('div', { class: 'logged-sets' });
   wrap.appendChild(loggedWrap);
@@ -392,9 +387,8 @@ function renderGenericSetForm(exercise, entry, lastPerf, progression, onChange) 
   function renderLogged() {
     loggedWrap.innerHTML = '';
     entry.sets.filter((s) => !s.isWarmup).forEach((s, idx) => {
-      const dir = directionForIndex(exercise, idx);
       loggedWrap.appendChild(h('div', { class: 'logged-set-row' }, [
-        h('span', { class: 'set-index' }, dir ? `Satz ${idx + 1} (${dir})` : `Satz ${idx + 1}`),
+        h('span', { class: 'set-index' }, `Satz ${idx + 1}`),
         h('span', { class: 'set-summary' }, formatLoggedSet(exercise, s)),
         h('button', {
           class: 'btn-icon', 'aria-label': 'Löschen',
@@ -409,7 +403,7 @@ function renderGenericSetForm(exercise, entry, lastPerf, progression, onChange) 
   const defaults = computeDefaults(exercise, workSetsNow, lastPerf, progression, null);
   let form = buildSetForm(exercise, defaults);
   const formWrap = h('div', { class: 'set-form' });
-  formWrap.appendChild(h('div', { class: 'card-label' }, setFormLabel(exercise, workSetsNow.length)));
+  formWrap.appendChild(h('div', { class: 'card-label' }, `Satz ${workSetsNow.length + 1} eintragen`));
   formWrap.appendChild(form.el);
   formWrap.appendChild(h('button', {
     class: 'btn btn-primary',
@@ -421,10 +415,84 @@ function renderGenericSetForm(exercise, entry, lastPerf, progression, onChange) 
       const newDefaults = computeDefaults(exercise, entry.sets.filter((s) => !s.isWarmup), lastPerf, progression, null);
       form = buildSetForm(exercise, newDefaults);
       formWrap.replaceChild(form.el, formWrap.children[1]);
-      formWrap.querySelector('.card-label').textContent = setFormLabel(exercise, entry.sets.filter((s) => !s.isWarmup).length);
+      formWrap.querySelector('.card-label').textContent = `Satz ${entry.sets.filter((s) => !s.isWarmup).length + 1} eintragen`;
     },
   }, 'Satz speichern'));
   wrap.appendChild(formWrap);
+  return wrap;
+}
+
+// Übungen mit fester Satzzahl (Mobility/Stretch/Skill mit exercise.sets) zeigen,
+// analog zur Kraft-Tabelle, alle Sätze gleichzeitig als Zeilen statt ein Feld,
+// das nach jedem Speichern neu befuellt werden muss.
+function renderGenericSetTable(exercise, entry, onChange) {
+  const wrap = h('div', { class: 'set-table' });
+  const hasWeight = exercise.type === TYPES.MOBILITY_LOADED;
+  const hasReps = !!exercise.reps;
+  const hasHold = !!exercise.holdSec;
+  let extraRows = 0;
+
+  function workSets() { return entry.sets.filter((s) => !s.isWarmup); }
+
+  const dataColCount = [hasWeight, hasReps, hasHold].filter(Boolean).length || 1;
+  const gridStyle = `grid-template-columns: 28px ${'1fr '.repeat(dataColCount)}36px`;
+
+  function render() {
+    wrap.innerHTML = '';
+    const headerCells = [h('span', {}, 'Satz')];
+    if (hasWeight) headerCells.push(h('span', {}, 'Gewicht (kg)'));
+    if (hasReps) headerCells.push(h('span', {}, 'Wdh.'));
+    if (hasHold) headerCells.push(h('span', {}, 'Sek.'));
+    headerCells.push(h('span', {}));
+    wrap.appendChild(h('div', { class: 'set-table-header', style: gridStyle }, headerCells));
+
+    const totalPlanned = exercise.directions ? (exercise.sets || 1) * exercise.directions.length : exercise.sets;
+    const rowCount = Math.max(totalPlanned, workSets().length) + extraRows;
+
+    for (let i = 0; i < rowCount; i++) {
+      const logged = workSets()[i] || null;
+      const dir = directionForIndex(exercise, i);
+      const weightInput = hasWeight ? h('input', { type: 'number', step: '0.5', inputmode: 'decimal', value: logged && logged.weightKg != null ? String(logged.weightKg) : '' }) : null;
+      const repsInput = hasReps ? h('input', {
+        type: 'number', step: '1', inputmode: 'numeric', value: logged && logged.reps != null ? String(logged.reps) : '',
+        placeholder: fmtRepRange(exercise.reps),
+      }) : null;
+      const holdInput = hasHold ? h('input', { type: 'number', step: '1', inputmode: 'numeric', value: logged && logged.holdSec != null ? String(logged.holdSec) : '' }) : null;
+      if (logged) {
+        if (weightInput) weightInput.disabled = true;
+        if (repsInput) repsInput.disabled = true;
+        if (holdInput) holdInput.disabled = true;
+      }
+
+      const row = h('div', { class: 'set-table-row' + (logged ? ' set-table-row-done' : ''), style: gridStyle });
+      row.appendChild(h('span', { class: 'set-table-index' }, dir ? `${i + 1} · ${dir}` : String(i + 1)));
+      if (weightInput) row.appendChild(weightInput);
+      if (repsInput) row.appendChild(repsInput);
+      if (holdInput) row.appendChild(holdInput);
+      row.appendChild(h('button', {
+        class: 'set-check-btn' + (logged ? ' set-check-btn-done' : ''),
+        'aria-label': logged ? 'Satz wieder öffnen' : 'Satz abschliessen',
+        onclick: () => {
+          if (logged) {
+            entry.sets = entry.sets.filter((s) => s !== logged);
+            onChange(false);
+          } else {
+            entry.sets.push({
+              weightKg: weightInput && weightInput.value ? Number(weightInput.value) : null,
+              reps: repsInput && repsInput.value ? Number(repsInput.value) : null,
+              holdSec: holdInput && holdInput.value ? Number(holdInput.value) : null,
+              isWarmup: false, loggedAt: new Date().toISOString(),
+            });
+            onChange(true);
+          }
+        },
+      }, logged ? '✓' : ''));
+      wrap.appendChild(row);
+    }
+    wrap.appendChild(h('button', { class: 'btn btn-small', onclick: () => { extraRows += 1; render(); } }, '+ Satz hinzufügen'));
+  }
+
+  render();
   return wrap;
 }
 
