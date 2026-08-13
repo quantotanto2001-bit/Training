@@ -100,10 +100,24 @@ if ('serviceWorker' in navigator) {
   let reloadedOnce = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (reloadedOnce) return;
+    // Mitten in einer Übung könnten noch nicht bestätigte Eingaben (Gewicht/Wdh.
+    // getippt, aber Haekchen noch nicht angeklickt) durch den Reload verloren
+    // gehen - dann lieber noch mit der alten Version weiterarbeiten und die neue
+    // erst beim naechsten regulären Öffnen laden (Cache ist da schon aktuell).
+    if ((window.location.hash || '').startsWith('#/workout')) return;
     reloadedOnce = true;
     window.location.reload();
   });
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.register('./sw.js').then((reg) => {
+      // Browser prüfen von selbst oft erst nach langer Zeit auf eine neue
+      // sw.js - explizit bei jedem Start und jeder Rückkehr aus dem
+      // Hintergrund nachfragen, damit Updates zuverlässig ankommen statt
+      // "einmal schliessen und neu öffnen" nötig zu machen.
+      reg.update().catch(() => {});
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') reg.update().catch(() => {});
+      });
+    }).catch(() => {});
   });
 }
