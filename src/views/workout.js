@@ -24,10 +24,13 @@ export async function renderWorkout() {
   const day = PLAN.find((d) => d.id === active.dayId);
   const steps = day.blocks.flatMap((b) => b.exercises.map((exx) => ({ blockTitle: b.title, exercise: exx })));
   let customDate = null;
-  let timerOwnerId = null; // welche Uebung den aktuell laufenden Timer gestartet hat
-  const restTimer = new RestTimer({ onTick: () => renderContent(), onDone: () => renderContent() });
+  // Bleibt auch bei nachträglich geändertem Trainingsdatum stabil.
+  active.timerSessionId = active.timerSessionId || active.startedAt;
+  if (started) await setActiveSession(active);
+  const restTimer = new RestTimer({ sessionId: active.timerSessionId });
 
   const wrap = h('div', { class: 'view workout-view' });
+  wrap.dispose = () => restTimer.dispose();
   const contentEl = h('div', {});
   wrap.appendChild(contentEl);
   const overlayHost = h('div', {});
@@ -68,6 +71,7 @@ export async function renderWorkout() {
           class: 'link-small link-button',
           onclick: async () => {
             if (!window.confirm('Wirklich verwerfen? Alle Einträge dieser Einheit gehen unwiderruflich verloren.')) return;
+            restTimer.skip();
             await clearActiveSession();
             navigate('#/');
           },
@@ -80,6 +84,7 @@ export async function renderWorkout() {
     if (!window.confirm('Einheit als abgeschlossen markieren?')) return;
     if (customDate) active.finishedAt = customDate + 'T12:00:00.000Z';
     const { cycleJustCompleted, completedCycleNumber } = await completeCurrentDay(active);
+    restTimer.skip();
     if (cycleJustCompleted) navigate(`#/cycle-complete/${completedCycleNumber}`);
     else navigate('#/');
   }
@@ -231,7 +236,7 @@ export async function renderWorkout() {
       entryHost.innerHTML = '';
       // Nur auf der Uebung anzeigen, die den Timer tatsaechlich gestartet hat -
       // sonst wuerde ein laufender Timer beim Wechseln auf eine andere Uebung "mitwandern".
-      if (restTimer.total > 0 && timerOwnerId === exercise.id) {
+      if (restTimer.total > 0 && restTimer.ownerId === exercise.id) {
         timerHost.appendChild(renderBigTimer(restTimer));
       } else {
         if ([TYPES.STRENGTH, TYPES.POWER].includes(exercise.type)) {
@@ -245,19 +250,20 @@ export async function renderWorkout() {
     function onSetsChanged(justLogged) {
       markStartedAndPersist();
       if (justLogged && exercise.restSec) {
-        timerOwnerId = exercise.id;
-        restTimer.start(exercise.restSec.min);
-      } else if (!justLogged && timerOwnerId === exercise.id) {
+        restTimer.start(exercise.restSec.min, exercise.id);
+      } else if (!justLogged && restTimer.ownerId === exercise.id) {
         // Satz wieder entfernt -> der dafür gestartete Pausentimer ist hinfällig,
         // sonst würde er die Eingabe weiter verdecken, bis er von selbst ausläuft.
         restTimer.skip();
-        timerOwnerId = null;
       }
       renderTimerOrEntry();
     }
 
-    restTimer.onTick = () => renderTimerOrEntry();
-    restTimer.onDone = () => renderTimerOrEntry();
+    restTimer.onTick = () => {
+      // Ein Timer einer anderen Übung darf ungespeicherte Eingaben nicht
+      // jede Sekunde durch eine neu aufgebaute Satztabelle ersetzen.
+      if (restTimer.ownerId === exercise.id || timerHost.childElementCount > 0) renderTimerOrEntry();
+    };
     renderTimerOrEntry();
 
     box.appendChild(renderNotesBox(exercise, exNote));
@@ -277,7 +283,12 @@ export async function renderWorkout() {
     return box;
   }
 
-  showOverview();
+  const timerIndex = steps.findIndex((s) => s.exercise.id === restTimer.ownerId);
+  if (restTimer.total > 0 && timerIndex >= 0) {
+    mode = 'exercise';
+    stepIndex = timerIndex;
+  }
+  await renderContent();
   return wrap;
 }
 
@@ -637,7 +648,7 @@ function renderBigTimer(restTimer) {
 function renderVideoCard(video) {
   const box = h('div', { class: 'video-card' });
   box.appendChild(h('div', { class: 'video-card-head' }, [h('span', { class: 'card-label' }, 'Technik'), matchBadge(video.match)]));
-  box.appendChild(h('button', { class: 'btn btn-small video-link-btn', onclick: () => openVideoModal(video) }, 'Video ansehen'));
+  box.appendChild(h('button', { class: 'btn btn-small video-link-btn', onclick: () => openVideoModal(video) }, video.kind === 'article' ? 'Referenz ansehen' : 'Video ansehen'));
   box.appendChild(h('p', { class: 'muted small' }, video.label));
   if (video.match === 'ähnlich' && video.note) {
     box.appendChild(h('div', { class: 'adaptation-note' }, [

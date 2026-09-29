@@ -1,4 +1,4 @@
-const CACHE_NAME = 'universal-athlete-v1';
+const CACHE_NAME = 'universal-athlete-v2-timer-video';
 const APP_SHELL = [
   './',
   './index.html',

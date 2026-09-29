@@ -1,69 +1,155 @@
-// Pausentimer: startet automatisch nach einem geloggten Satz.
-// Kann verlängert, pausiert und übersprungen werden.
+// Eine absolute Endzeit zählt auch dann weiter, wenn iOS JavaScript anhält.
+// Das Intervall aktualisiert nur die Anzeige. Jede Bedienaktion wird sofort
+// gespeichert, nicht erst beim Schliessen der App.
+const STORAGE_KEY = 'universal-athlete-rest-timer';
 
 export class RestTimer {
-  constructor({ onTick, onDone }) {
-    this.onTick = onTick;
-    this.onDone = onDone;
-    this.remaining = 0;
-    this.total = 0;
-    this.running = false;
-    this._intervalId = null;
-  }
-
-  start(seconds) {
-    this.total = seconds;
-    this.remaining = seconds;
-    this.running = true;
+  constructor({ onTick, onDone, sessionId } = {}) {
+    Object.assign(this, { onTick, onDone, sessionId, total: 0, running: false,
+      ownerId: null, endAt: null, _remainingMs: 0, _intervalId: null,
+      _lastRemaining: null });
+    this._onVisibility = () => {
+      if (document.hidden) this._clearLoop();
+      else this._resumeDisplay();
+    };
+    this._onPageShow = () => this._resumeDisplay();
+    this._restore();
+    document.addEventListener('visibilitychange', this._onVisibility);
+    window.addEventListener('pageshow', this._onPageShow);
     this._tickLoop();
   }
 
-  _tickLoop() {
-    clearInterval(this._intervalId);
-    this._intervalId = setInterval(() => {
-      if (!this.running) return;
-      this.remaining -= 1;
-      if (this.remaining <= 0) {
-        this.remaining = 0;
-        this.total = 0; // fertig -> "kein aktiver Timer" statt bei 0:00 haengen zu bleiben
-        this.onTick && this.onTick(this);
-        this.stop();
-        this.onDone && this.onDone();
-        this._vibrate();
-        return;
-      }
-      this.onTick && this.onTick(this);
-    }, 1000);
+  get remaining() {
+    const ms = this.running ? this.endAt - Date.now() : this._remainingMs;
+    return Math.max(0, Math.ceil(ms / 1000));
   }
 
-  _vibrate() {
-    if (navigator.vibrate) {
-      try { navigator.vibrate([200, 100, 200]); } catch (e) { /* ignore */ }
+  start(seconds, ownerId = null) {
+    if (!Number.isFinite(seconds) || seconds <= 0) return;
+    this.total = seconds;
+    this._remainingMs = seconds * 1000;
+    this.endAt = Date.now() + this._remainingMs;
+    this.ownerId = ownerId;
+    this.running = true;
+    this._persist();
+    this._tickLoop();
+    this._notify();
+  }
+
+  _tickLoop() {
+    this._clearLoop();
+    if (this.running && !document.hidden) {
+      this._intervalId = setInterval(() => this._sync(), 250);
     }
   }
 
-  extend(seconds) {
-    this.remaining += seconds;
-    this.total = Math.max(this.total, this.remaining);
+  _clearLoop() {
+    clearInterval(this._intervalId);
+    this._intervalId = null;
+  }
+
+  _sync() {
+    if (this.running && this.remaining === 0) {
+      this._finish(true);
+      return;
+    }
+    if (this._lastRemaining !== this.remaining) this._notify();
+  }
+
+  _resumeDisplay() {
+    this._sync();
+    this._tickLoop();
+  }
+
+  _notify() {
+    this._lastRemaining = this.remaining;
     this.onTick && this.onTick(this);
+  }
+
+  _persist() {
+    if (!this.sessionId) return;
+    try {
+      if (this.total <= 0) localStorage.removeItem(STORAGE_KEY);
+      else localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        version: 1, sessionId: this.sessionId, ownerId: this.ownerId,
+        total: this.total, running: this.running,
+        endAt: this.endAt, remainingMs: this._remainingMs,
+      }));
+    } catch (e) { /* Auch bei gesperrtem Speicher bleibt der Timer bedienbar. */ }
+  }
+
+  _restore() {
+    if (!this.sessionId) return;
+    try {
+      const state = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (!state) return;
+      const valid = state.version === 1 && state.sessionId === this.sessionId
+        && Number.isFinite(state.total) && state.total > 0
+        && typeof state.running === 'boolean'
+        && (state.running
+          ? Number.isFinite(state.endAt) && state.endAt > Date.now()
+          : Number.isFinite(state.remainingMs) && state.remainingMs > 0);
+      if (!valid) { localStorage.removeItem(STORAGE_KEY); return; }
+      this.total = state.total;
+      this.ownerId = typeof state.ownerId === 'string' ? state.ownerId : null;
+      this.running = state.running;
+      this.endAt = state.running ? state.endAt : null;
+      this._remainingMs = state.running ? state.endAt - Date.now() : state.remainingMs;
+    } catch (e) { /* Beschädigte oder nicht verfügbare Speicherung ignorieren. */ }
+  }
+
+  extend(seconds) {
+    if (!Number.isFinite(seconds) || seconds <= 0) return;
+    this._sync();
+    if (this.total <= 0) return;
+    if (this.running) this.endAt += seconds * 1000;
+    else this._remainingMs += seconds * 1000;
+    this.total = Math.max(this.total, this.remaining);
+    this._persist();
+    this._notify();
   }
 
   togglePause() {
-    this.running = !this.running;
-    this.onTick && this.onTick(this);
+    this._sync();
+    if (this.total <= 0) return;
+    if (this.running) {
+      this._remainingMs = Math.max(0, this.endAt - Date.now());
+      this.endAt = null;
+      this.running = false;
+    } else {
+      this.endAt = Date.now() + this._remainingMs;
+      this.running = true;
+    }
+    this._persist();
+    this._tickLoop();
+    this._notify();
   }
 
-  skip() {
-    this.remaining = 0;
-    this.total = 0;
-    this.stop();
-    this.onTick && this.onTick(this);
-    this.onDone && this.onDone();
-  }
-
-  stop() {
+  _finish(vibrate = false) {
     this.running = false;
-    clearInterval(this._intervalId);
-    this._intervalId = null;
+    this.total = 0;
+    this._remainingMs = 0;
+    this.endAt = null;
+    this.ownerId = null;
+    this._clearLoop();
+    this._persist();
+    this._notify();
+    this.onDone && this.onDone();
+    if (vibrate && !document.hidden && navigator.vibrate) {
+      try { navigator.vibrate([200, 100, 200]); } catch (e) { /* optional */ }
+    }
+  }
+
+  skip() { this._finish(); }
+
+  stop() { if (this.running) this.togglePause(); }
+
+  // Beim Seitenwechsel nur die Anzeige abbauen, die Endzeit bleibt erhalten.
+  dispose() {
+    this._clearLoop();
+    document.removeEventListener('visibilitychange', this._onVisibility);
+    window.removeEventListener('pageshow', this._onPageShow);
+    this.onTick = null;
+    this.onDone = null;
   }
 }

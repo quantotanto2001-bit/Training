@@ -34,6 +34,7 @@ function setActiveNav(hash) {
 }
 
 let routeToken = 0;
+let activeView = null;
 
 async function route() {
   const myToken = ++routeToken;
@@ -62,7 +63,9 @@ async function route() {
     } else {
       view = await renderHome();
     }
-    if (myToken !== routeToken) return; // überholt durch neuere Navigation
+    if (myToken !== routeToken) { view.dispose?.(); return; }
+    activeView?.dispose?.();
+    activeView = view;
     main.innerHTML = '';
     main.scrollTop = 0;
     main.appendChild(view);

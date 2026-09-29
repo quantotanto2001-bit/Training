@@ -175,49 +175,95 @@ export function fmtDuration(startIso, endIso) {
   return h_ > 0 ? `${h_} h ${m} min` : `${m} min`;
 }
 
-// Nur echte youtube.com/watch- oder youtu.be-Links lassen sich als konkretes
-// Video einbetten. Such- und Artikel-Seiten (fitnessfaqs.com, e3rehab.com, ...)
-// zeigen keine einzelne einbettbare Videoquelle.
+// Auch auf dem iPhone geteilte Shorts-, Mobile-, Live- und Embed-Links erkennen.
 export function extractYouTubeId(url) {
   try {
     const u = new URL(url);
-    if ((u.hostname === 'www.youtube.com' || u.hostname === 'youtube.com') && u.pathname === '/watch') {
-      return u.searchParams.get('v');
+    if (!['https:', 'http:'].includes(u.protocol)) return null;
+    const host = u.hostname.replace(/^www\./, '');
+    const parts = u.pathname.split('/').filter(Boolean);
+    let id = null;
+    if (host === 'youtu.be') id = parts[0];
+    else if (['youtube.com', 'm.youtube.com', 'music.youtube.com', 'youtube-nocookie.com'].includes(host)) {
+      if (u.pathname === '/watch') id = u.searchParams.get('v');
+      else if (['shorts', 'embed', 'live'].includes(parts[0])) id = parts[1];
     }
-    if (u.hostname === 'youtu.be') {
-      return u.pathname.slice(1) || null;
-    }
-  } catch (e) {
-    // ungültige URL -> kein Embed
-  }
+    return /^[A-Za-z0-9_-]{11}$/.test(id || '') ? id : null;
+  } catch (e) { /* ungültige URL */ }
   return null;
 }
 
-// Zeigt ein Video direkt in der App als kleines Popup statt zu YouTube zu
-// wechseln - nur moeglich, wenn die URL ein konkretes, einbettbares Video ist.
-export function openVideoModal(video) {
+function videoSeconds(value) {
+  if (value == null || value === '') return null;
+  if (/^\d+$/.test(String(value))) return Number(value);
+  const m = String(value).match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/);
+  return m && m[0] ? Number(m[1] || 0) * 3600 + Number(m[2] || 0) * 60 + Number(m[3] || 0) : null;
+}
+
+export function getVideoEmbedUrl(video, origin = window.location.origin) {
   const id = extractYouTubeId(video.url);
+  if (!id) return null;
+  const source = new URL(video.url);
+  const embed = new URL(`https://www.youtube-nocookie.com/embed/${id}`);
+  embed.searchParams.set('playsinline', '1');
+  embed.searchParams.set('rel', '0');
+  if (/^https?:\/\//.test(origin)) embed.searchParams.set('origin', origin);
+  const start = videoSeconds(video.startSec ?? source.searchParams.get('start') ?? source.searchParams.get('t'));
+  const end = videoSeconds(video.endSec ?? source.searchParams.get('end'));
+  if (Number.isSafeInteger(start) && start > 0) embed.searchParams.set('start', String(start));
+  if (Number.isSafeInteger(end) && end > (start || 0)) embed.searchParams.set('end', String(end));
+  return embed.href;
+}
+
+let closeCurrentVideo = null;
+
+// Der Player bleibt in der App. Ein externer Link ist nur ein freiwilliger
+// Ausweg, falls ein Anbieter die Einbettung eines Videos nicht erlaubt.
+export function openVideoModal(video) {
+  closeCurrentVideo?.();
+  const embedUrl = getVideoEmbedUrl(video);
+  const previousFocus = document.activeElement;
   const backdrop = h('div', { class: 'overlay-backdrop' });
-  backdrop.addEventListener('click', (e) => { if (e.target === backdrop) backdrop.remove(); });
-  const modal = h('div', { class: 'video-modal-card' });
-  if (id) {
-    const params = [];
-    if (video.startSec) params.push(`start=${video.startSec}`);
-    if (video.endSec) params.push(`end=${video.endSec}`);
-    const query = params.length ? `?${params.join('&')}` : '';
+  const close = () => {
+    backdrop.remove();
+    document.removeEventListener('keydown', onKey);
+    window.removeEventListener('hashchange', close);
+    if (previousFocus?.isConnected) previousFocus.focus();
+    if (closeCurrentVideo === close) closeCurrentVideo = null;
+  };
+  const onKey = (event) => { if (event.key === 'Escape') close(); };
+  closeCurrentVideo = close;
+  backdrop.addEventListener('click', (e) => { if (e.target === backdrop) close(); });
+  const modal = h('div', { class: 'video-modal-card', role: 'dialog', 'aria-modal': 'true', 'aria-label': video.label, tabindex: '-1' });
+  modal.appendChild(h('h3', {}, video.label));
+  if (embedUrl) {
     modal.appendChild(h('div', { class: 'video-embed-wrap' }, [
       h('iframe', {
-        src: `https://www.youtube-nocookie.com/embed/${id}${query}`,
+        src: embedUrl,
         title: video.label, frameborder: '0',
         allow: 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture',
+        referrerpolicy: 'strict-origin-when-cross-origin',
         allowfullscreen: '',
       }),
     ]));
+    modal.appendChild(h('details', { class: 'small' }, [
+      h('summary', {}, 'Video lädt nicht?'),
+      h('p', { class: 'muted small' }, 'Prüfe deine Internetverbindung. Manche Videos dürfen vom Anbieter nur direkt auf YouTube abgespielt werden.'),
+      h('a', { href: video.url, target: '_blank', rel: 'noopener noreferrer', class: 'link-small' }, 'Optional auf YouTube öffnen ↗'),
+    ]));
   } else {
-    modal.appendChild(h('p', { class: 'small' }, 'Diese Referenz ist eine Such-/Artikelseite und lässt sich nicht direkt als Video einbetten.'));
-    modal.appendChild(h('a', { href: video.url, target: '_blank', rel: 'noopener noreferrer', class: 'btn btn-primary btn-noarrow' }, 'In neuem Tab öffnen ↗'));
+    modal.appendChild(h('p', { class: 'small' }, video.text || video.note || 'Für diese Referenz ist noch kein direktes Video hinterlegt.'));
+    try {
+      const source = new URL(video.url);
+      if (['https:', 'http:'].includes(source.protocol)) {
+        modal.appendChild(h('a', { href: source.href, target: '_blank', rel: 'noopener noreferrer', class: 'link-small' }, 'Originalquelle öffnen ↗'));
+      }
+    } catch (e) { /* Kein Link für ungültige URLs. */ }
   }
-  modal.appendChild(h('button', { class: 'btn btn-ghost btn-small', onclick: () => backdrop.remove() }, 'Schließen'));
+  modal.appendChild(h('button', { class: 'btn btn-ghost btn-small', onclick: close }, 'Schließen'));
   backdrop.appendChild(modal);
   document.body.appendChild(backdrop);
+  document.addEventListener('keydown', onKey);
+  window.addEventListener('hashchange', close);
+  modal.focus();
 }

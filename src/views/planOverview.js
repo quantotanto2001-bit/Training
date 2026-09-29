@@ -75,7 +75,7 @@ function renderExerciseDetail(exx) {
   const body = h('div', { class: 'exercise-detail-body' });
   if (exx.note) body.appendChild(h('p', { class: 'small' }, exx.note));
   if (exx.video) {
-    body.appendChild(h('button', { class: 'btn btn-small video-link-btn', onclick: () => openVideoModal(exx.video) }, 'Video ansehen'));
+    body.appendChild(h('button', { class: 'btn btn-small video-link-btn', onclick: () => openVideoModal(exx.video) }, exx.video.kind === 'article' ? 'Referenz ansehen' : 'Video ansehen'));
     body.appendChild(h('p', { class: 'muted small' }, exx.video.label));
     if (exx.video.match === 'ähnlich' && exx.video.note) {
       body.appendChild(h('div', { class: 'adaptation-note' }, [
