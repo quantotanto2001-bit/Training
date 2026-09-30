@@ -1,4 +1,7 @@
 import { test, expect } from '@playwright/test';
+import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
+import { join, extname } from 'node:path';
 test.beforeEach(async({page})=>{page.on('pageerror',e=>console.log('APP ERROR:',e.message));});
 test.afterEach(async({page},info)=>{if(info.status!==info.expectedStatus)console.log('FAILED SCREEN:',await page.locator('body').innerText());});
 
@@ -129,17 +132,35 @@ test('RDL quick guide plays, pauses and shows technique phases without horizonta
 
 test.describe('offline installation',()=>{
   test.use({serviceWorkers:'allow'});
-  test('cached app shell and RDL images remain available offline',async({page,context})=>{
-    await open(page);
-    await expect.poll(()=>page.evaluate(()=>!!navigator.serviceWorker.controller),{timeout:30000}).toBe(true);
-    await context.setOffline(true);
-    await page.reload();
-    await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
-    await page.getByRole('button',{name:'Training ansehen & starten'}).click();
-    await page.getByRole('button',{name:/RDL mit Kurzhanteln/}).click();
-    await page.getByText('Schnellansicht · Bewegung',{exact:true}).click();
-    await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
-    await page.getByRole('button',{name:'Nächste Phase',exact:true}).click();
-    await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+  test('cached app shell and RDL images remain available offline',async({page})=>{
+    // WebKit's emulated offline flag rejects even literal worker responses:
+    // https://github.com/microsoft/playwright/issues/42775
+    // Stop this test's own origin instead, and require a real worker response.
+    const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.webmanifest':'application/manifest+json','.png':'image/png','.gif':'image/gif'};
+    const server=createServer(async(req,res)=>{
+      const name=new URL(req.url,'http://localhost').pathname;
+      const file=join(process.cwd(),name==='/'?'index.html':name);
+      try{const bytes=await readFile(file);res.writeHead(200,{'Content-Type':types[extname(file)]||'application/octet-stream'});res.end(bytes);}catch{res.writeHead(404);res.end();}
+    });
+    await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+    const origin=`http://127.0.0.1:${server.address().port}`;
+    try{
+      await page.goto(origin);
+      await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
+      await expect.poll(()=>page.evaluate(()=>!!navigator.serviceWorker.controller),{timeout:30000}).toBe(true);
+      await page.reload();
+      await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
+      server.closeAllConnections();
+      await new Promise(resolve=>server.close(resolve));
+      const response=await page.reload();
+      expect(response.fromServiceWorker()).toBe(true);
+      await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
+      await page.getByRole('button',{name:'Training ansehen & starten'}).click();
+      await page.getByRole('button',{name:/RDL mit Kurzhanteln/}).click();
+      await page.getByText('Schnellansicht · Bewegung',{exact:true}).click();
+      await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+      await page.getByRole('button',{name:'Nächste Phase',exact:true}).click();
+      await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+    }finally{server.closeAllConnections();server.close();}
   });
 });
