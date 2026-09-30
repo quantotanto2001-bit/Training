@@ -8,7 +8,7 @@ async function open(page) {
 }
 async function start(page) {
   await page.getByRole('button',{name:'Training ansehen & starten'}).click();
-  await page.getByRole('button',{name:'Training beginnen',exact:true}).click();
+  await page.getByRole('button',{name:/^Training beginnen/}).click();
   await expect(page.getByLabel('Satz 1 Wiederholungen',{exact:true})).toBeVisible();
 }
 
@@ -67,7 +67,7 @@ test('previous load is prefilled; increase is optional; different setup has its 
 
 test('matched alternatives change exercise identity without inheriting a different load',async({page})=>{
   await open(page);await start(page);
-  await page.getByRole('button',{name:'Nächste Übung',exact:true}).click();
+  await page.getByRole('button',{name:/^Nächste Übung/}).click();
   await page.getByText('Passende Ersatzübung',{exact:true}).click();
   await page.getByRole('button',{name:'Kurzhantel-Bankdrücken',exact:true}).click();
   await expect(page.getByRole('heading',{name:'Kurzhantel-Bankdrücken',exact:true})).toBeVisible();
