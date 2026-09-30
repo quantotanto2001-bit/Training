@@ -1,4 +1,4 @@
-const CACHE_NAME = 'universal-athlete-v4-adaptive-2';
+const CACHE_NAME = 'universal-athlete-v4-adaptive-3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -15,6 +15,18 @@ const APP_SHELL = [
   './assets/motion/rdl/2.png',
   './assets/motion/rdl/3.png',
   './assets/motion/rdl/rdl.gif',
+  './assets/motion/goblet-squat/1.png',
+  './assets/motion/goblet-squat/2.png',
+  './assets/motion/goblet-squat/3.png',
+  './assets/motion/goblet-squat/loop.gif',
+  './assets/motion/bench-db/1.png',
+  './assets/motion/bench-db/2.png',
+  './assets/motion/bench-db/3.png',
+  './assets/motion/bench-db/loop.gif',
+  './assets/motion/calf-raise/1.png',
+  './assets/motion/calf-raise/2.png',
+  './assets/motion/calf-raise/3.png',
+  './assets/motion/calf-raise/loop.gif',
   './src/progression.js',
   './src/views/workout-v4.js',
   './src/views/workout-helpers.js',

@@ -53,6 +53,7 @@ test('previous load is prefilled; increase is optional; different setup has its 
     const db=await import('/src/db.js'),{PLAN}=await import('/src/plan.js'),{buildSessionPlan}=await import('/src/training.js');
     const ex=buildSessionPlan(PLAN[0],45).exercises[0];
     await db.saveSettings({strengthMinutes:45});
+    await db.setExerciseNote(ex.id,{increment:1});
     await db.saveSessionLog({id:'old',dayId:'mo',planVersion:'4.0',status:'completed',startedAt:'2026-01-01T12:00:00Z',finishedAt:'2026-01-01T13:00:00Z',entries:{[ex.id]:{exercise:ex,plannedSets:ex.sets,sets:Array.from({length:ex.sets},()=>({weightKg:10,reps:ex.reps.max,rir:null}))}}});
   });
   await page.reload();await start(page);
@@ -163,4 +164,21 @@ test.describe('offline installation',()=>{
       await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
     }finally{server.closeAllConnections();server.close();}
   });
+});
+
+test('three completed target sets produce a next-session recommendation without effort questions',async({page},info)=>{
+  await open(page);
+  await page.getByRole('button',{name:'45 Min',exact:true}).click();
+  await start(page);
+  await expect(page.getByText('Technik und RIR · optional',{exact:true})).toHaveCount(1);
+  await page.getByLabel('Satz 1 Gewicht',{exact:true}).fill('5');
+  for(let i=1;i<=3;i++){
+    await page.getByLabel(`Satz ${i} Wiederholungen`,{exact:true}).fill('7');
+    await page.getByRole('button',{name:`Satz ${i} speichern`,exact:true}).click();
+  }
+  await expect(page.getByText('Nächstes Mal: Gewicht erhöhen',{exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'Passend',exact:true})).toHaveCount(0);
+  await expect(page.getByRole('button',{name:'Am Limit',exact:true})).toHaveCount(0);
+  await page.getByRole('heading',{level:2}).scrollIntoViewIfNeeded();
+  await page.screenshot({path:`test-results/previews/satzanzeige-${info.project.name}.png`,fullPage:true});
 });

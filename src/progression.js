@@ -17,12 +17,13 @@ export function progressionFor(exercise, last, increment = null) {
   // A shorter past session is useful history, but cannot establish mastery of
   // today's larger prescription. Do not increase load and set count together.
   const required = Math.max(plannedSets(exercise), last.plannedSets || 0);
-  if (last.status === 'partial' || sets.length < required) return keep('Zuerst die heute vorgesehenen Arbeitssätze schaffen. Die letzte Einheit liefert noch keine vollständige Grundlage für eine Laststeigerung.');
+  if (sets.length < required || (last.status === 'partial' && !last.plannedSets)) return keep('Zuerst die heute vorgesehenen Arbeitssätze schaffen. Die letzte Einheit liefert noch keine vollständige Grundlage für eine Laststeigerung.');
   if (!sets.every(s => s.weightKg === lastWeight)) return keep('Die letzten Sätze hatten unterschiedliche Gewichte. Arbeitsgewicht bewusst wählen; keine automatische Steigerung.');
   if (last.rirReliable && sets.some(s => s.rir === '0' || s.rir === 'Versagen')) return keep('Letztes Mal wurde bis ans Limit trainiert. Gewicht zunächst beibehalten und sauber bestätigen.');
   if (exercise.reps && sets.every(s => s.reps >= exercise.reps.max)) {
     if (lastWeight == null || lastWeight === 0) return { status: 'difficulty', text: 'Zielwiederholungen in allen Sätzen erreicht. Gleiche Ausführung bestätigen; anschließend Unterstützung oder Schwierigkeit gezielt anpassen.' };
-    const step = Number.isFinite(increment) && increment > 0 ? increment : (lastWeight >= 20 ? 2.5 : 1);
+    if (!Number.isFinite(increment) || increment <= 0) return { status: 'increase', lastWeight, text: 'Zielwiederholungen in allen vorgesehenen Sätzen erreicht. Bei gleicher sauberer Ausführung nächstes Mal den kleinsten verfügbaren Gewichtsschritt versuchen. Für einen konkreten kg-Vorschlag einmal deinen Gewichtsschritt hinterlegen.' };
+    const step = increment;
     const suggestedWeight = Math.round((lastWeight + step) * 100) / 100;
     return { status: 'increase', lastWeight, suggestedWeight, text: `Alle vorgesehenen Sätze an der oberen Wiederholungsgrenze. Bei gleicher sauberer Ausführung ${suggestedWeight} kg versuchen; deinen verfügbaren Gewichtsschritt beachten.` };
   }

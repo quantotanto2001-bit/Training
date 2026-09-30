@@ -10,6 +10,8 @@ Private Trainingsplanung als statische, offlinefähige Web-App: [App öffnen](ht
 - Festgelegte Grundbewegungen bleiben bei kürzeren Plänen erhalten. Ergänzungen und zusätzlicher Schwerpunkt sind optional.
 - Ersatzübungen erhalten die jeweilige Bewegungsaufgabe. Sie sind nicht in jeder Hinsicht gleichwertig und garantieren keine individuelle muskuläre Balance.
 - Letztes Gewicht wird für dieselbe Übungsvariante und denselben Aufbau vorgelegt. Eine vorgeschlagene Steigerung wird erst auf Wunsch übernommen. Wiederholungen und RIR werden nicht als bereits geleistet vorausgefüllt.
+- Erreichst du in allen vorgesehenen Kraftsätzen die obere Wiederholungsgrenze mit gleichem Gewicht, erscheint eine Steigerungsempfehlung ohne abschließende Anstrengungsabfrage. Ein konkreter kg-Wert setzt deinen hinterlegten Gewichtsschritt voraus. Gemeldeter Technikverlust oder Training bis ans Limit verhindert eine automatische Steigerung. Mehr geplante Sätze und Last werden nicht gleichzeitig erhöht.
+- Die Satztabelle zeigt Gewicht, Wiederholungen und Speicherstatus. Technik und RIR sind gemeinsam freiwillig aufklappbar. 45 statt 60 Minuten reduziert Sätze und Ergänzungen; die Wiederholungsbereiche bleiben gleich.
 - Kraft, Schnellkraft, Fertigkeiten, Nacken und Ausdauer haben unterschiedliche Fortschrittsregeln. Nacken-Isometrie erfasst Richtung, Widerstand und Anstrengung; bloße Haltezeit ist kein Kraftmaß.
 - Laufende Eingaben werden lokal gespeichert. Sätze lassen sich wieder öffnen; eine verkürzte Einheit bewahrt alle geleisteten Sätze und zählt nicht als vollständig absolviert.
 - Kalenderwoche und tatsächliche Arbeitssätze statt eines pauschalen Athletik-Scores.
@@ -30,7 +32,7 @@ YouTube-Videos öffnen in einem eingebetteten Player. Eine Sperre der Einbettung
 
 ## Übungsbilder
 
-Die erste animierte Schnellansicht zeigt den **Kurzhantel-RDL** als drei pausierbare Bewegungsphasen. Die Grafik wurde eigens generiert und ist eine schematische Erinnerung, keine vermessene Bewegung oder individuell validierte Technikvorgabe. Sie wird nicht für die geführte RDL-Variante wiederverwendet. Es gibt derzeit keine vollständige GIF-Sammlung für alle Übungen.
+Pausierbare Schnellansichten zeigen **Kurzhantel-RDL, Goblet Squat, Kurzhantel-Bankdrücken und beidbeiniges Wadenheben** in jeweils drei Phasen. Die eigens generierten Grafiken sind schematische Erinnerungen, keine vermessenen Bewegungen oder individuell validierten Technikvorgaben. Sie sind nur den dargestellten Varianten zugeordnet; Bankdrücken erscheint auch bei passenden Ersatzübungen. Wadenheben zeigt das Bewegungsprinzip ohne Zusatzgewicht. Die Dateien sind offline verfügbar und können als GIF heruntergeladen werden. Es gibt noch keine vollständige GIF-Sammlung für alle Übungen. Prompts und Auswahlhinweise stehen in `assets/motion/PROMPTS.json`.
 
 ## Nachweise und Prüfung
 

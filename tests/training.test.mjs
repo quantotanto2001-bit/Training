@@ -4,6 +4,8 @@ import { PLAN, TYPES, allExercises } from '../src/plan.js';
 import { buildSessionPlan, timeOptions, alternativesFor, resolveExercise, plannedSets, historyKey, sessionExercises } from '../src/training.js';
 import { progressionFor, setDefaults } from '../src/progression.js';
 import { weeklySummary } from '../src/views/progress-v4.js';
+import { motionFor } from '../src/motion.js';
+import { statSync } from 'node:fs';
 
 test('all durations retain the complete core, honest time estimates and power-first ordering', () => {
   for (const focus of ['allround','splits','skills']) for (const day of PLAN) {
@@ -45,7 +47,7 @@ const ex={id:'test',type:TYPES.STRENGTH,sets:3,reps:{min:6,max:10}};
 const last=()=>({sets:Array.from({length:3},()=>({reps:10,weightKg:20,rir:null})),plannedSets:3,status:'completed',rirReliable:true});
 test('strength suggestions require full comparable sets and respect explicit effort and quality',()=>{
   assert.equal(progressionFor(ex,last(),1).suggestedWeight,21);
-  for(const change of [l=>l.status='partial',l=>l.sets.pop(),l=>l.sets[0].reps=8,l=>l.sets[0].weightKg=15,l=>l.feedback='limit',l=>l.quality='loss',l=>l.sets[0].technikverlust=true,l=>l.sets[0].rir='0']){const l=last();change(l);assert.equal(progressionFor(ex,l).status,'keep');}
+  for(const change of [l=>l.sets.pop(),l=>l.sets[0].reps=8,l=>l.sets[0].weightKg=15,l=>l.feedback='limit',l=>l.quality='loss',l=>l.sets[0].technikverlust=true,l=>l.sets[0].rir='0']){const l=last();change(l);assert.equal(progressionFor(ex,l).status,'keep');}
   assert.equal(progressionFor({...ex,sets:4},last()).status,'keep');
   const legacy=last();legacy.rirReliable=false;legacy.sets[0].rir='0';assert.equal(progressionFor(ex,legacy).status,'increase');
 });
@@ -63,4 +65,25 @@ test('weekly totals use actual work, exclude skips, warmups and future dates',()
   const row=(date,status,sets)=>({finishedAt:date,status,entries:{x:{exercise:ex,sets}}});
   const stats=weeklySummary([row('2026-09-28T12:00:00','partial',[{reps:5},{reps:5,isWarmup:true}]),row('2026-09-29T12:00:00','skipped',[{reps:5}]),row('2026-10-02T12:00:00','completed',[{reps:5}])],new Date('2026-09-30T12:00:00'));
   assert.equal(stats.count,1);assert.equal(stats.partial,1);assert.equal(stats.strengthSets,1);
+});
+
+test('a completed exercise in a shortened workout can progress, but an unknown weight step is not invented',()=>{
+  const l=last();l.status='partial';assert.equal(progressionFor(ex,l,0.5).suggestedWeight,20.5);
+  assert.equal(progressionFor(ex,l).status,'increase');assert.equal(progressionFor(ex,l).suggestedWeight,undefined);
+  delete l.plannedSets;assert.equal(progressionFor(ex,l).status,'keep');
+});
+
+test('three sets of seven at five kg trigger progression only at the upper rep target',()=>{
+ const e={...ex,reps:{min:4,max:7}},l={...last(),sets:Array.from({length:3},()=>({weightKg:5,reps:7}))};
+ assert.equal(progressionFor(e,l,0.5).suggestedWeight,5.5);
+ assert.equal(progressionFor({...e,reps:{min:6,max:10}},l,0.5).status,'keep');
+ assert.equal(progressionFor({...e,sets:4},l,0.5).status,'keep');
+});
+
+test('motion guides exist locally and are restricted to the demonstrated variants',()=>{
+ for(const id of ['mo-rdl~db','mo-gobletsquat','do-bench~db','mo-dip~bench-db','sa-ringpushup~bench-db','mo-calf']){
+  const m=motionFor({id});assert.ok(m,id);
+  for(const name of ['1.png','2.png','3.png',m.file]) assert.ok(statSync(new URL(`../assets/motion/${m.directory}/${name}`,import.meta.url)).size > 1000,`${id}: ${name}`);
+ }
+ for(const id of ['mo-rdl','mo-rdl~rdl-guided','do-bench~bench-guided','do-bench~ring-pushup','do-ringrow','mo-dip','sa-ringpushup']) assert.equal(motionFor({id}),null,id);
 });

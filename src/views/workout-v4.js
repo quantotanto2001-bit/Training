@@ -122,10 +122,13 @@ export async function renderWorkout() {
     timer.onTick = updateTimer; updateTimer();
     const onSave = async logged => { await persist(); if (logged === true && ex.restSec) timer.start(ex.restSec.min, ex.id); else if (logged === false && timer.ownerId === ex.id) timer.skip(); await render(); };
     box.appendChild(ex.sets ? setTable(ex, entry, last, onSave, saveDraft) : singleForm(ex, entry, last, onSave, saveDraft));
-    if (completed(ex)) {
-      const isQuality = ex.type === TYPES.POWER || ex.type === TYPES.SKILL, key = isQuality ? 'quality' : 'feedback';
-      const choices = isQuality ? [['clean', 'Sauber'], ['loss', 'Qualität ließ nach']] : [['easy', 'Leicht'], ['fit', 'Passend'], ['limit', 'Am Limit']];
-      box.appendChild(h('div', { class: 'feedback-box' }, [h('span', { class: 'muted small' }, 'Kurze Rückmeldung · optional'), h('div', { class: 'feedback-options' }, choices.map(([value, label]) => h('button', { class: 'feedback-chip' + (entry[key] === value ? ' selected' : ''), 'aria-pressed': String(entry[key] === value), onclick: async () => { entry[key] = entry[key] === value ? null : value; await persist(); await render(); } }, label)))]));
+    if (completed(ex) && ex.type === TYPES.STRENGTH) {
+      const next = progressionFor(ex, { sets: entry.sets, plannedSets: entry.plannedSets, status: 'completed', rirReliable: true, feedback: entry.feedback, quality: entry.quality }, note.increment);
+      const title = next.status === 'increase' ? (next.suggestedWeight != null ? `Nächstes Mal: ${next.suggestedWeight} kg versuchen` : 'Nächstes Mal: Gewicht erhöhen') : next.status === 'difficulty' ? 'Ziel erreicht · Schwierigkeit prüfen' : 'Nächstes Mal: Gewicht bestätigen';
+      box.appendChild(h('div', { class: 'next-training-note', role: 'status' }, [h('strong', {}, title), h('p', { class: 'muted small' }, next.text)]));
+    }
+    if (completed(ex) && (ex.type === TYPES.POWER || ex.type === TYPES.SKILL)) {
+      box.appendChild(detail('Bewegungsqualität · optional', [h('p', { class: 'muted small' }, 'Wiederholungen allein zeigen bei Schnellkraft und Fertigkeiten nicht die Qualität.'), h('div', { class: 'feedback-options' }, [['clean', 'Sauber'], ['loss', 'Qualität ließ nach']].map(([value, label]) => h('button', { class: 'feedback-chip' + (entry.quality === value ? ' selected' : ''), 'aria-pressed': String(entry.quality === value), onclick: async () => { entry.quality = entry.quality === value ? null : value; await persist(); await render(); } }, label)))]));
     }
     box.appendChild(h('div', { class: 'workout-nav' }, [h('button', { class: 'btn', disabled: stepIndex === 0 ? '' : null, onclick: () => show(stepIndex - 1) }, '← Zurück'), h('button', { class: 'btn btn-primary', onclick: () => stepIndex < exercises().length - 1 ? show(stepIndex + 1) : finish() }, stepIndex < exercises().length - 1 ? 'Nächste Übung' : 'Einheit abschließen')]));
     const setup = h('input', { type: 'text', value: entry.setup, placeholder: ex.tracking === 'neck' ? 'Handposition und Gegenhalten' : 'Ringhöhe, Sitzposition, Unterstützung', disabled: entry.sets.length ? '' : null });
@@ -159,12 +162,13 @@ function setTable(ex, entry, last, onSave, saveDraft) {
   const hasReps = !!ex.reps, hasHold = !!ex.holdSec;
   const style = `grid-template-columns: 36px repeat(${Number(hasWeight) + Number(hasReps) + Number(hasHold)}, minmax(0, 1fr)) 44px`;
   wrap.appendChild(h('div', { class: 'set-table-header', style }, [h('span', {}, 'Satz'), ...(hasWeight ? [h('span', {}, 'kg')] : []), ...(hasReps ? [h('span', {}, ex.perSide ? 'Wdh./Seite' : 'Wdh.')] : []), ...(hasHold ? [h('span', {}, 'Sek.')] : []), h('span', {}, '')]));
-  const rows = work(entry), defaults = setDefaults(ex, rows, last);
+  const rows = work(entry), defaults = setDefaults(ex, rows, last), allDetails = [];
+  const nextSlot = Array.from({ length: plannedSets(ex) }, (_, i) => i).find(i => !rows.some(s => s.slotIndex === i));
   const count = Math.max(plannedSets(ex) + (entry.extraSets || 0), ...rows.map(s => (s.slotIndex ?? 0) + 1));
   for (let i = 0; i < count; i++) {
     const logged = rows.find(s => s.slotIndex === i), draft = entry.drafts[i] ||= {}, values = logged || { ...defaults, ...draft };
     if (ex.directions && i % ex.sets === 0) wrap.appendChild(h('p', { class: 'direction-label' }, ex.directions[Math.floor(i / ex.sets)] || 'Zusatz'));
-    const row = h('div', { class: 'set-table-row' + (logged ? ' set-table-row-done' : ''), style }, [h('span', { class: 'set-table-index' }, String(i + 1))]);
+    const row = h('div', { class: 'set-table-row' + (logged ? ' set-table-row-done' : i === nextSlot ? ' set-table-row-current' : ''), style }, [h('span', { class: 'set-table-index' }, String(i + 1))]);
     const fields = {};
     function add(key, label, step, placeholder) {
       const el = h('input', { type: 'number', min: '0', step, inputmode: step === '1' ? 'numeric' : 'decimal', value: values[key] ?? '', placeholder, 'aria-label': `Satz ${i + 1} ${label}`, disabled: logged ? '' : null });
@@ -187,9 +191,11 @@ function setTable(ex, entry, last, onSave, saveDraft) {
       const extras = [h('label', { class: 'field field-checkbox' }, [h('input', { type: 'checkbox', checked: draft.technikverlust ? '' : null, onchange: e => { draft.technikverlust = e.target.checked; saveDraft(); } }), h('span', {}, 'Ausführung / Bewegungsumfang ließ nach')])];
       if (ex.type === TYPES.STRENGTH) extras.unshift(h('label', { class: 'field' }, [h('span', {}, 'RIR · verbleibende saubere Wiederholungen'), h('select', { 'aria-label': `RIR Satz ${i + 1}`, onchange: e => { draft.rir = e.target.value || null; saveDraft(); } }, ['', '0', '1', '2', '3', '4+', 'Versagen'].map(v => h('option', { value: v, selected: (draft.rir || '') === v ? '' : null }, v || 'Keine Angabe')))]));
       if (ex.tracking === 'neck') extras.unshift(h('label', { class: 'field' }, [h('span', {}, 'Widerstand'), h('input', { type: 'text', value: draft.resistance || defaults.resistance || '', placeholder: 'Handdruck, gleiche Position', onchange: e => { draft.resistance = e.target.value; saveDraft(); } })]), h('label', { class: 'field' }, [h('span', {}, 'Anstrengung'), h('select', { 'aria-label': `Anstrengung Satz ${i + 1}`, onchange: e => { draft.effort = e.target.value || null; saveDraft(); } }, ['', 'leicht', 'mittel', 'hoch'].map(v => h('option', { value: v, selected: (draft.effort || '') === v ? '' : null }, v || 'Keine Angabe')))]));
-      wrap.appendChild(detail(`Details zu Satz ${i + 1}`, extras));
+      allDetails.push(h('div', { class: 'set-extra-fields' }, [h('p', { class: 'card-label' }, `Satz ${i + 1}`), ...extras]));
     }
   }
+  wrap.appendChild(h('p', { class: 'set-completion muted small' }, `${rows.length} von ${plannedSets(ex)} Arbeitssätzen gespeichert`));
+  if (allDetails.length) wrap.appendChild(detail(ex.tracking === 'neck' ? 'Widerstand und Anstrengung · optional' : ex.type === TYPES.STRENGTH ? 'Technik und RIR · optional' : 'Technikdetails · optional', allDetails));
   if (!ex.directions) wrap.appendChild(h('button', { class: 'link-small link-button', onclick: async () => { entry.extraSets = (entry.extraSets || 0) + 1; await onSave(null); } }, '+ Zusätzlicher Satz'));
   return wrap;
 }

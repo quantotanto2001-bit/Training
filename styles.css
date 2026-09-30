@@ -595,3 +595,11 @@ a { color: inherit; }
 .motion-caption { text-align: center; font-size: .85rem; }
 .motion-controls { display: flex; justify-content: center; gap: 10px; }
 .motion-cues { padding-left: 22px; font-size: .84rem; line-height: 1.6; }
+
+.set-table-row-current { border-radius: 10px; background: #171719; box-shadow: inset 3px 0 var(--text); }
+.set-table > .quiet-details { padding: 10px 0; border-top: 1px solid var(--line); }
+.set-extra-fields { padding: 10px 0; display: grid; gap: 10px; }
+.set-extra-fields + .set-extra-fields { border-top: 1px solid var(--line); }
+.set-completion { margin: 0; text-align: right; }
+.next-training-note { border-left: 3px solid var(--text); padding: 10px 14px; background: var(--bg-inset); border-radius: 0 10px 10px 0; }
+.next-training-note strong { font-size: .9rem; }
