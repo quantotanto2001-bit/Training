@@ -179,6 +179,6 @@ test('three completed target sets produce a next-session recommendation without 
   await expect(page.getByText('Nächstes Mal: Gewicht erhöhen',{exact:true})).toBeVisible();
   await expect(page.getByRole('button',{name:'Passend',exact:true})).toHaveCount(0);
   await expect(page.getByRole('button',{name:'Am Limit',exact:true})).toHaveCount(0);
-  await page.getByRole('heading',{level:2}).scrollIntoViewIfNeeded();
-  await page.screenshot({path:`test-results/previews/satzanzeige-${info.project.name}.png`,fullPage:true});
+  await page.locator('.set-table').evaluate(el=>el.scrollIntoView({block:'start'}));
+  await page.screenshot({path:`test-results/previews/satzanzeige-${info.project.name}.png`});
 });

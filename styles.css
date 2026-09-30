@@ -600,6 +600,9 @@ a { color: inherit; }
 .set-table > .quiet-details { padding: 10px 0; border-top: 1px solid var(--line); }
 .set-extra-fields { padding: 10px 0; display: grid; gap: 10px; }
 .set-extra-fields + .set-extra-fields { border-top: 1px solid var(--line); }
+.set-table input[type="number"] { appearance: textfield; -moz-appearance: textfield; }
+.set-table input[type="number"]::-webkit-inner-spin-button,
+.set-table input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .set-completion { margin: 0; text-align: right; }
 .next-training-note { border-left: 3px solid var(--text); padding: 10px 14px; background: var(--bg-inset); border-radius: 0 10px 10px 0; }
 .next-training-note strong { font-size: .9rem; }
