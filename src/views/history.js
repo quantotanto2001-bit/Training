@@ -279,12 +279,16 @@ function renderEditableExerciseCard(log, exx, entry) {
       editWrap.classList.toggle('set-edit-hidden');
       if (editWrap.classList.contains('set-edit-hidden')) return;
       editWrap.innerHTML = '';
-      const form = buildSetForm(exx, s);
+      const form = buildSetForm(exx, { ...s, durationMin: s.durationSec != null ? s.durationSec / 60 : null });
       editWrap.appendChild(form.el);
+      const error = h('p', { class: 'save-error small', role: 'alert', hidden: '' });
+      editWrap.appendChild(error);
       editWrap.appendChild(h('button', {
         class: 'btn btn-small',
         onclick: async () => {
           const values = form.read();
+          const measures = ['reps', 'holdSec', 'durationSec', 'rounds'].filter(key => key in values);
+          if ((measures.length && !measures.some(key => Number.isFinite(values[key]) && values[key] > 0)) || (values.weightKg != null && values.weightKg < 0)) { error.textContent = 'Bitte gültige absolvierte Werte eintragen.'; error.hidden = false; return; }
           Object.assign(s, values);
           await saveSessionLog(log);
           summary.textContent = formatLoggedSet(exx, s);

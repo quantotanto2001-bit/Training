@@ -1,4 +1,4 @@
-const CACHE_NAME = 'universal-athlete-v4-adaptive-1';
+const CACHE_NAME = 'universal-athlete-v4-adaptive-2';
 const APP_SHELL = [
   './',
   './index.html',
@@ -101,7 +101,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))))
+    caches.keys().then((keys) => Promise.all(keys.filter((k) => k.startsWith('universal-athlete-') && k !== CACHE_NAME).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -109,7 +109,7 @@ self.addEventListener('activate', (event) => {
 // App-Shell: cache-first (offline nutzbar). Externe Video-Links laufen normal über das Netz.
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
+  if (url.origin !== self.location.origin || event.request.method !== 'GET') return;
 
   event.respondWith(
     caches.match(event.request).then((cached) => {

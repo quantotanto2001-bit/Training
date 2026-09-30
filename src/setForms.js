@@ -59,7 +59,7 @@ export function buildSetForm(exercise, defaults = {}) {
       fields = [
         numInput({ id: ids.weight, label: 'Gewicht (kg)', step: '0.5', value: defaults.weightKg }),
         numInput({ id: ids.reps, label: 'Wiederholungen', step: '1', value: defaults.reps, placeholder: fmtRepRange(exercise.reps) }),
-        selectInput({ id: ids.rir, label: 'RIR', options: ['', '0', '1', '2', '3', '4+', 'Versagen'], value: defaults.rir != null ? String(defaults.rir) : '' }),
+        ...(exercise.type === TYPES.STRENGTH ? [selectInput({ id: ids.rir, label: 'RIR', options: ['', '0', '1', '2', '3', '4+', 'Versagen'], value: defaults.rir != null ? String(defaults.rir) : '' })] : []),
         h('label', { class: 'field field-checkbox' }, [
           h('input', { type: 'checkbox', id: ids.tech, checked: defaults.technikverlust ? '' : null }),
           h('span', {}, 'Technik-/ROM-Verlust'),

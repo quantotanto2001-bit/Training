@@ -20,5 +20,5 @@ jobs:
         with:
           name: browser-test-results
           path: |
-            playwright-report/
-            test-results/
+            test-results/**/*.png
+            test-results/**/*.md

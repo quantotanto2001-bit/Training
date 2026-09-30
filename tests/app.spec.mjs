@@ -1,4 +1,6 @@
 import { test, expect } from '@playwright/test';
+test.beforeEach(async({page})=>{page.on('pageerror',e=>console.log('APP ERROR:',e.message));});
+test.afterEach(async({page},info)=>{if(info.status!==info.expectedStatus)console.log('FAILED SCREEN:',await page.locator('body').innerText());});
 
 async function open(page) {
   await page.goto('/');
@@ -22,7 +24,7 @@ test('mobile navigation, autosaved drafts, undo, reload and partial finish prese
   await page.reload();
   await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('10');
   await expect(page.getByLabel('Satz 1 Wiederholungen',{exact:true})).toHaveValue('8');
-  await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).click();
+  await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).evaluate(button=>{button.click();button.click();});
   await expect(page.getByRole('button',{name:'Satz 1 wieder öffnen',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Satz 1 wieder öffnen',exact:true}).click();
   await expect(page.getByLabel('Satz 1 Wiederholungen',{exact:true})).toHaveValue('8');
@@ -78,9 +80,10 @@ test('matched alternatives change exercise identity without inheriting a differe
 test('old active workout, notes, replacements and backup merge remain usable',async({page})=>{
   await open(page);
   await page.evaluate(async()=>{
-    const db=await import('/src/db.js');
+    const db=await import('/src/db.js'),{PLAN}=await import('/src/plan.js');
+    const oldIndex=PLAN[0].blocks.flatMap(b=>b.exercises).findIndex(e=>e.id==='mo-pullup');
     await db.setProgramState({currentDayOrder:0,currentCycle:3});
-    await db.setActiveSession({dayId:'mo',startedAt:'2026-01-01T12:00:00Z',currentIndex:0,entries:{'mo-pullup':{sets:[{weightKg:5,reps:6}]}}});
+    await db.setActiveSession({dayId:'mo',startedAt:'2026-01-01T12:00:00Z',currentIndex:oldIndex,entries:{'mo-pullup':{sets:[{weightKg:5,reps:6}]}}});
     await db.setExerciseNote('mo-pullup',{note:'Griff merken',nextTimeIntent:'ruhiger'});
     await db.importAllData({programState:{currentDayOrder:4,currentCycle:9},sessionLogs:[{id:'legacy',dayId:'mo',status:'completed',finishedAt:'2025-12-01T12:00:00Z',entries:{'mo-pullup':{substituteName:'Andere Übung',sets:[{weightKg:100,reps:8}]}}}]});
   });
@@ -122,4 +125,21 @@ test('RDL quick guide plays, pauses and shows technique phases without horizonta
   await page.locator('.motion-controls').getByRole('button',{name:'Pausieren',exact:true}).click();
   await expect(page.locator('.motion-controls').getByRole('button',{name:'Abspielen'})).toHaveAttribute('aria-pressed','false');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test.describe('offline installation',()=>{
+  test.use({serviceWorkers:'allow'});
+  test('cached app shell and RDL images remain available offline',async({page,context})=>{
+    await open(page);
+    await expect.poll(()=>page.evaluate(()=>!!navigator.serviceWorker.controller),{timeout:30000}).toBe(true);
+    await context.setOffline(true);
+    await page.reload();
+    await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
+    await page.getByRole('button',{name:'Training ansehen & starten'}).click();
+    await page.getByRole('button',{name:/RDL mit Kurzhanteln/}).click();
+    await page.getByText('Schnellansicht · Bewegung',{exact:true}).click();
+    await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+    await page.getByRole('button',{name:'Nächste Phase',exact:true}).click();
+    await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+  });
 });

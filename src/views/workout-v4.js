@@ -45,7 +45,7 @@ export async function renderWorkout() {
   }
   const saveDraft = () => { persist().catch(() => {}); };
   async function show(index) {
-    if (!started) { active.startedAt = new Date().toISOString(); started = true; }
+    if (!started) { if (!active.finishedAt) active.startedAt = new Date().toISOString(); started = true; }
     stepIndex = index; mode = 'exercise'; await persist(); await render();
   }
   async function pause() { await persist(); navigate('#/'); }
