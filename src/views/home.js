@@ -1,15 +1,17 @@
+import { buildSessionPlan, defaultMinutes, timeOptions, sessionExercises, plannedSets } from '../training.js';
 import { h, typeIcon } from '../ui.js';
 import { PLAN, estimateDurationMin, iconFor } from '../plan.js';
 import { getCurrentDay, getCurrentProgramState, getRecoveryHint, skipCurrentDay } from '../state.js';
-import { getActiveSession, clearActiveSession } from '../db.js';
+import { getActiveSession, clearActiveSession, getSettings, saveSettings } from '../db.js';
 import { navigate } from '../app.js';
 
 const SKIP_REASONS = ['Verletzung / Beschwerden', 'Equipment nicht verfügbar', 'Zeit', 'Sonstiges'];
 
 export async function renderHome() {
-  const [active, day, programState] = await Promise.all([
+  const [active, currentDay, programState] = await Promise.all([
     getActiveSession(), getCurrentDay(), getCurrentProgramState(),
   ]);
+  const day = (active && PLAN.find(d => d.id === active.dayId)) || currentDay;
 
   const wrap = h('div', { class: 'view home-view' });
   wrap.appendChild(h('div', { class: 'header' }, [
@@ -19,15 +21,18 @@ export async function renderHome() {
   const overlayHost = h('div', {});
   wrap.appendChild(overlayHost);
 
-  const exCount = day.blocks.flatMap((b) => b.exercises).length;
-  const durationMin = estimateDurationMin(day);
+  const settings = await getSettings();
+  const planned = active?.planSnapshot || buildSessionPlan(day, defaultMinutes(day, settings), settings);
+  const todayExercises = active ? sessionExercises(active) : planned.exercises;
+  const exCount = todayExercises.length;
+  const durationMin = planned.estimatedMinutes || estimateDurationMin(day);
 
   wrap.appendChild(h('p', { class: 'section-title' }, active ? 'TRAINING LÄUFT' : 'HEUTE'));
 
   if (active) {
-    const doneCount = day.blocks.flatMap((b) => b.exercises).filter((exx) => {
+    const doneCount = todayExercises.filter((exx) => {
       const e = active.entries && active.entries[exx.id];
-      return e && e.sets && e.sets.some((s) => !s.isWarmup);
+      return e && e.sets && e.sets.filter((s) => !s.isWarmup).length >= plannedSets(exx);
     }).length;
     const pct = exCount ? Math.round((doneCount / exCount) * 100) : 0;
     wrap.appendChild(h('div', { class: 'card today-card' }, [
@@ -53,6 +58,17 @@ export async function renderHome() {
     return wrap;
   }
 
+  wrap.appendChild(h('div', { class: 'time-picker' }, [
+    h('p', { class: 'section-title' }, 'WIE VIEL ZEIT HAST DU?'),
+    h('div', { class: 'time-options' }, timeOptions(day).map(min => h('button', {
+      class: 'time-option' + (planned.budgetMinutes === min ? ' selected' : ''),
+      'aria-pressed': String(planned.budgetMinutes === min),
+      onclick: async () => { await saveSettings({ [day.isFullBody ? 'strengthMinutes' : 'otherMinutes']: min }); navigate('#/'); },
+    }, `${min} Min`))),
+    h('p', { class: 'muted small' }, 'Grundbewegungen zuerst. Mehr Zeit ergänzt Sätze und passende Zusatzübungen.'),
+    planned.warning ? h('p', { class: 'hint-box small' }, planned.warning) : null,
+  ]));
+
   wrap.appendChild(h('div', { class: 'card today-card' }, [
     h('div', { class: 'today-card-head' }, [
       h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]), day.blocks[0].exercises[0].id)),
@@ -63,7 +79,7 @@ export async function renderHome() {
     ]),
     h('div', { class: 'progress-track' }, [h('div', { class: 'progress-fill', style: 'width:0%' })]),
     h('p', { class: 'muted small' }, `0 / ${exCount} Übungen · Zyklus ${programState.currentCycle}`),
-    h('button', { class: 'btn btn-primary btn-block', onclick: onStartClick }, 'Training starten'),
+    h('button', { class: 'btn btn-primary btn-block', onclick: onStartClick }, 'Training ansehen & starten'),
     h('div', { class: 'next-card-links' }, [
       h('a', { href: '#/plan', class: 'link-small' }, 'Plan ansehen'),
       h('button', { class: 'link-small link-button', onclick: onSkipClick }, 'Einheit überspringen'),
@@ -73,12 +89,13 @@ export async function renderHome() {
   const upcoming = [1, 2].map((offset) => PLAN[(day.order + offset) % PLAN.length]);
   wrap.appendChild(h('p', { class: 'section-title' }, 'NÄCHSTE EINHEITEN'));
   wrap.appendChild(h('div', { class: 'card upcoming-card' }, upcoming.map((d) => {
-    const dCount = d.blocks.flatMap((b) => b.exercises).length;
+    const preview = buildSessionPlan(d, defaultMinutes(d, settings), settings);
+    const dCount = preview.exercises.length;
     return h('a', { href: '#/plan', class: 'upcoming-row' }, [
       h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(d.blocks[0].exercises[0]), d.blocks[0].exercises[0].id)),
       h('div', { class: 'workout-exercise-row-main' }, [
         h('div', { class: 'exercise-name' }, d.name + (d.subtitle ? ' — ' + d.subtitle : '')),
-        h('div', { class: 'muted small' }, `ca. ${estimateDurationMin(d)} Min · ${dCount} Übungen`),
+        h('div', { class: 'muted small' }, `ca. ${preview.estimatedMinutes} Min · ${dCount} Übungen`),
       ]),
       h('span', { class: 'chevron' }, '›'),
     ]);

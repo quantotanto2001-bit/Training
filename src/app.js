@@ -1,8 +1,9 @@
+import { renderSettings } from './views/settings.js';
 import { h, navIcon } from './ui.js';
 import { renderHome } from './views/home.js';
-import { renderWorkout } from './views/workout.js';
+import { renderWorkout } from './views/workout-v4.js';
 import { renderHistoryList, renderHistoryDetail } from './views/history.js';
-import { renderProgressList, renderProgressDetail } from './views/progress.js';
+import { renderProgressList, renderProgressDetail } from './views/progress-v4.js';
 import { renderPlanOverview } from './views/planOverview.js';
 import { renderCycleComplete } from './views/cycleComplete.js';
 
@@ -13,10 +14,9 @@ root.appendChild(h('div', { class: 'app-shell' }, [main, nav]));
 
 function buildNav() {
   const items = [
-    { href: '#/', label: 'Start', icon: 'home' },
-    { href: '#/plan', label: 'Plan', icon: 'plan' },
+    { href: '#/', label: 'Training', icon: 'home' },
     { href: '#/progress', label: 'Fortschritt', icon: 'progress' },
-    { href: '#/history', label: 'Verlauf', icon: 'history' },
+    { href: '#/settings', label: 'Einstellungen', icon: 'plan' },
   ];
   const nav = h('nav', { class: 'bottom-nav' },
     items.map((it) => h('a', { href: it.href, class: 'nav-item', 'data-href': it.href }, [
@@ -27,7 +27,8 @@ function buildNav() {
 }
 
 function setActiveNav(hash) {
-  const base = '#/' + (hash.split('/')[1] || '');
+  const route = hash.split('/')[1] || '';
+  const base = ['history', 'progress'].includes(route) ? '#/progress' : route === 'settings' ? '#/settings' : '#/';
   document.querySelectorAll('.nav-item').forEach((a) => {
     a.classList.toggle('active', a.getAttribute('data-href') === (base === '#/' ? '#/' : base));
   });
@@ -46,6 +47,8 @@ async function route() {
     let view;
     if (parts.length === 0) {
       view = await renderHome();
+    } else if (parts[0] === 'settings') {
+      view = await renderSettings();
     } else if (parts[0] === 'workout') {
       view = await renderWorkout(parts[1]);
     } else if (parts[0] === 'history' && parts[1]) {

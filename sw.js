@@ -1,4 +1,4 @@
-const CACHE_NAME = 'universal-athlete-v2-timer-video';
+const CACHE_NAME = 'universal-athlete-v4-adaptive-1';
 const APP_SHELL = [
   './',
   './index.html',
@@ -9,6 +9,17 @@ const APP_SHELL = [
   './src/db.js',
   './src/state.js',
   './src/plan.js',
+  './src/training.js',
+  './src/motion.js',
+  './assets/motion/rdl/1.png',
+  './assets/motion/rdl/2.png',
+  './assets/motion/rdl/3.png',
+  './assets/motion/rdl/rdl.gif',
+  './src/progression.js',
+  './src/views/workout-v4.js',
+  './src/views/workout-helpers.js',
+  './src/views/progress-v4.js',
+  './src/views/settings.js',
   './src/timer.js',
   './src/setForms.js',
   './src/views/home.js',
@@ -82,7 +93,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) =>
       Promise.all(APP_SHELL.map((url) =>
-        fetch(url, { cache: 'reload' }).then((res) => cache.put(url, res))
+        fetch(url, { cache: 'reload' }).then((res) => { if (!res.ok) throw new Error('Missing app file: ' + url); return cache.put(url, res); })
       ))
     ).then(() => self.skipWaiting())
   );

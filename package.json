@@ -1,0 +1,7 @@
+{
+  "name": "universal-athlete",
+  "private": true,
+  "type": "module",
+  "scripts": { "test": "node --test tests/*.test.mjs", "test:e2e": "playwright test" },
+  "devDependencies": { "@playwright/test": "1.51.1" }
+}

@@ -1,3 +1,5 @@
+import { buildSessionPlan, defaultMinutes } from '../training.js';
+import { getSettings } from '../db.js';
 import { h, fmtRestRange, matchBadge, openVideoModal, typeIcon } from '../ui.js';
 import { PLAN, TYPE_LABELS, iconFor } from '../plan.js';
 import { getCurrentProgramState } from '../state.js';
@@ -9,7 +11,7 @@ export async function renderPlanOverview() {
   const wrap = h('div', { class: 'view' });
   wrap.appendChild(h('div', { class: 'header' }, [
     h('h1', {}, 'Der Plan'),
-    h('p', { class: 'muted' }, 'Reihenfolge der 6 Einheiten. Wochentage sind nur Beispiele, kein Zwang.'),
+    h('p', { class: 'muted' }, 'Flexibler Sechserzyklus. Die Auswahl folgt deinem Zeitbudget. Die Dosierung ist ein Startpunkt und wird anhand deiner Fortschritte angepasst.'),
   ]));
 
   wrap.appendChild(h('div', { class: 'card cycle-status-card' }, [
@@ -27,7 +29,10 @@ export async function renderPlanOverview() {
     })),
   ]));
 
-  for (const day of PLAN) {
+  const settings = await getSettings();
+  for (const originalDay of PLAN) {
+    const planned = buildSessionPlan(originalDay, defaultMinutes(originalDay, settings), settings);
+    const day = { ...originalDay, blocks: [{ title: 'Geplant für dein Zeitbudget', exercises: planned.exercises }, { title: 'Optionale Ergänzungen', exercises: planned.optional }] };
     const details = h('details', { class: 'card plan-day' });
     details.appendChild(h('summary', {}, [
       h('span', { class: 'plan-day-title' }, `${day.name}${day.subtitle ? ' — ' + day.subtitle : ''}`),

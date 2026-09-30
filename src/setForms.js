@@ -25,7 +25,7 @@ function textInput({ id, label, placeholder, value }) {
 function selectInput({ id, label, options, value }) {
   return h('label', { class: 'field' }, [
     h('span', {}, label),
-    h('select', { id }, options.map((o) => h('option', { value: o, selected: o === value ? '' : null }, o))),
+    h('select', { id }, options.map((o) => h('option', { value: o, selected: o === value ? '' : null }, o || 'Keine Angabe'))),
   ]);
 }
 
@@ -59,7 +59,7 @@ export function buildSetForm(exercise, defaults = {}) {
       fields = [
         numInput({ id: ids.weight, label: 'Gewicht (kg)', step: '0.5', value: defaults.weightKg }),
         numInput({ id: ids.reps, label: 'Wiederholungen', step: '1', value: defaults.reps, placeholder: fmtRepRange(exercise.reps) }),
-        selectInput({ id: ids.rir, label: 'RIR', options: ['0', '1', '2', '3', '4+', 'Versagen'], value: defaults.rir != null ? String(defaults.rir) : '1' }),
+        selectInput({ id: ids.rir, label: 'RIR', options: ['', '0', '1', '2', '3', '4+', 'Versagen'], value: defaults.rir != null ? String(defaults.rir) : '' }),
         h('label', { class: 'field field-checkbox' }, [
           h('input', { type: 'checkbox', id: ids.tech, checked: defaults.technikverlust ? '' : null }),
           h('span', {}, 'Technik-/ROM-Verlust'),
@@ -158,6 +158,9 @@ export function formatLoggedSet(exercise, set) {
   const parts = [];
   if (set.weightKg != null) parts.push(`${set.weightKg} kg`);
   if (set.reps != null) parts.push(`${set.reps} Wdh`);
+  if (set.direction) parts.push(set.direction);
+  if (set.resistance) parts.push('Widerstand: ' + set.resistance);
+  if (set.effort) parts.push('Anstrengung: ' + set.effort);
   if (set.rir) parts.push(`RIR ${set.rir}`);
   if (set.holdSec != null) parts.push(`${set.holdSec}s halten`);
   if (set.support) parts.push(set.support);

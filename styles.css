@@ -559,3 +559,39 @@ html, body {
 .hidden-file-input { display: none; }
 
 a { color: inherit; }
+
+/* Plan 4: quiet controls, three destinations, no extra clutter while logging. */
+.bottom-nav { grid-template-columns: repeat(3, 1fr); }
+.time-options, .feedback-options { display: flex; gap: 8px; flex-wrap: wrap; }
+.time-option, .feedback-chip { border: 1px solid var(--border); background: var(--bg-inset); color: var(--text); border-radius: 12px; padding: 12px 15px; min-height: 44px; font: inherit; cursor: pointer; }
+.time-option { flex: 1; white-space: nowrap; }
+.time-option.selected, .feedback-chip.selected { background: var(--text); color: #111; border-color: var(--text); }
+.time-picker { display: flex; flex-direction: column; gap: 12px; }
+.quiet-details { border-top: 1px solid var(--line); padding: 12px 0; }
+.quiet-details > summary { cursor: pointer; color: var(--text-muted); font-size: .85rem; min-height: 28px; padding: 4px 0; }
+.quiet-details[open] > summary { margin-bottom: 12px; color: var(--text); }
+.quiet-details > .field, .quiet-details > .btn { margin: 12px 0; }
+.set-table > .quiet-details { border-top: 0; padding: 0 0 10px 36px; }
+.set-table > .quiet-details > summary { font-size: .75rem; }
+.optional-row { display: block; width: 100%; padding: 12px 0; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--text); text-align: left; font: inherit; font-size: .85rem; line-height: 1.5; cursor: pointer; }
+.compact-timer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px; border-radius: 16px; background: var(--bg-inset); }
+.timer-digits { font-size: 2rem; font-variant-numeric: tabular-nums; line-height: 1.2; margin-top: 6px; }
+.timer-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.timer-actions > .link-button { flex-basis: 100%; text-align: right; }
+.exercise-heading h2 { margin: 0 0 8px; font-size: 1.4rem; line-height: 1.25; }
+.exercise-heading p { line-height: 1.5; }
+.feedback-box { display: flex; flex-direction: column; gap: 10px; }
+.hint-box { padding: 14px; background: var(--bg-inset); border-radius: 12px; line-height: 1.5; }
+.save-error { color: #ffb4a9; }
+[hidden] { display: none !important; }
+.balance-row { display: flex; justify-content: space-between; gap: 20px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: .85rem; }
+.source-link { display: block; margin: 14px 0; font-size: .85rem; line-height: 1.5; color: var(--text); }
+.direction-label { font-size: .85rem; color: var(--text-muted); margin: 16px 0 4px; }
+.workout-view .last-perf { padding: 12px 0; }
+.workout-view .workout-nav { position: static; }
+.workout-view select, .workout-view input { font-size: 16px; }
+@media (max-width: 380px) { .main { padding-left: 14px; padding-right: 14px; } .time-option { padding: 12px 9px; } .feedback-chip { padding: 10px; } .compact-timer { padding: 12px; } }
+.motion-image { display: block; width: 100%; max-width: 372px; height: auto; max-height: 360px; object-fit: contain; background: #fff; border-radius: 14px; margin: 0 auto; }
+.motion-caption { text-align: center; font-size: .85rem; }
+.motion-controls { display: flex; justify-content: center; gap: 10px; }
+.motion-cues { padding-left: 22px; font-size: .84rem; line-height: 1.6; }

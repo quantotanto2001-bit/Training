@@ -1,3 +1,4 @@
+import { entryExercise, sessionExercises } from '../training.js';
 import { h, fmtDateTime, fmtDate, fmtDuration } from '../ui.js';
 import { getAllSessionLogs, getActiveSession, deleteSessionLog, saveSessionLog, exportAllData, importAllData } from '../db.js';
 import { PLAN } from '../plan.js';
@@ -6,6 +7,7 @@ import { rerender } from '../app.js';
 
 function statusLabel(status) {
   if (status === 'completed') return 'Abgeschlossen';
+  if (status === 'partial') return 'Verkürzt gespeichert';
   if (status === 'skipped') return 'Übersprungen';
   if (status === 'in_progress') return 'Begonnen, nicht abgeschlossen';
   return status;
@@ -124,7 +126,7 @@ function renderCalendar(entries) {
       if (isToday) classes.push('calendar-day-today');
       if (key === selectedKey) classes.push('calendar-day-selected');
       const dots = [];
-      if (dayLogs.some((l) => l.status === 'completed')) dots.push(h('span', { class: 'calendar-day-dot' }));
+      if (dayLogs.some((l) => l.status === 'completed' || l.status === 'partial')) dots.push(h('span', { class: 'calendar-day-dot' }));
       if (dayLogs.some((l) => l.status === 'skipped')) dots.push(h('span', { class: 'calendar-day-dot calendar-day-dot-skipped' }));
       gridEl.appendChild(h('button', { class: classes.join(' '), onclick: () => selectDay(key) }, [
         h('span', {}, String(d)),
@@ -164,7 +166,7 @@ function renderCalendar(entries) {
   return card;
 }
 
-function renderBackupSection() {
+export function renderBackupSection() {
   const statusEl = h('p', { class: 'muted small' }, '');
   const fileInput = h('input', {
     type: 'file', accept: 'application/json', class: 'hidden-file-input',
@@ -175,7 +177,7 @@ function renderBackupSection() {
         const text = await file.text();
         const data = JSON.parse(text);
         const count = Array.isArray(data.sessionLogs) ? data.sessionLogs.length : 0;
-        if (!window.confirm(`${count} Trainingsereignis(se) aus der Datei importieren? Vorhandene lokale Daten bleiben erhalten, der aktuelle Zyklus-Fortschritt wird aus der Datei übernommen.`)) return;
+        if (!window.confirm(`${count} Trainingsereignis(se) aus der Datei importieren? Vorhandene neuere Daten bleiben erhalten. Einstellungen werden übernommen. Ein laufendes Training und sein Programmstand bleiben erhalten; sonst wird der Programmstand aus der Datei wiederhergestellt.`)) return;
         await importAllData(data);
         statusEl.textContent = `${count} Ereignis(se) importiert.`;
         rerender();
@@ -235,9 +237,8 @@ export async function renderHistoryDetail(id) {
     ]));
   }
 
-  const allExercises = day ? day.blocks.flatMap((b) => b.exercises) : [];
-  for (const exx of allExercises) {
-    const entry = log.entries && log.entries[exx.id];
+  for (const [key, entry] of Object.entries(log.entries || {})) {
+    const exx = entryExercise(key, entry, log);
     if (!entry || !entry.sets || !entry.sets.length) continue;
     wrap.appendChild(renderEditableExerciseCard(log, exx, entry));
   }
@@ -259,6 +260,7 @@ function renderEditableExerciseCard(log, exx, entry) {
   card.appendChild(h('h3', {}, entry.substituteName || exx.name));
   if (entry.substituteName) card.appendChild(h('p', { class: 'muted small' }, `Ersetzt: ${exx.name}`));
 
+  if (entry.setup) card.appendChild(h('p', { class: 'muted small' }, 'Aufbau: ' + entry.setup));
   const listEl = h('div', { class: 'logged-sets' });
   card.appendChild(listEl);
 

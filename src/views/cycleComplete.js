@@ -10,6 +10,7 @@ export async function renderCycleComplete(cycleNumberStr) {
 
   wrap.appendChild(h('div', { class: 'card card-accent' }, [
     h('p', {}, `${summary.completedCount} von 6 regulären Einheiten abgeschlossen`),
+    summary.partialCount ? h('p', { class: 'muted small' }, `${summary.partialCount} Einheit(en) verkürzt gespeichert`) : null,
     summary.skippedCount ? h('p', { class: 'muted small' }, `${summary.skippedCount} Einheit(en) übersprungen`) : null,
     summary.durationDays ? h('p', { class: 'muted small' }, `Dauer des Zyklus: ${summary.durationDays} Tag(e)`) : null,
   ]));
