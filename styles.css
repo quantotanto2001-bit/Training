@@ -600,6 +600,7 @@ a { color: inherit; }
 .exercise-thumbnail { position: relative; width: 56px; height: 64px; flex: 0 0 56px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: #0a0a0a; color: #eee; cursor: pointer; overflow: hidden; }
 .exercise-thumbnail.has-motion { background: #fff; color: #333; }
 .exercise-thumbnail > img, .exercise-thumbnail > .type-icon { width: 100%; height: 100%; object-fit: contain; }
+.exercise-thumbnail > img { display: block; }
 .exercise-thumbnail .type-icon svg { width: 28px; height: 28px; }
 .exercise-thumbnail-action { position: absolute; right: 2px; bottom: 2px; display: grid; place-items: center; width: 19px; height: 19px; background: #161616; color: #fff; border-radius: 5px; font-size: 11px; }
 .exercise-thumbnail:focus-visible, .media-close:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
@@ -624,7 +625,7 @@ a { color: inherit; }
 .exercise-media-content .motion-controls { flex-wrap: wrap; }
 .exercise-media-content .motion-controls button { min-height: 44px; }
 .exercise-poster { display: grid; place-items: center; background: #0a0a0a; border-radius: 12px; padding: 12px; }
-.exercise-poster .type-icon-img { width: 100%; height: auto; max-height: 320px; }
+.exercise-poster .type-icon-img { display: block; width: 100%; height: auto; max-height: 320px; }
 .exercise-poster .type-icon svg { width: 80px; height: 80px; color: #333; }
 
 .set-table-row-current { border-radius: 10px; background: #171719; box-shadow: inset 3px 0 var(--text); }

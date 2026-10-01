@@ -1,4 +1,4 @@
-const CACHE_NAME = 'universal-athlete-v4-adaptive-5';
+const CACHE_NAME = 'universal-athlete-v4-adaptive-6';
 const APP_SHELL = [
   './',
   './index.html',

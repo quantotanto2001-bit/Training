@@ -178,6 +178,7 @@ test('all plan rows have a preview and missing animations are not labelled as GI
   await page.goto('/#/workout');
   await expect(page.getByRole('heading',{name:'Full Body A',exact:true})).toBeVisible();
   await expect.poll(()=>page.locator('.workout-exercise-row .exercise-thumbnail img').evaluateAll(images=>images.length>0&&images.every(el=>el.complete&&el.naturalWidth>0))).toBe(true);
+  await page.locator('.workout-exercise-row .exercise-thumbnail img').evaluateAll(async images=>{await Promise.all(images.map(img=>img.decode()));await new Promise(requestAnimationFrame);});
   await page.screenshot({path:`test-results/previews/uebung-vorschauliste-${info.project.name}.png`});
 });
 
