@@ -22,7 +22,7 @@ export function renderExerciseThumbnail(exercise) {
   const motion = motionFor(exercise);
   const action = motion ? 'Animation öffnen' : 'Übung ansehen';
   const button = h('button', {
-    type: 'button', class: 'exercise-thumbnail', 'data-exercise-id': exercise.id,
+    type: 'button', class: 'exercise-thumbnail' + (motion ? ' has-motion' : ''), 'data-exercise-id': exercise.id,
     'aria-label': `${action}: ${exercise.name}`, 'aria-haspopup': 'dialog',
     title: motion ? 'Antippen und Bewegung ansehen' : 'Antippen für Bild und Technik',
     onclick: event => { event.preventDefault(); event.stopPropagation(); openExerciseMedia(exercise); },

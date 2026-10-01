@@ -168,6 +168,7 @@ test('all plan rows have a preview and missing animations are not labelled as GI
   await expect(dialog).toBeVisible();
   await expect(dialog.getByText('Für diese Variante ist noch keine Animation hinterlegt.',{exact:true})).toBeVisible();
   await expect(dialog.locator('.motion-image')).toHaveCount(0);
+  await expect.poll(()=>dialog.locator('.exercise-poster img').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
   await expect(dialog.getByRole('button',{name:'Technikvideo öffnen',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
   await day.getByRole('button',{name:'Übung ansehen: Step-up mit Kurzhanteln',exact:true}).click();
@@ -175,6 +176,8 @@ test('all plan rows have a preview and missing animations are not labelled as GI
   await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.goto('/#/workout');
+  await expect(page.getByRole('heading',{name:'Full Body A',exact:true})).toBeVisible();
+  await expect.poll(()=>page.locator('.workout-exercise-row .exercise-thumbnail img').evaluateAll(images=>images.length>0&&images.every(el=>el.complete&&el.naturalWidth>0))).toBe(true);
   await page.screenshot({path:`test-results/previews/uebung-vorschauliste-${info.project.name}.png`});
 });
 
