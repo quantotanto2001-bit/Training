@@ -5,7 +5,14 @@ import { buildSessionPlan, timeOptions, alternativesFor, resolveExercise, planne
 import { progressionFor, setDefaults } from '../src/progression.js';
 import { weeklySummary } from '../src/views/progress-v4.js';
 import { motionFor } from '../src/motion.js';
+import { posterIdFor } from '../src/exerciseMedia.js';
 import { statSync } from 'node:fs';
+
+test('preview posters do not substitute a different apparatus or movement',()=>{
+  for(const id of ['mo-splitsquat~stepup','do-pistol~stepup','sa-revlunge~split-squat','mo-rdl~rdl-guided','do-bench~bench-guided']) assert.equal(posterIdFor({id,iconId:'mo-splitsquat'}),null,id);
+  assert.equal(posterIdFor({id:'sa-cablerow~ring-row'}),'do-ringrow');
+  assert.equal(posterIdFor({id:'mo-dip~bench-db'}),'do-bench');
+});
 
 test('all durations retain the complete core, honest time estimates and power-first ordering', () => {
   for (const focus of ['allround','splits','skills']) for (const day of PLAN) {

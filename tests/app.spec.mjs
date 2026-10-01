@@ -116,12 +116,23 @@ test('finish is atomic and idempotent, and malformed import leaves original data
   expect(result.rejected).toBe(true);expect(result.after.sessionLogs).toEqual(result.before.sessionLogs);
 });
 
-test('RDL quick guide plays, pauses and shows technique phases without horizontal overflow',async({page},info)=>{
+test('thumbnail opens RDL without starting a workout, plays, pauses and returns focus',async({page},info)=>{
   await open(page);await page.getByRole('button',{name:'Training ansehen & starten'}).click();
-  await page.getByRole('button',{name:/RDL mit Kurzhanteln/}).click();
-  await page.getByText('Schnellansicht · Bewegung',{exact:true}).click();
+  const thumbnail=page.getByRole('button',{name:'Animation öffnen: RDL mit Kurzhanteln',exact:true});
+  await thumbnail.click();
+  const dialog=page.getByRole('dialog',{name:'RDL mit Kurzhanteln',exact:true});
+  await expect(dialog).toBeVisible();
+  expect(await page.evaluate(async()=>(await import('/src/db.js')).getActiveSession())).toBeNull();
+  await expect(dialog.getByRole('button',{name:'Pausieren',exact:true})).toHaveAttribute('aria-pressed','true');
   const img=page.locator('.motion-image');await expect(img).toBeVisible();
-  expect(await img.evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+  await expect.poll(()=>img.evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+  await dialog.getByRole('button',{name:'Pausieren',exact:true}).click();
+  // The animated frame can advance on a slow runner. Reopen under reduced
+  // motion to make phase navigation deterministic and verify that preference.
+  await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
+  await expect(thumbnail).toBeFocused();
+  await page.emulateMedia({reducedMotion:'reduce'});await thumbnail.click();
+  await expect(dialog.getByRole('button',{name:'Abspielen',exact:true})).toHaveAttribute('aria-pressed','false');
   await page.getByRole('button',{name:'Nächste Phase',exact:true}).click();
   await expect(page.locator('.motion-caption')).toHaveText('Hüfte zurück');
   await page.getByRole('button',{name:'Nächste Phase',exact:true}).click();
@@ -132,7 +143,39 @@ test('RDL quick guide plays, pauses and shows technique phases without horizonta
   await page.locator('.motion-controls').getByRole('button',{name:'Pausieren',exact:true}).click();
   await expect(page.locator('.motion-controls').getByRole('button',{name:'Abspielen'})).toHaveAttribute('aria-pressed','false');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-  await page.locator('.motion-card').screenshot({path:`test-results/previews/rdl-geprueft-${info.project.name}.png`});
+  await page.screenshot({path:`test-results/previews/uebung-popup-${info.project.name}.png`});
+  await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);await expect(thumbnail).toBeFocused();
+  await page.getByRole('button',{name:/^RDL mit Kurzhanteln/}).click();
+  await page.getByLabel('Satz 1 Gewicht',{exact:true}).fill('12');
+  await page.getByLabel('Satz 1 Wiederholungen',{exact:true}).fill('8');
+  await page.getByRole('button',{name:'Animation öffnen: RDL mit Kurzhanteln',exact:true}).click();
+  await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
+  await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('12');
+  await expect(page.getByLabel('Satz 1 Wiederholungen',{exact:true})).toHaveValue('8');
+});
+
+test('all plan rows have a preview and missing animations are not labelled as GIFs',async({page},info)=>{
+  await open(page);await page.getByRole('link',{name:'Plan ansehen',exact:true}).click();
+  const counts=await page.evaluate(async()=>{
+    const {PLAN}=await import('/src/plan.js'),{buildSessionPlan,defaultMinutes}=await import('/src/training.js');
+    return PLAN.reduce((sum,day)=>{const p=buildSessionPlan(day,defaultMinutes(day));return sum+p.exercises.length+p.optional.length;},0);
+  });
+  await expect(page.locator('.plan-exercise-media-row .exercise-thumbnail')).toHaveCount(counts);
+  const day=page.locator('.plan-day').filter({has:page.locator('.plan-day-title').filter({hasText:'Full Body B'})});
+  await day.locator(':scope > summary').click();
+  await day.getByRole('button',{name:'Übung ansehen: Kurzhantel-Bankdrücken',exact:true}).click();
+  const dialog=page.getByRole('dialog',{name:'Kurzhantel-Bankdrücken',exact:true});
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByText('Für diese Variante ist noch keine Animation hinterlegt.',{exact:true})).toBeVisible();
+  await expect(dialog.locator('.motion-image')).toHaveCount(0);
+  await expect(dialog.getByRole('button',{name:'Technikvideo öffnen',exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
+  await day.getByRole('button',{name:'Übung ansehen: Step-up mit Kurzhanteln',exact:true}).click();
+  await expect(page.getByRole('dialog').locator('.exercise-poster')).toHaveCount(0);
+  await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.goto('/#/workout');
+  await page.screenshot({path:`test-results/previews/uebung-vorschauliste-${info.project.name}.png`});
 });
 
 test.describe('offline installation',()=>{
@@ -161,8 +204,7 @@ test.describe('offline installation',()=>{
       expect(response.fromServiceWorker()).toBe(true);
       await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
       await page.getByRole('button',{name:'Training ansehen & starten'}).click();
-      await page.getByRole('button',{name:/RDL mit Kurzhanteln/}).click();
-      await page.getByText('Schnellansicht · Bewegung',{exact:true}).click();
+      await page.getByRole('button',{name:'Animation öffnen: RDL mit Kurzhanteln',exact:true}).click();
       await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
       await page.getByRole('button',{name:'Nächste Phase',exact:true}).click();
       await expect.poll(()=>page.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);

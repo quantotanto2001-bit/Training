@@ -1,14 +1,16 @@
 import { buildSessionPlan, defaultMinutes } from '../training.js';
 import { getSettings } from '../db.js';
-import { h, fmtRestRange, matchBadge, openVideoModal, typeIcon } from '../ui.js';
-import { PLAN, TYPE_LABELS, iconFor } from '../plan.js';
+import { h, fmtRestRange, matchBadge, openVideoModal } from '../ui.js';
+import { PLAN, TYPE_LABELS } from '../plan.js';
 import { getCurrentProgramState } from '../state.js';
 import { getActiveSession } from '../db.js';
+import { renderExerciseThumbnail, closeExerciseMedia } from '../exerciseMedia.js';
 
 export async function renderPlanOverview() {
   const [programState, active] = await Promise.all([getCurrentProgramState(), getActiveSession()]);
 
   const wrap = h('div', { class: 'view' });
+  wrap.dispose = closeExerciseMedia;
   wrap.appendChild(h('div', { class: 'header' }, [
     h('h1', {}, 'Der Plan'),
     h('p', { class: 'muted' }, 'Flexibler Sechserzyklus. Die Auswahl folgt deinem Zeitbudget. Die Dosierung ist ein Startpunkt und wird anhand deiner Fortschritte angepasst.'),
@@ -60,10 +62,10 @@ export async function renderPlanOverview() {
 }
 
 function renderExerciseDetail(exx) {
+  const row = h('div', { class: 'plan-exercise-media-row' }, [renderExerciseThumbnail(exx)]);
   const item = h('details', { class: 'exercise-detail' });
   item.appendChild(h('summary', {}, [
     h('div', { class: 'exercise-icon-row' }, [
-      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(exx), exx.id)),
       h('div', {}, [
         h('div', { class: 'exercise-name' }, exx.name),
         h('div', { class: 'muted small' }, [
@@ -95,5 +97,6 @@ function renderExerciseDetail(exx) {
     body.appendChild(h('p', { class: 'muted small' }, 'Kein Technikvideo nötig für diese Übung.'));
   }
   item.appendChild(body);
-  return item;
+  row.appendChild(item);
+  return row;
 }

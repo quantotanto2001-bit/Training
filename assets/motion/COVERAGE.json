@@ -1,0 +1,411 @@
+{
+  "updated": "2026-10-01",
+  "note": "Thumbnails are available for every entry. A thumbnail is not proof that an animation exists. Existing guides are schematic; continuous animations for the remaining variants are still required.",
+  "entries": [
+    {
+      "id": "mo-jump",
+      "name": "Broad oder Vertical Jump",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=8VddB27UkY4"
+    },
+    {
+      "id": "mo-pullup",
+      "name": "Weighted Pull-up, voller kontrollierter ROM",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=MhokcbRLP5w"
+    },
+    {
+      "id": "mo-dip",
+      "name": "Weighted Ring Dip, kontrolliert tief",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=KoS_NMmuxMM"
+    },
+    {
+      "id": "mo-dip~bench-db",
+      "name": "Kurzhantel-Bankdrücken",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=622ku8i0M14"
+    },
+    {
+      "id": "mo-splitsquat",
+      "name": "Deep Bulgarian Split Squat KH",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=4bNQITw0VdY"
+    },
+    {
+      "id": "mo-splitsquat~stepup",
+      "name": "Step-up mit Kurzhanteln",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=vq5-vdgJc0I"
+    },
+    {
+      "id": "mo-rdl~db",
+      "name": "RDL mit Kurzhanteln",
+      "status": "schematic-phase-guide",
+      "directory": "rdl-v2",
+      "reference": "https://www.youtube.com/watch?v=uhghy9pFIPY"
+    },
+    {
+      "id": "mo-rdl~rdl-guided",
+      "name": "RDL an vorhandener geführter Station",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=uhghy9pFIPY"
+    },
+    {
+      "id": "mo-nordic",
+      "name": "Nordic Hamstring Curl",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=_e9vFU9-tkc"
+    },
+    {
+      "id": "mo-calf",
+      "name": "Full-ROM Calf Raise + Pause unten",
+      "status": "schematic-phase-guide",
+      "directory": "calf-raise",
+      "reference": "https://www.youtube.com/watch?v=EmyjIRHl3CU"
+    },
+    {
+      "id": "mo-extrot",
+      "name": "Cable External Rotation",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=LpNgc6Vx4iY"
+    },
+    {
+      "id": "mo-gobletsquat",
+      "name": "Goblet Squat KH",
+      "status": "schematic-phase-guide",
+      "directory": "goblet-squat",
+      "reference": "https://www.youtube.com/watch?v=gCESNsDsbqk"
+    },
+    {
+      "id": "mo-neck",
+      "name": "Nacken-Isometrie 4-Wege",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=0-OLyDk7-Qk"
+    },
+    {
+      "id": "di-cardio",
+      "name": "Aerobic mit Polar-Gurt",
+      "status": "animation-missing",
+      "reference": "https://www.polar.com/us-en/guide/heart-rate-zones"
+    },
+    {
+      "id": "di-aslr",
+      "name": "Active Straight-Leg Raise",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=Ec56TVuOvuY"
+    },
+    {
+      "id": "di-hipflexor",
+      "name": "Half-kneeling Hip Flexor Hold",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=mzPvzMivukw"
+    },
+    {
+      "id": "di-frontsplit",
+      "name": "Front Split mit Blocks/Stütze",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=pNrx5WILVtw"
+    },
+    {
+      "id": "di-atg",
+      "name": "ATG/Long Split Squat, leicht",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=bHoCPnoHVLk"
+    },
+    {
+      "id": "di-rdl-light",
+      "name": "Straight-leg RDL / Hamstring hinge, leicht",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=uhghy9pFIPY"
+    },
+    {
+      "id": "do-lsit",
+      "name": "L-Sit / Tuck L-Sit",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=cu0fHp8HCDo"
+    },
+    {
+      "id": "do-handstand",
+      "name": "Handstand",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=pzf6nfzc4lE"
+    },
+    {
+      "id": "do-pistol~stepup",
+      "name": "Step-up mit Kurzhanteln",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=vq5-vdgJc0I"
+    },
+    {
+      "id": "do-pistol~bulgarian",
+      "name": "Bulgarian Split Squat mit Kurzhanteln",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=4bNQITw0VdY"
+    },
+    {
+      "id": "do-bench~db",
+      "name": "Kurzhantel-Bankdrücken",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=622ku8i0M14"
+    },
+    {
+      "id": "do-bench~bench-guided",
+      "name": "Geführtes Bankdrücken",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=622ku8i0M14"
+    },
+    {
+      "id": "do-bench~ring-pushup",
+      "name": "Ringliegestütz",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=dSRY2IHqOsI"
+    },
+    {
+      "id": "do-ringrow",
+      "name": "Ring Row mit maximal sauberem ROM",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=VQn3aGSUorc"
+    },
+    {
+      "id": "do-ringrow~cable-row",
+      "name": "Kabelrudern",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=xQNrFHEMhI4"
+    },
+    {
+      "id": "do-ohp",
+      "name": "KH Schulterdrücken, kontrolliert",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=0JfYxMRsUCQ"
+    },
+    {
+      "id": "do-hipthrust",
+      "name": "Hip Thrust",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=pF17m_CXfL0"
+    },
+    {
+      "id": "do-nordic",
+      "name": "Nordic Hamstring Curl",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=_e9vFU9-tkc"
+    },
+    {
+      "id": "do-revnordic",
+      "name": "Reverse Nordic",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=1v4X3nFHfRY"
+    },
+    {
+      "id": "do-scappullup",
+      "name": "Scapular Pull-up",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=1yxFXaH3rtE"
+    },
+    {
+      "id": "do-neck",
+      "name": "Nacken-Isometrie 4-Wege",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=0-OLyDk7-Qk"
+    },
+    {
+      "id": "do-wallshoulder",
+      "name": "Wall Shoulder Flexion Lift-off",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=k_zZ6XB9jds"
+    },
+    {
+      "id": "do-pikelift",
+      "name": "Seated Pike/Straddle Compression Lift",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=7MNNGqec0Dc"
+    },
+    {
+      "id": "do-straddlegm",
+      "name": "Straddle Good Morning, leicht",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=XSiQUqZDsSU"
+    },
+    {
+      "id": "do-pancake",
+      "name": "Pancake Hold",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=CHRUb43S6RM"
+    },
+    {
+      "id": "do-latstretch",
+      "name": "Lat/Overhead Stretch an Ringen",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=AeYlzzTOtdQ"
+    },
+    {
+      "id": "mi-cardio",
+      "name": "Kurze lockere Ausdauer",
+      "status": "animation-missing",
+      "reference": "https://www.polar.com/us-en/guide/heart-rate-zones"
+    },
+    {
+      "id": "mi-shouldercars",
+      "name": "Controlled Articular Rotations: Schulter",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=898QrvpmRWc"
+    },
+    {
+      "id": "mi-9090",
+      "name": "90/90 Hip Switch + Lift-off",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=MoFes2W7qKE"
+    },
+    {
+      "id": "mi-thoracic",
+      "name": "Thoracic Rotation im Vierfüssler",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=ADeGAWCDjhQ"
+    },
+    {
+      "id": "mi-wrist",
+      "name": "Wrist Rocks",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=5mil82fqj30"
+    },
+    {
+      "id": "mi-hang",
+      "name": "Passive Hang -> Active Hang (Handtuch-Griff)",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=UpP-77-GeLA"
+    },
+    {
+      "id": "mi-cossack",
+      "name": "Cossack Squat Flow",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=d4IPCXI8GQc"
+    },
+    {
+      "id": "mi-squatpry",
+      "name": "Deep Squat Pry",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=E85ihAjzaXw"
+    },
+    {
+      "id": "mi-catcow",
+      "name": "Segmental Cat-Cow",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=MyDU7GpttVA"
+    },
+    {
+      "id": "sa-pogo",
+      "name": "Pogo Jumps",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=8VddB27UkY4"
+    },
+    {
+      "id": "sa-explosivepullup",
+      "name": "Explosive Pull-up",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=SmduaQzt8Jk"
+    },
+    {
+      "id": "sa-rotpower",
+      "name": "Explosive Kabelrotation",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=R-yu0RjMW-k"
+    },
+    {
+      "id": "sa-revlunge~reverse",
+      "name": "Reverse Lunge mit Kurzhanteln",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=4bNQITw0VdY"
+    },
+    {
+      "id": "sa-revlunge~split-squat",
+      "name": "Split Squat mit Kurzhanteln",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=4bNQITw0VdY"
+    },
+    {
+      "id": "sa-ringpushup",
+      "name": "Deep Ring Push-up",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=dSRY2IHqOsI"
+    },
+    {
+      "id": "sa-ringpushup~bench-db",
+      "name": "Kurzhantel-Bankdrücken",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=622ku8i0M14"
+    },
+    {
+      "id": "sa-cablerow",
+      "name": "Cable Row",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=xQNrFHEMhI4"
+    },
+    {
+      "id": "sa-cablerow~ring-row",
+      "name": "Ringrudern",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=VQn3aGSUorc"
+    },
+    {
+      "id": "sa-leraise",
+      "name": "Hanging Leg Raise",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=Pr1ieGZ5atk"
+    },
+    {
+      "id": "sa-tibialis",
+      "name": "Tibialis Raise",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=nQKgHwi8W9E"
+    },
+    {
+      "id": "sa-neck",
+      "name": "Nacken-Isometrie 4-Wege",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=0-OLyDk7-Qk"
+    },
+    {
+      "id": "sa-finisher",
+      "name": "Runden-Conditioning",
+      "status": "animation-missing",
+      "reference": null
+    },
+    {
+      "id": "fr-cossack",
+      "name": "Cossack Squat",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=d4IPCXI8GQc"
+    },
+    {
+      "id": "fr-adductor",
+      "name": "Adductor Lift-off",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=kWN8n7wpwfY"
+    },
+    {
+      "id": "fr-frog",
+      "name": "Frog Stretch",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=SUENf0yNR_A"
+    },
+    {
+      "id": "fr-middlesplit",
+      "name": "Middle Split mit Stütze",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=hsNvqUmCAAo"
+    },
+    {
+      "id": "fr-laterallunge",
+      "name": "Lateral Lunge, langsam/tief",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=liFeq7swKfc"
+    },
+    {
+      "id": "fr-horsestance",
+      "name": "Horse Stance",
+      "status": "animation-missing",
+      "reference": "https://www.youtube.com/watch?v=uyAQEnmCVTg"
+    }
+  ]
+}

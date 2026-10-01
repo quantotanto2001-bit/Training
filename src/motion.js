@@ -15,11 +15,11 @@ const LOOPS = {
 
 export const motionFor = exercise => LOOPS[exercise.id] || null;
 
-export function renderMotion(exercise) {
+export function renderMotion(exercise, { expanded = false, autoplay = false } = {}) {
   const motion = motionFor(exercise);
   if (!motion) return null;
-  const root = h('details', { class: 'quiet-details motion-card' });
-  root.appendChild(h('summary', {}, 'Schnellansicht · Bewegung'));
+  const root = h(expanded ? 'div' : 'details', { class: expanded ? 'motion-card' : 'quiet-details motion-card' });
+  if (!expanded) root.appendChild(h('summary', {}, 'Schnellansicht · Bewegung'));
   const paths = [1, 2, 3].map(n => `assets/motion/${motion.directory}/${n}.png`);
   const img = h('img', { class: 'motion-image', src: paths[0], alt: motion.description, loading: 'lazy', width: '372', height: '408' });
   const caption = h('p', { class: 'motion-caption', 'aria-live': 'off' }, motion.labels[0]);
@@ -28,17 +28,22 @@ export function renderMotion(exercise) {
   const update = () => { img.src = paths[sequence[index]]; caption.textContent = motion.labels[sequence[index]]; };
   const stop = () => { playing = false; clearTimeout(timeout); timeout = null; play.textContent = 'Abspielen'; play.setAttribute('aria-pressed', 'false'); };
   const schedule = () => { timeout = setTimeout(() => { if (!playing) return; index = (index + 1) % sequence.length; update(); schedule(); }, motion.durations?.[index] || 850); };
-  const play = h('button', { class: 'btn btn-small', 'aria-pressed': 'false', onclick: () => {
-    if (playing) { stop(); return; }
+  const start = () => {
     playing = true;
     play.textContent = 'Pausieren'; play.setAttribute('aria-pressed', 'true');
     schedule();
+  };
+  const play = h('button', { class: 'btn btn-small', 'aria-pressed': 'false', onclick: () => {
+    if (playing) stop(); else start();
   } }, 'Abspielen');
   root.addEventListener('toggle', () => { if (!root.open) stop(); });
   root.append(img, caption, h('div', { class: 'motion-controls' }, [play, h('button', { class: 'btn btn-small', onclick: () => { stop(); index = (index + 1) % sequence.length; update(); } }, 'Nächste Phase')]),
     h('ul', { class: 'motion-cues' }, motion.cues.map(c => h('li', {}, c))),
     h('p', { class: 'muted small' }, 'Drei schematische Positionen als Technikerinnerung. Die Bildwechsel bilden keinen vollständigen Bewegungsablauf und kein verbindliches Trainingstempo ab. Bewegungstiefe an deine Kontrolle anpassen; für die durchgehende Ausführung das Video nutzen.'),
     h('a', { class: 'link-small', href: `assets/motion/${motion.directory}/${motion.file}`, download: `${motion.directory}.gif` }, 'GIF herunterladen'));
-  root.dispose = stop;
+  const onVisibility = () => { if (document.visibilityState === 'hidden') stop(); };
+  document.addEventListener('visibilitychange', onVisibility);
+  root.dispose = () => { stop(); document.removeEventListener('visibilitychange', onVisibility); };
+  if (autoplay && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
   return root;
 }

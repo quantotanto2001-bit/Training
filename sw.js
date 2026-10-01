@@ -1,4 +1,4 @@
-const CACHE_NAME = 'universal-athlete-v4-adaptive-4';
+const CACHE_NAME = 'universal-athlete-v4-adaptive-5';
 const APP_SHELL = [
   './',
   './index.html',
@@ -11,6 +11,7 @@ const APP_SHELL = [
   './src/plan.js',
   './src/training.js',
   './src/motion.js',
+  './src/exerciseMedia.js',
   './assets/motion/rdl-v2/1.png',
   './assets/motion/rdl-v2/2.png',
   './assets/motion/rdl-v2/3.png',

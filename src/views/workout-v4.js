@@ -1,6 +1,6 @@
-import { renderMotion } from '../motion.js';
-import { h, fmtRestRange, fmtMinSec, typeIcon } from '../ui.js';
-import { PLAN, TYPES, iconFor } from '../plan.js';
+import { renderExerciseThumbnail, closeExerciseMedia } from '../exerciseMedia.js';
+import { h, fmtRestRange, fmtMinSec } from '../ui.js';
+import { PLAN, TYPES } from '../plan.js';
 import { getActiveSession, setActiveSession, clearActiveSession, getLastPerformance, getExerciseNote, setExerciseNote, getSettings, saveSettings, uid } from '../db.js';
 import { getCurrentDay, completeCurrentDay } from '../state.js';
 import { PLAN_VERSION, buildSessionPlan, defaultMinutes, timeOptions, alternativesFor, resolveExercise, sessionExercises, plannedSets, prescription, sessionMinutes, GROUP_LABELS, SCIENCE_LINKS } from '../training.js';
@@ -32,7 +32,7 @@ export async function renderWorkout() {
   const wrap = h('div', { class: 'view workout-view' });
   const error = h('p', { class: 'save-error', role: 'alert', hidden: '' });
   const content = h('div', {}); wrap.append(error, content);
-  wrap.dispose = () => { renderToken++; timer.dispose(); content.querySelectorAll('.motion-card').forEach(el => el.dispose?.()); };
+  wrap.dispose = () => { renderToken++; timer.dispose(); closeExerciseMedia(); };
   const exercises = () => active.planSnapshot.exercises;
   const doneSets = ex => (active.entries[ex.id]?.sets || []).filter(s => !s.isWarmup);
   const completed = ex => doneSets(ex).length >= plannedSets(ex);
@@ -73,17 +73,18 @@ export async function renderWorkout() {
     if (plan.warning) box.appendChild(h('p', { class: 'hint-box small' }, plan.warning));
     if (day.warmupGeneral) box.appendChild(detail('Aufwärmen', [h('p', { class: 'small' }, day.warmupGeneral)]));
     const list = h('div', { class: 'workout-exercise-list' });
-    exercises().forEach((ex, i) => list.appendChild(h('button', { class: 'workout-exercise-row', onclick: () => show(i) }, [
-      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(ex), ex.iconId || ex.id)),
-      h('div', { class: 'workout-exercise-row-main' }, [h('div', { class: 'exercise-name' }, ex.name), h('div', { class: 'muted small' }, `${prescription(ex)} · ${ex.core ? 'Grundblock' : 'Ergänzung'}`)]),
+    exercises().forEach((ex, i) => list.appendChild(h('div', { class: 'workout-exercise-row' }, [
+      renderExerciseThumbnail(ex),
+      h('button', { class: 'workout-exercise-open', onclick: () => show(i) }, [h('div', { class: 'workout-exercise-row-main' }, [h('div', { class: 'exercise-name' }, ex.name), h('div', { class: 'muted small' }, `${prescription(ex)} · ${ex.core ? 'Grundblock' : 'Ergänzung'}`)]),
       h('span', { class: 'check-circle' + (completed(ex) ? ' check-circle-done' : '') }, completed(ex) ? '✓' : doneSets(ex).length ? '·' : ''),
+      ]),
     ])));
     box.appendChild(list);
-    if (plan.optional?.length) box.appendChild(detail('Weitere Übungen bei Bedarf', [h('p', { class: 'muted small' }, 'Ergänzungen verlängern die Dauer. Du musst sie nicht nachholen.'), ...plan.optional.map(ex => h('button', { class: 'optional-row', onclick: async () => {
+    if (plan.optional?.length) box.appendChild(detail('Weitere Übungen bei Bedarf', [h('p', { class: 'muted small' }, 'Ergänzungen verlängern die Dauer. Du musst sie nicht nachholen.'), ...plan.optional.map(ex => h('div', { class: 'optional-exercise-row' }, [renderExerciseThumbnail(ex), h('button', { class: 'optional-row', onclick: async () => {
       exercises().push(ex);
       if (day.isFullBody) exercises().sort((a, b) => (a.type === TYPES.POWER ? 0 : a.type === TYPES.SKILL ? 1 : 2) - (b.type === TYPES.POWER ? 0 : b.type === TYPES.SKILL ? 1 : 2));
       plan.optional = plan.optional.filter(e => e.id !== ex.id); await persist(); await render();
-    } }, `${ex.name} · hinzufügen`))]));
+    } }, `${ex.name} · hinzufügen`)]))]));
     box.appendChild(h('button', { class: 'btn btn-primary btn-block', onclick: () => show(Math.max(0, exercises().findIndex(ex => !completed(ex)))) }, started ? 'Training fortsetzen' : 'Training beginnen'));
     if (started) box.appendChild(h('button', { class: 'btn btn-ghost', onclick: finish }, 'Beenden / verkürzt speichern'));
     const date = h('input', { type: 'date', value: active.startedAt.slice(0, 10), onchange: async e => {
@@ -106,13 +107,12 @@ export async function renderWorkout() {
     const box = h('div', { class: 'view' }, [h('div', { class: 'workout-header-row' }, [
       h('button', { class: 'btn-icon back-chevron', onclick: async () => { mode = 'overview'; await render(); } }, '‹ Übersicht'),
       h('span', { class: 'muted small' }, `${stepIndex + 1} / ${exercises().length}`), h('button', { class: 'btn btn-ghost btn-small', onclick: pause }, 'Pausieren'),
-    ]), h('div', { class: 'exercise-heading' }, [h('h2', {}, entry.substituteName || ex.name), h('p', { class: 'muted small' }, `${prescription(ex)}${ex.restSec ? ' · Pause ' + fmtRestRange(ex.restSec) : ''}`)])]);
+    ]), h('div', { class: 'exercise-heading exercise-heading-media' }, [renderExerciseThumbnail(ex), h('div', {}, [h('h2', {}, entry.substituteName || ex.name), h('p', { class: 'muted small' }, `${prescription(ex)}${ex.restSec ? ' · Pause ' + fmtRestRange(ex.restSec) : ''}`)])])]);
     if (last) box.appendChild(h('div', { class: 'last-perf' }, [h('span', { class: 'card-label' }, 'Zuletzt'), h('p', { class: 'small' }, last.sets.filter(s => !s.isWarmup).map(s => formatLoggedSet(ex, s)).join(' | '))]));
     box.appendChild(detail('Vorschlag für heute', [h('p', { class: 'small' }, suggestion.text), ...(suggestion.suggestedWeight != null ? [h('button', { class: 'btn btn-small', onclick: async () => {
       for (let i = 0; i < plannedSets(ex); i++) if (!work(entry).some(s => s.slotIndex === i)) entry.drafts[i] = { ...entry.drafts[i], weightKg: suggestion.suggestedWeight };
       await persist(); await render();
     } }, `${suggestion.suggestedWeight} kg übernehmen`)] : [])]));
-    const motion = renderMotion(ex); if (motion) box.appendChild(motion);
     const timerHost = h('div', {}); box.appendChild(timerHost);
     const updateTimer = () => {
       timerHost.replaceChildren(); if (timer.total <= 0) return;
@@ -152,7 +152,7 @@ export async function renderWorkout() {
     box.appendChild(detail('Technik und Zweck', [h('p', { class: 'small' }, ex.note || `Trainingsaufgabe: ${GROUP_LABELS[ex.group] || 'kontrollierte Bewegung'}. Aufbau und Bewegungsumfang vergleichbar halten.`), ...(ex.alternativeNote ? [h('p', { class: 'small' }, ex.alternativeNote)] : []), ...(ex.video ? [renderVideoCard(ex.video)] : []), h('p', { class: 'muted small' }, 'Die Forschung stützt Trainingsprinzipien; die konkrete Zusammenstellung ist eine praktische Ableitung.'), h('a', { href: SCIENCE_LINKS[ex.tracking === 'neck' ? 4 : 0].url, target: '_blank', rel: 'noopener noreferrer', class: 'link-small' }, 'Wissenschaftlicher Hintergrund ↗')]));
     return box;
   }
-  async function render() { const token = ++renderToken; timer.onTick = () => {}; const view = mode === 'overview' ? overview() : await exerciseScreen(); if (token === renderToken) { content.querySelectorAll('.motion-card').forEach(el => el.dispose?.()); content.replaceChildren(view); } }
+  async function render() { const token = ++renderToken; timer.onTick = () => {}; const view = mode === 'overview' ? overview() : await exerciseScreen(); if (token === renderToken) { closeExerciseMedia(); content.replaceChildren(view); } }
   await render(); return wrap;
 }
 
