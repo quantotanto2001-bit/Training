@@ -116,7 +116,7 @@ test('finish is atomic and idempotent, and malformed import leaves original data
   expect(result.rejected).toBe(true);expect(result.after.sessionLogs).toEqual(result.before.sessionLogs);
 });
 
-test('RDL quick guide plays, pauses and shows technique phases without horizontal overflow',async({page})=>{
+test('RDL quick guide plays, pauses and shows technique phases without horizontal overflow',async({page},info)=>{
   await open(page);await page.getByRole('button',{name:'Training ansehen & starten'}).click();
   await page.getByRole('button',{name:/RDL mit Kurzhanteln/}).click();
   await page.getByText('Schnellansicht · Bewegung',{exact:true}).click();
@@ -124,11 +124,15 @@ test('RDL quick guide plays, pauses and shows technique phases without horizonta
   expect(await img.evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
   await page.getByRole('button',{name:'Nächste Phase',exact:true}).click();
   await expect(page.locator('.motion-caption')).toHaveText('Hüfte zurück');
+  await page.getByRole('button',{name:'Nächste Phase',exact:true}).click();
+  await expect(img).toHaveAttribute('src',/rdl-v2\/3\.png$/);
   await page.getByRole('button',{name:'Abspielen',exact:true}).click();
   await expect(page.getByRole('button',{name:'Pausieren',exact:true}).last()).toHaveAttribute('aria-pressed','true');
+  await expect(img).not.toHaveAttribute('src',/\/3\.png$/,{timeout:4000});
   await page.locator('.motion-controls').getByRole('button',{name:'Pausieren',exact:true}).click();
   await expect(page.locator('.motion-controls').getByRole('button',{name:'Abspielen'})).toHaveAttribute('aria-pressed','false');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.locator('.motion-card').screenshot({path:`test-results/previews/rdl-geprueft-${info.project.name}.png`});
 });
 
 test.describe('offline installation',()=>{

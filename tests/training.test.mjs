@@ -81,9 +81,9 @@ test('three sets of seven at five kg trigger progression only at the upper rep t
 });
 
 test('motion guides exist locally and are restricted to the demonstrated variants',()=>{
- for(const id of ['mo-rdl~db','mo-gobletsquat','do-bench~db','mo-dip~bench-db','sa-ringpushup~bench-db','mo-calf']){
+ for(const id of ['mo-rdl~db','mo-gobletsquat','mo-calf']){
   const m=motionFor({id});assert.ok(m,id);
   for(const name of ['1.png','2.png','3.png',m.file]) assert.ok(statSync(new URL(`../assets/motion/${m.directory}/${name}`,import.meta.url)).size > 1000,`${id}: ${name}`);
  }
- for(const id of ['mo-rdl','mo-rdl~rdl-guided','do-bench~bench-guided','do-bench~ring-pushup','do-ringrow','mo-dip','sa-ringpushup']) assert.equal(motionFor({id}),null,id);
+ for(const id of ['mo-rdl','mo-rdl~rdl-guided','do-bench~db','mo-dip~bench-db','sa-ringpushup~bench-db','do-bench~bench-guided','do-bench~ring-pushup','do-ringrow','mo-dip','sa-ringpushup']) assert.equal(motionFor({id}),null,id);
 });

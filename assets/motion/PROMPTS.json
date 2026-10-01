@@ -2,7 +2,7 @@
   "generator": "Built-in image generation",
   "created": "2026-09-30",
   "purpose": "Schematic three-phase exercise reminders; not measured biomechanics or individualized technique validation.",
-  "review": "Generated panels were visually inspected and separated into equally sized app frames. An inconsistent ring-row strip was rejected and is not published. Calf raise illustrates unloaded mechanics. Technical videos and cues remain available.",
+  "review": "See REVIEW.md for second visual review. Both bench-press drafts were rejected after the user's correction, and are not included in the app. Ring row also rejected. Remaining guides are schematic reminders, not validated 1:1 motion.",
   "assets": {
     "goblet-squat": {
       "prompt": "Create an ORIGINAL anatomical fitness illustration sprite strip for a mobile training app, 3 equally sized square panels in ONE horizontal image, pure white background, no text, no logos, no panel borders. EXACTLY the SAME adult muscular male character in all panels, grey shaded anatomical illustration, dark grey shorts, short dark hair, red accent only on quadriceps and gluteal muscles. Show a DUMBBELL GOBLET SQUAT as three schematic poses, from a consistent three-quarter side view facing right: panel 1 standing upright, holding ONE vertical dumbbell cupped at its upper head close to the sternum; panel 2 midway lowering, hips and knees bending together; panel 3 controlled deep squat, heels fully down, thighs approximately parallel to floor or slightly below, knees follow toes, torso braced with a natural forward inclination. Both hands must keep holding the SAME single dumbbell against the chest in all panels. Keep feet identical fixed positions on the SAME baseline relative to each panel, same camera and body scale, full body completely visible with at least 8% margin. Knees do not collapse inward, no excessive spinal arch, no heel lift. This is a simple movement reminder, not a measurement diagram. High-quality clean grey pencil/medical-illustration appearance, restrained red muscle highlighting, original artwork.",
@@ -15,12 +15,7 @@
     },
     "bench-db": {
       "prompt": "Create an ORIGINAL anatomical fitness illustration sprite strip for a mobile training app, 3 equally sized landscape panels in ONE horizontal image, white background, no text, logos or borders. EXACT same muscular adult male in all panels, grey shaded anatomical drawing, dark grey shorts, short dark hair. Red accent pectorals and triceps. DUMBBELL FLAT BENCH PRESS: same bench, same camera at a clear three-quarter side view, head to LEFT and feet to RIGHT, entire person and bench visible in each panel. Panel 1 lying on flat bench with back and head supported, feet planted on floor, one dumbbell in each hand over the chest, arms nearly straight upward without aggressive locking. Panel 2 elbows bend and dumbbells descend halfway toward outer chest, wrists straight above elbows. Panel 3 bottom position, dumbbells beside chest, forearms approximately vertical, elbows angled roughly 45 degrees away from torso rather than flared at 90 degrees, upper arms near torso level, shoulder position stable. Keep torso, bench and feet at IDENTICAL coordinates relative to each panel and identical scale. No arch exaggeration, no hands changing grip, no extra dumbbells or limbs. Spacious margins. Three discrete schematic movement phases, clean precise anatomy illustration with restrained red shading.",
-      "frames": [
-        "1.png",
-        "2.png",
-        "3.png"
-      ],
-      "gif": "loop.gif"
+      "status": "REJECTED: dumbbell/grip orientation unclear; no app assets published."
     },
     "calf-raise": {
       "prompt": "Create an ORIGINAL anatomical fitness illustration sprite strip with THREE equally sized square panels, one horizontal image, pure white background, no text or logos. Same muscular adult male character, grey shaded anatomical illustration, dark grey shorts, short dark hair, CALF MUSCLES highlighted red. Supported standing bilateral calf raise on a low sturdy rectangular step, both forefeet planted on edge of step, heels free beyond edge. Side view facing RIGHT. Right hand lightly touches a vertical wall/rail at right for balance, left arm relaxed, no weight shown. Same fixed camera and character scale; step and forefeet stay EXACTLY registered at identical panel-relative coordinates. Panel 1 heels lowered slightly below forefoot level in controlled dorsiflexion, knees softly straight, upright torso. Panel 2 heels level with forefeet, upright torso. Panel 3 rise onto balls of feet, heels high, ankles in plantarflexion, body rises naturally above same fixed forefeet. Feet should be visibly anatomically connected and toes should NOT move on the step. Show full body, full step and support with generous margins. No knee squatting, no jumping, no changing support hand. Clean grey pencil-style anatomy with red calf accent. Three schematic poses intended as a movement reminder.",
@@ -29,7 +24,22 @@
         "2.png",
         "3.png"
       ],
+      "gif": "loop-paused.gif"
+    },
+    "rdl-v2": {
+      "prompt": "Edit this existing THREE-PANEL dumbbell Romanian deadlift illustration. Preserve the original three-panel layout, camera, athlete, grey/red anatomical style, white background, feet positions, weights, limb lengths, hip/knee positions, body scale and all equipment. Make ONLY one specific correction: in the middle and right panels, rotate the HEAD and adjust the NECK so the head follows the angle of the upper torso, with a gentle chin tuck and gaze angled down at the floor ahead. In the lowest hinge (right panel), the face must point diagonally DOWN, not horizontally forward; do not crane the head upward. The back of the neck should visually continue the upper back. Do NOT round the thoracic/lumbar back, tuck the chin to the chest, change the hinge depth, squat lower, alter arms or move the dumbbells. Keep the first upright panel unchanged. Full body visible, identical fixed foot baseline across panels, no text or borders. These are schematic phase reminders, not a measured biomechanical diagram.",
+      "mode": "Built-in image edit",
+      "frames": [
+        "1.png",
+        "2.png",
+        "3.png"
+      ],
       "gif": "loop.gif"
+    },
+    "bench-db-v2": {
+      "prompt": "Edit the provided THREE-PANEL dumbbell flat-bench press illustration. Keep the same adult male, grey anatomical drawing, red pectoral/triceps accents, dark shorts, bench, camera, white background, three poses, full body and feet. Targeted correction: make the orientation of BOTH dumbbells and grips unambiguous and consistent. Show a comfortable SEMI-NEUTRAL grip in ALL three panels: palms turned partly toward each other, each dumbbell handle angled about 35-45 degrees in the horizontal plane relative to the long head-to-feet axis of the bench. Thus the dumbbells are diagonally oriented, NOT lengthwise along the torso; their orientations are mirror-symmetric between the left and right hands. Each hand securely wraps one straight handle between two matching round weight heads. Forearms support the handles with wrists straight, not bent back or sideways. In the bottom position the wrist/handle centers are stacked vertically above the elbows, elbows directed diagonally from the torso rather than a 90-degree T shape. The illustrated grip is one permitted variant, not a claim that everyone needs one precise angle. Preserve the top/middle/bottom arm positions and body/bench positions, and keep the dumbbell angle the SAME through all three poses, not rotating during the press. Do not merge the two dumbbells into a barbell, add limbs or fingers, or crop toes. No text or additional objects.",
+      "mode": "Built-in image edit",
+      "status": "REJECTED: hand/grip geometry not convincingly represented; no app assets published."
     }
   }
 }

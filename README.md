@@ -32,9 +32,11 @@ YouTube-Videos öffnen in einem eingebetteten Player. Eine Sperre der Einbettung
 
 ## Übungsbilder
 
-Pausierbare Schnellansichten zeigen **Kurzhantel-RDL, Goblet Squat, Kurzhantel-Bankdrücken und beidbeiniges Wadenheben** in jeweils drei Phasen. Die eigens generierten Grafiken sind schematische Erinnerungen, keine vermessenen Bewegungen oder individuell validierten Technikvorgaben. Sie sind nur den dargestellten Varianten zugeordnet; Bankdrücken erscheint auch bei passenden Ersatzübungen. Wadenheben zeigt das Bewegungsprinzip ohne Zusatzgewicht. Die Dateien sind offline verfügbar und können als GIF heruntergeladen werden. Es gibt noch keine vollständige GIF-Sammlung für alle Übungen. Prompts und Auswahlhinweise stehen in `assets/motion/PROMPTS.json`.
+Pausierbare Schnellansichten zeigen **Kurzhantel-RDL, Goblet Squat und beidbeiniges Wadenheben** in jeweils drei Phasen. Die eigens generierten Grafiken sind schematische Erinnerungen, keine vermessenen Bewegungen oder individuell validierten Technikvorgaben. Sie sind nur den dargestellten Varianten zugeordnet. Wadenheben zeigt das Bewegungsprinzip ohne Zusatzgewicht. Die Dateien sind offline verfügbar und können als GIF heruntergeladen werden. Bankdrücken und Ringrudern erhalten wegen nicht überzeugender Zeichnungen vorerst keine Bildfolge; ihre Technikvideos bleiben verfügbar. Es gibt noch keine vollständige GIF-Sammlung für alle Übungen. Prompts und Auswahlhinweise stehen in `assets/motion/PROMPTS.json`.
 
 ## Nachweise und Prüfung
+
+Die Bildfolgen wurden am 30.09.2026 erneut mit den App-Hinweisen und Technikquellen abgeglichen. RDL v2 zeigt eine zum Rumpfwinkel passende Kopfhaltung und fest ausgerichtete Füße. Beide Bankdrück-Entwürfe wurden verworfen: Die überarbeitete Zeichnung bildete Hände und Hantelgriffe nicht überzeugend ab. Wadenheben hebt die untere Halteposition länger hervor. Drei gezeichnete Positionen können keine vollständige, biomechanisch validierte 1:1-Bewegung darstellen. Die Sichtprüfung und ihre Grenzen stehen in `assets/motion/REVIEW.md`.
 
 Quellen sind unter Einstellungen verlinkt. Sie stützen allgemeine Trainingsprinzipien; die konkrete Zusammenstellung, Zeitbudgets und Alternativen sind praktische Ableitungen, kein nachgewiesenes individuelles Optimum. Sporttechnik für Klettern, BJJ, Boxen oder Schwimmen erfordert später auch sportartspezifisches Üben.
 
