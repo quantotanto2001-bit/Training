@@ -1,0 +1,2132 @@
+[
+  {
+    "perSide": false,
+    "warmup": "power",
+    "video": {
+      "label": "HSS: Pogo/Plyometrie-Referenz",
+      "url": "https://www.youtube.com/watch?v=8VddB27UkY4",
+      "match": "ähnlich",
+      "note": "Nutze das Video für elastische Landung und Fuss-/Sprunggelenkskontrolle. Für Broad/Vertical Jump aber deutlich mehr Knie-/Hüftbeugung, maximalen Absprung und volle Erholung zwischen Einzelreps/Sätzen. Keine schnellen Dauerhüpfer.",
+      "cues": "Maximal hoch/weit; leise, stabile Landung; Knie folgen Fussrichtung."
+    },
+    "note": "Schnell und sauber ausführen. Bei deutlich geringerer Höhe/Geschwindigkeit den Satz beenden und erholen.",
+    "directions": null,
+    "id": "mo-jump",
+    "name": "Broad oder Vertical Jump",
+    "dosage": "2 × 3–3 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 3,
+      "max": 3
+    },
+    "restSec": {
+      "min": 120,
+      "max": 240
+    },
+    "type": "power",
+    "slotId": "mo-jump",
+    "iconId": "mo-jump",
+    "group": "power",
+    "targetRIR": null,
+    "core": false,
+    "targetSets": 4
+  },
+  {
+    "perSide": false,
+    "warmup": "heavy",
+    "video": {
+      "label": "FitnessFAQs: How to Pull-Up Correctly",
+      "url": "https://www.youtube.com/watch?v=MhokcbRLP5w",
+      "match": "passend",
+      "note": "Zusatzgewicht an Dip-Belt/Gürtel ändert die Grundtechnik nicht. Beginne jede Wiederholung aus derselben kontrollierten unteren Position; kein Kipping. Gewicht nur erhöhen, wenn die ROM erhalten bleibt.",
+      "cues": "Rippen kontrolliert; Beine ruhig; Zug ohne Schwung; reproduzierbare obere Endposition."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-pullup",
+    "name": "Weighted Pull-up, voller kontrollierter ROM",
+    "dosage": "4 × 4–7 Wdh.",
+    "sets": 4,
+    "reps": {
+      "min": 4,
+      "max": 7
+    },
+    "restSec": {
+      "min": 180,
+      "max": 240
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-pullup",
+    "iconId": "mo-pullup",
+    "group": "verticalPull",
+    "core": true,
+    "targetSets": 4
+  },
+  {
+    "perSide": false,
+    "warmup": "heavy",
+    "video": {
+      "label": "FitnessFAQs: Are You Doing Dips Correctly?",
+      "url": "https://www.youtube.com/watch?v=KoS_NMmuxMM",
+      "match": "passend",
+      "note": "Für deinen Plan die Tiefe nur so weit steigern, wie Schulter und Ringe aktiv kontrolliert bleiben. Zusatzgewicht darf nicht zu kürzerer ROM führen.",
+      "cues": "Ringe stabil; kontrolliert absenken; kein Fallen in die Schulter; kraftvoll hoch."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-dip",
+    "name": "Weighted Ring Dip, kontrolliert tief",
+    "dosage": "4 × 5–8 Wdh.",
+    "sets": 4,
+    "reps": {
+      "min": 5,
+      "max": 8
+    },
+    "restSec": {
+      "min": 180,
+      "max": 240
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-dip",
+    "iconId": "mo-dip",
+    "group": "chestPush",
+    "core": true,
+    "targetSets": 4
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "ScottHermanFitness: Dumbbell Bench Press",
+      "url": "https://www.youtube.com/watch?v=622ku8i0M14",
+      "match": "ähnlich",
+      "note": "Gleicher Schwerpunkt Brust/Trizeps; anderer Druckwinkel. Bankdrücken und Ring-Dips getrennt vergleichen. Bei geführter Maschine Sitz/Bank so einstellen, dass die Druckbahn zur Schulter passt. Für deinen Plan kontrollierte, schmerzfreie grosse ROM; nicht extra kurz für mehr Gewicht.",
+      "cues": "Schulterblätter stabil; Handgelenke über Unterarmen; kontrolliert absenken."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-dip~bench-db",
+    "name": "Kurzhantel-Bankdrücken",
+    "dosage": "3 x 6-10",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 150,
+      "max": 210
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-dip",
+    "iconId": "do-bench",
+    "group": "chestPush",
+    "variant": "bench-db",
+    "alternativeNote": "Gleicher Schwerpunkt Brust/Trizeps; anderer Druckwinkel. Bankdrücken und Ring-Dips getrennt vergleichen."
+  },
+  {
+    "perSide": true,
+    "warmup": "moderate",
+    "video": {
+      "label": "E3 Rehab: How To Perform Perfect Split Squats",
+      "url": "https://www.youtube.com/watch?v=4bNQITw0VdY",
+      "match": "ähnlich",
+      "note": "E3 zeigt die Split-Squat-Grundmechanik. Für deinen Plan hinteren Fuss erhöhen und bewusst tiefere, kontrollierte ROM nutzen. Bei Bedarf an Stütze festhalten, damit Balance nicht die ROM begrenzt.",
+      "cues": "Vorderer Fuss voll belastet; kontrolliert tief; kein Aufprall unten; Becken stabil."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-splitsquat",
+    "name": "Deep Bulgarian Split Squat KH",
+    "dosage": "3 × 6–10 Wdh. je Seite",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-splitsquat",
+    "iconId": "mo-splitsquat",
+    "group": "knee",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": true,
+    "warmup": "moderate",
+    "video": {
+      "label": "E3 Rehab Exercise Library: Step Ups",
+      "url": "https://www.youtube.com/watch?v=ORE0cd7k85c",
+      "match": "passend",
+      "note": "Step-up-Bewegung: eine stabile Auflage verwenden und deren Höhe an deine Kontrolle anpassen. Kurzhanteln bei der belasteten Variante seitlich halten.",
+      "cues": "Den ganzen oberen Fuß aufsetzen; mit dem oberen Bein hochdrücken; kontrolliert zum Boden zurückkehren."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-splitsquat~stepup",
+    "name": "Step-up mit Kurzhanteln",
+    "dosage": "3 x 5-8 / Bein",
+    "sets": 3,
+    "reps": {
+      "min": 5,
+      "max": 8
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-splitsquat",
+    "iconId": "do-pistol",
+    "group": "knee",
+    "variant": "stepup",
+    "alternativeNote": "Beide Beine gleich trainieren. Eine stabile Auflage wie im bisherigen Plan nutzen; Höhe und Unterstützung gleich halten."
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "E3 Rehab: Perfect RDL",
+      "url": "https://www.youtube.com/watch?v=uhghy9pFIPY",
+      "match": "passend",
+      "startSec": 82,
+      "endSec": 264,
+      "note": "Video zeigt nur das Kapitel \"So führst du RDLs richtig aus\". Die Tiefe wird durch deinen kontrollierten Hip-Hinge bestimmt - nicht dadurch, wie tief das Gewicht kommt. Bei geführter Variante dieselbe Hüftmechanik beibehalten.",
+      "cues": "Hüfte nach hinten; leichte Kniebeugung; Gewicht körpernah; Spannung in Hamstrings."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-rdl~db",
+    "name": "RDL mit Kurzhanteln",
+    "dosage": "3 × 6–10 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-rdl",
+    "iconId": "mo-rdl",
+    "group": "hinge",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "E3 Rehab: Perfect RDL",
+      "url": "https://www.youtube.com/watch?v=uhghy9pFIPY",
+      "match": "ähnlich",
+      "startSec": 82,
+      "endSec": 264,
+      "note": "Nur verwenden, wenn deine Station die Hüftbeuge zulässt. Knie leicht gebeugt, Hüfte nach hinten; eigene Lastreihe. Video zeigt nur das Kapitel \"So führst du RDLs richtig aus\". Die Tiefe wird durch deinen kontrollierten Hip-Hinge bestimmt - nicht dadurch, wie tief das Gewicht kommt. Bei geführter Variante dieselbe Hüftmechanik beibehalten.",
+      "cues": "Hüfte nach hinten; leichte Kniebeugung; Gewicht körpernah; Spannung in Hamstrings."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-rdl~rdl-guided",
+    "name": "RDL an vorhandener geführter Station",
+    "dosage": "3 x 6-10",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-rdl",
+    "iconId": "mo-rdl",
+    "group": "hinge",
+    "variant": "rdl-guided",
+    "alternativeNote": "Nur verwenden, wenn deine Station die Hüftbeuge zulässt. Knie leicht gebeugt, Hüfte nach hinten; eigene Lastreihe."
+  },
+  {
+    "perSide": false,
+    "warmup": "light",
+    "video": {
+      "label": "How to Set Up, Perform, & Program Nordic Hamstring Curls",
+      "url": "https://www.youtube.com/watch?v=_e9vFU9-tkc",
+      "match": "passend",
+      "startSec": 56,
+      "endSec": 228,
+      "note": "Video nutzt teils eine Rack-Halterung für die Füsse. Für deinen Plan Füsse stattdessen unter einer schweren, gegen die Wand gestemmten Kurzhantel/Langhantel oder unter der Hantelbank fixieren. Kontrolliert so tief absenken, wie du die Bewegung noch abbremsen kannst - kein freies Fallen.",
+      "cues": "Gerade Linie Schulter-Hüfte-Knie; Bewegung nur aus den Hamstrings; kontrolliert bis zur Grenze, dann mit den Armen abfangen."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-nordic",
+    "name": "Nordic Hamstring Curl",
+    "dosage": "3 × 6–10 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 90,
+      "max": 150
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-nordic",
+    "iconId": "mo-nordic",
+    "group": "kneeFlexion",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "light",
+    "video": {
+      "label": "James Harrison: Standing Calf Raise",
+      "url": "https://www.youtube.com/watch?v=EmyjIRHl3CU",
+      "match": "ähnlich",
+      "note": "Viele Demos sind zu kurz. Für deinen Plan unten bewusst in tolerierbare Dorsalflexion, dort kurz kontrollieren, dann voll hoch. Kein Federn aus der Achillessehne.",
+      "cues": "Lang unten; Pause; volle Plantarflexion; Fuss nicht nach innen/aussen kippen."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-calf",
+    "name": "Full-ROM Calf Raise + Pause unten",
+    "dosage": "3 × 8–15 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 8,
+      "max": 15
+    },
+    "restSec": {
+      "min": 90,
+      "max": 120
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-calf",
+    "iconId": "mo-calf",
+    "group": "calf",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "light",
+    "video": {
+      "label": "Bodybuilding.com: Cable External Rotation",
+      "url": "https://www.youtube.com/watch?v=LpNgc6Vx4iY",
+      "match": "passend",
+      "note": "Das Video zeigt die Cable External Rotation. Für die Planvariante Oberarm am Körper stabil halten, sofern du nicht bewusst die 90/90-Progression nutzt.",
+      "cues": "Ellbogen ca. 90 Grad; Oberarm ruhig; nur Schulter rotiert; Rückweg kontrolliert."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-extrot",
+    "name": "Cable External Rotation",
+    "dosage": "2 × 12–20 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 12,
+      "max": 20
+    },
+    "restSec": {
+      "min": 60,
+      "max": 90
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-extrot",
+    "iconId": "mo-extrot",
+    "group": "rotation",
+    "core": true,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "BuiltLean: Goblet Squats - Proper Form & Technique",
+      "url": "https://www.youtube.com/watch?v=gCESNsDsbqk",
+      "match": "passend",
+      "note": "Bilateraler Squat als Ergänzung zu den einbeinigen Kniebeuge-Varianten im Plan. Kurzhantel eng vor der Brust halten, Ellbogen zeigen nach unten in Richtung Knie.",
+      "cues": "Brust hoch; Knie folgen Fussrichtung; kontrolliert tief; Ellbogen touchieren Knie leicht."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mo-gobletsquat",
+    "name": "Goblet Squat KH",
+    "dosage": "2 × 8–12 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "mo-gobletsquat",
+    "iconId": "mo-gobletsquat",
+    "group": "knee",
+    "core": false,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Isometric 4 Way Manual Neck",
+      "url": "https://www.youtube.com/watch?v=0-OLyDk7-Qk",
+      "match": "ähnlich",
+      "note": "Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.",
+      "cues": "Kopf bleibt still; Kraft gleichmässig aufbauen; Nacken neutral, kein Ausweichen."
+    },
+    "note": "Kopf neutral und still. Widerstand mit der Hand allmählich aufbauen. Gleiche Handposition, Richtung und Anstrengung dokumentieren. Nur kontrolliert und beschwerdefrei steigern; Sekunden allein messen keine Nackenkraft.",
+    "directions": [
+      "Stirn",
+      "Hinterkopf",
+      "Seite links",
+      "Seite rechts"
+    ],
+    "id": "mo-neck",
+    "name": "Nacken-Isometrie 4-Wege",
+    "dosage": "2 × 15–20 Sek. je Richtung",
+    "sets": 2,
+    "holdSec": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": {
+      "min": 20,
+      "max": 30
+    },
+    "type": "mobility_active",
+    "slotId": "mo-neck",
+    "iconId": "mo-neck",
+    "group": "neck",
+    "tracking": "neck",
+    "core": false,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "kind": "article",
+      "text": "Im Trainingsplan ist Polar Zone 2 mit 60–70 % deiner maximalen Herzfrequenz vorgesehen. Steuere die Einheit über Herzfrequenz und lockeres Gefühl, nicht über ein festes Tempo.",
+      "label": "Polar Heart Rate Zones",
+      "url": "https://www.polar.com/us-en/guide/heart-rate-zones",
+      "match": "passend",
+      "note": "Kein Technikvideo nötig - Referenz zu den Herzfrequenzzonen.",
+      "cues": null
+    },
+    "note": "Nicht dem Tempo hinterherlaufen; Herzfrequenz und lockeres Gefühl steuern.",
+    "directions": null,
+    "id": "di-cardio",
+    "name": "Aerobic mit Polar-Gurt",
+    "dosage": "40 Min",
+    "type": "cardio",
+    "durationSec": {
+      "min": 2400,
+      "max": 2400
+    },
+    "hrZonePct": "60-70% HFmax (Polar Zone 2)",
+    "slotId": "di-cardio",
+    "iconId": "di-cardio",
+    "group": "cardio",
+    "core": true
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "The Doctors of Physical Therapy: Active Straight Leg Raise",
+      "url": "https://www.youtube.com/watch?v=Ec56TVuOvuY",
+      "match": "ähnlich",
+      "note": "Nimm eine aktive Demo ohne Zugband-/Handhilfe. Bein aus eigener Kraft anheben; Becken nicht stark ausweichen lassen.",
+      "cues": "Knie gestreckt; Gegenbein ruhig; aktiv hoch, kontrolliert runter."
+    },
+    "note": null,
+    "directions": null,
+    "id": "di-aslr",
+    "name": "Active Straight-Leg Raise",
+    "dosage": "2 × 8–12 Wdh. je Seite",
+    "sets": 2,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 45,
+      "max": 60
+    },
+    "type": "mobility_active",
+    "slotId": "di-aslr",
+    "iconId": "di-aslr",
+    "group": "mobility",
+    "core": true,
+    "targetSets": 2
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "HSS: Half-Kneeling Hip Flexor Stretch",
+      "url": "https://www.youtube.com/watch?v=mzPvzMivukw",
+      "match": "ähnlich",
+      "note": "Falls das Video stark nach vorne schiebt: für deinen Plan weniger Weg, dafür Gesäss des hinteren Beins anspannen und Becken kontrollieren. Kein Hohlkreuz als Ersatz-ROM.",
+      "cues": "Gesäss an; Rippen unten; Becken leicht posterior; Stretch vorne an der Hüfte."
+    },
+    "note": null,
+    "directions": null,
+    "id": "di-hipflexor",
+    "name": "Half-kneeling Hip Flexor Hold",
+    "dosage": "2 × 30–45 Sek. je Seite",
+    "sets": 2,
+    "holdSec": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": {
+      "min": 30,
+      "max": 60
+    },
+    "type": "stretch_static",
+    "slotId": "di-hipflexor",
+    "iconId": "di-hipflexor",
+    "group": "mobility",
+    "core": true,
+    "targetSets": 2
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "Dani Winks: Active Front Split Slides",
+      "url": "https://www.youtube.com/watch?v=pNrx5WILVtw",
+      "match": "passend",
+      "startSec": 46,
+      "endSec": 236,
+      "note": "Video zeigt nur den ersten Drill (\"Half Split Forward Fold Slides\" mit Stuhl/Blocks) - passt am besten zum Plan-Hold mit Stütze. Für den statischen Plan-Hold darfst du Blocks/Stütze nutzen und 30-60s kontrolliert halten.",
+      "cues": "Hüften möglichst quadratisch; nicht federn; Tiefe nur kontrolliert steigern."
+    },
+    "note": null,
+    "directions": null,
+    "id": "di-frontsplit",
+    "name": "Front Split mit Blocks/Stütze",
+    "dosage": "1 × 30–60 Sek. je Seite",
+    "sets": 1,
+    "holdSec": {
+      "min": 30,
+      "max": 60
+    },
+    "restSec": {
+      "min": 30,
+      "max": 60
+    },
+    "type": "stretch_static",
+    "slotId": "di-frontsplit",
+    "iconId": "di-frontsplit",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "Gymless Fitness: ATG Split Squat Tutorial",
+      "url": "https://www.youtube.com/watch?v=bHoCPnoHVLk",
+      "match": "ähnlich",
+      "note": "Nutze die ATG-Split-Squat-Mechanik, aber hier leicht und als aktive Mobility: keine schwere Grind-Wiederholung. Hintere Hüfte lang, vorderes Bein kontrolliert durch grosse ROM.",
+      "cues": "Leicht; langsam tief; hinteres Bein/Hüftbeuger lang; keine Schmerz-ROM."
+    },
+    "note": null,
+    "directions": null,
+    "id": "di-atg",
+    "name": "ATG/Long Split Squat, leicht",
+    "dosage": "1 × 8–8 Wdh. je Seite",
+    "sets": 1,
+    "reps": {
+      "min": 8,
+      "max": 8
+    },
+    "restSec": {
+      "min": 60,
+      "max": 90
+    },
+    "type": "mobility_loaded",
+    "slotId": "di-atg",
+    "iconId": "di-atg",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "E3 Rehab: RDL",
+      "url": "https://www.youtube.com/watch?v=uhghy9pFIPY",
+      "match": "ähnlich",
+      "startSec": 82,
+      "endSec": 264,
+      "note": "Video zeigt nur das Kapitel \"So führst du RDLs richtig aus\". Gleicher Hip-Hinge wie im RDL-Video, aber Knie deutlich gerader und Last leichter. Ziel ist kontrollierte Hamstring-Länge, nicht maximale Last.",
+      "cues": "Rücken kontrolliert; Hüfte zurück; nur so tief wie Becken/Wirbelsäule sauber bleiben."
+    },
+    "note": null,
+    "directions": null,
+    "id": "di-rdl-light",
+    "name": "Straight-leg RDL / Hamstring hinge, leicht",
+    "dosage": "1 × 8–10 Wdh.",
+    "sets": 1,
+    "reps": {
+      "min": 8,
+      "max": 10
+    },
+    "restSec": {
+      "min": 60,
+      "max": 90
+    },
+    "type": "mobility_loaded",
+    "slotId": "di-rdl-light",
+    "iconId": "di-rdl-light",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "FitnessFAQs: Best Exercises To Increase L-Sit Hold",
+      "url": "https://www.youtube.com/watch?v=cu0fHp8HCDo",
+      "match": "passend",
+      "note": "Tuck ist ausdrücklich erlaubt. Erst Schulterdepression und aktive Compression sauber halten, dann Beine weiter strecken.",
+      "cues": "Boden/Barren wegdrücken; Hüfte aktiv beugen; kein passives Hängen."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-lsit",
+    "name": "L-Sit / Tuck L-Sit",
+    "dosage": "2 × 10–30 Sek.",
+    "sets": 2,
+    "holdSec": {
+      "min": 10,
+      "max": 30
+    },
+    "type": "skill",
+    "restSec": {
+      "min": 60,
+      "max": 120
+    },
+    "slotId": "do-lsit",
+    "iconId": "do-lsit",
+    "group": "skill",
+    "core": false,
+    "targetSets": 4
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "FitnessFAQs: How I Would Learn Handstands",
+      "url": "https://www.youtube.com/watch?v=pzf6nfzc4lE",
+      "match": "passend",
+      "note": "Für deinen Plan Skill-Qualität vor Ermüdung: passende Wand-/Freestanding-Progression wählen und stoppen, bevor Linie/Balance deutlich zerfällt.",
+      "cues": "Boden aktiv wegdrücken; Rippen/Becken kontrollieren; Finger für Balance nutzen."
+    },
+    "note": "Skill-Qualität vor Ermüdung: passende Wand-/Freestanding-Progression wählen und stoppen, bevor Linie/Balance deutlich zerfällt.",
+    "directions": null,
+    "id": "do-handstand",
+    "name": "Handstand",
+    "dosage": "5 Min saubere Versuche inkl. Pausen",
+    "type": "skill",
+    "durationSec": {
+      "min": 300,
+      "max": 300
+    },
+    "restSec": {
+      "min": 60,
+      "max": 120
+    },
+    "slotId": "do-handstand",
+    "iconId": "do-handstand",
+    "group": "skill",
+    "core": false
+  },
+  {
+    "perSide": true,
+    "warmup": "moderate",
+    "video": {
+      "label": "E3 Rehab Exercise Library: Step Ups",
+      "url": "https://www.youtube.com/watch?v=ORE0cd7k85c",
+      "match": "passend",
+      "note": "Step-up-Bewegung: eine stabile Auflage verwenden und deren Höhe an deine Kontrolle anpassen. Kurzhanteln bei der belasteten Variante seitlich halten.",
+      "cues": "Den ganzen oberen Fuß aufsetzen; mit dem oberen Bein hochdrücken; kontrolliert zum Boden zurückkehren."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-pistol~stepup",
+    "name": "Step-up mit Kurzhanteln",
+    "dosage": "3 x 5-8 / Bein",
+    "sets": 3,
+    "reps": {
+      "min": 5,
+      "max": 8
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-pistol",
+    "iconId": "do-pistol",
+    "group": "knee",
+    "variant": "stepup",
+    "alternativeNote": "Stabile Auflage aus deinem bisherigen Aufbau; Höhe und Unterstützung dokumentieren. Mit dem oberen Bein hochdrücken."
+  },
+  {
+    "perSide": true,
+    "warmup": "moderate",
+    "video": {
+      "label": "E3 Rehab: How To Perform Perfect Split Squats",
+      "url": "https://www.youtube.com/watch?v=4bNQITw0VdY",
+      "match": "ähnlich",
+      "note": "Einbeinige Knie-/Hüftstreckung. Standlänge und kontrollierte Tiefe gleich halten. E3 zeigt die Split-Squat-Grundmechanik. Für deinen Plan hinteren Fuss erhöhen und bewusst tiefere, kontrollierte ROM nutzen. Bei Bedarf an Stütze festhalten, damit Balance nicht die ROM begrenzt.",
+      "cues": "Vorderer Fuss voll belastet; kontrolliert tief; kein Aufprall unten; Becken stabil."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-pistol~bulgarian",
+    "name": "Bulgarian Split Squat mit Kurzhanteln",
+    "dosage": "3 x 6-10 / Bein",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-pistol",
+    "iconId": "mo-splitsquat",
+    "group": "knee",
+    "variant": "bulgarian",
+    "alternativeNote": "Einbeinige Knie-/Hüftstreckung. Standlänge und kontrollierte Tiefe gleich halten."
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "ScottHermanFitness: Dumbbell Bench Press",
+      "url": "https://www.youtube.com/watch?v=622ku8i0M14",
+      "match": "ähnlich",
+      "note": "Bei geführter Maschine Sitz/Bank so einstellen, dass die Druckbahn zur Schulter passt. Für deinen Plan kontrollierte, schmerzfreie grosse ROM; nicht extra kurz für mehr Gewicht.",
+      "cues": "Schulterblätter stabil; Handgelenke über Unterarmen; kontrolliert absenken."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-bench~db",
+    "name": "Kurzhantel-Bankdrücken",
+    "dosage": "3 × 6–10 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 150,
+      "max": 210
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-bench",
+    "iconId": "do-bench",
+    "group": "chestPush",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "ScottHermanFitness: Dumbbell Bench Press",
+      "url": "https://www.youtube.com/watch?v=622ku8i0M14",
+      "match": "ähnlich",
+      "note": "Nutze die bereits vorhandene geführte Variante. Sitzposition und Griff festhalten. Bei geführter Maschine Sitz/Bank so einstellen, dass die Druckbahn zur Schulter passt. Für deinen Plan kontrollierte, schmerzfreie grosse ROM; nicht extra kurz für mehr Gewicht.",
+      "cues": "Schulterblätter stabil; Handgelenke über Unterarmen; kontrolliert absenken."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-bench~bench-guided",
+    "name": "Geführtes Bankdrücken",
+    "dosage": "3 x 6-10",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 150,
+      "max": 210
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-bench",
+    "iconId": "do-bench",
+    "group": "chestPush",
+    "variant": "bench-guided",
+    "alternativeNote": "Nutze die bereits vorhandene geführte Variante. Sitzposition und Griff festhalten."
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "Tykato Fitness: Ring Push-Ups Tutorial",
+      "url": "https://www.youtube.com/watch?v=dSRY2IHqOsI",
+      "match": "ähnlich",
+      "note": "Brust/Trizeps bleiben der Schwerpunkt. Ringhöhe und Fußposition festhalten; Stabilität kann begrenzen. Die Ring-Push-up-Technik übernehmen, aber für deinen Plan bewusst die zusätzliche Tiefe der Ringe nutzen - nur solange Schulter und Rumpf stabil bleiben.",
+      "cues": "Körper als Brett; Ringe kontrolliert; tiefe schmerzfreie ROM."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-bench~ring-pushup",
+    "name": "Ringliegestütz",
+    "dosage": "3 x 8-15",
+    "sets": 3,
+    "reps": {
+      "min": 8,
+      "max": 15
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-bench",
+    "iconId": "sa-ringpushup",
+    "group": "chestPush",
+    "variant": "ring-pushup",
+    "alternativeNote": "Brust/Trizeps bleiben der Schwerpunkt. Ringhöhe und Fußposition festhalten; Stabilität kann begrenzen."
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "Leon Thorley: Ring Rows Tutorial",
+      "url": "https://www.youtube.com/watch?v=VQn3aGSUorc",
+      "match": "passend",
+      "note": "Ringe erlauben freie Handrotation. Körper als Einheit bewegen und die obere Position nur so weit ziehen, wie Schulter/Rumpf stabil bleiben.",
+      "cues": "Kein Hüftknick; Brust zu den Ringen; Scapula kontrolliert."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-ringrow",
+    "name": "Ring Row mit maximal sauberem ROM",
+    "dosage": "3 × 6–12 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 12
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-ringrow",
+    "iconId": "do-ringrow",
+    "group": "row",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "Bodybuilding.com: Seated Cable Row",
+      "url": "https://www.youtube.com/watch?v=xQNrFHEMhI4",
+      "match": "ähnlich",
+      "note": "Horizontaler Zug bleibt erhalten. Gleicher Griff und Sitzabstand; Kabelgewichte nicht mit Ringrudern vergleichen. Kein starkes Vor-/Zurückschwingen des Rumpfs. Schulterblätter dürfen sich kontrolliert bewegen; Zug-ROM reproduzierbar.",
+      "cues": "Rumpf ruhig; Ellbogen ziehen; kontrollierte Pro-/Retraktion."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-ringrow~cable-row",
+    "name": "Kabelrudern",
+    "dosage": "3 x 8-12",
+    "sets": 3,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-ringrow",
+    "iconId": "sa-cablerow",
+    "group": "row",
+    "variant": "cable-row",
+    "alternativeNote": "Horizontaler Zug bleibt erhalten. Gleicher Griff und Sitzabstand; Kabelgewichte nicht mit Ringrudern vergleichen."
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "Bodybuilding.com: Dumbbell Shoulder Press - Exercise Guide",
+      "url": "https://www.youtube.com/watch?v=0JfYxMRsUCQ",
+      "match": "passend",
+      "note": "Ergänzt Bankdrücken (horizontal) und Dips um eine progressive, geladene Überkopf-Druckbewegung. Sitzend oder stehend möglich - Rumpf stabil, keine übertriebene Hohlkreuz-Kompensation beim Hochdrücken.",
+      "cues": "Rippen unten; Kern angespannt; Kurzhanteln enden über den Schultern; kontrolliert absenken."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-ohp",
+    "name": "KH Schulterdrücken, kontrolliert",
+    "dosage": "3 × 6–10 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 150,
+      "max": 210
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-ohp",
+    "iconId": "do-ohp",
+    "group": "shoulderPush",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "Runna: Hip Thrust Tutorial",
+      "url": "https://www.youtube.com/watch?v=pF17m_CXfL0",
+      "match": "ähnlich",
+      "note": "Nutze Standard-Hip-Thrust-Technik. Für deinen Plan oben volle Hüftextension ohne Überstreckung der LWS; Kinn/Rippen kontrolliert.",
+      "cues": "Becken hoch durch Gesäss; Schienbein oben etwa senkrecht; kein Hohlkreuz-Lockout."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-hipthrust",
+    "name": "Hip Thrust",
+    "dosage": "2 × 8–12 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-hipthrust",
+    "iconId": "do-hipthrust",
+    "group": "hinge",
+    "core": false,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "light",
+    "video": {
+      "label": "How to Set Up, Perform, & Program Nordic Hamstring Curls",
+      "url": "https://www.youtube.com/watch?v=_e9vFU9-tkc",
+      "match": "passend",
+      "startSec": 56,
+      "endSec": 228,
+      "note": "Video nutzt teils eine Rack-Halterung für die Füsse. Für deinen Plan Füsse stattdessen unter einer schweren, gegen die Wand gestemmten Kurzhantel/Langhantel oder unter der Hantelbank fixieren. Ergänzt Reverse Nordic (vordere Oberschenkelkette) um die hintere Kette - zusammen komplette Ober­schenkel-Abdeckung.",
+      "cues": "Gerade Linie Schulter-Hüfte-Knie; Bewegung nur aus den Hamstrings; kontrolliert bis zur Grenze, dann mit den Armen abfangen."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-nordic",
+    "name": "Nordic Hamstring Curl",
+    "dosage": "2 × 6–10 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 90,
+      "max": 150
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-nordic",
+    "iconId": "do-nordic",
+    "group": "kneeFlexion",
+    "core": false,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "light",
+    "video": {
+      "label": "E3 Rehab: Reverse Nordic",
+      "url": "https://www.youtube.com/watch?v=1v4X3nFHfRY",
+      "match": "passend",
+      "note": "Sehr gute Planreferenz: Knie-Hüfte-Schulter als Linie; ROM regressieren, wenn die Linie verloren geht.",
+      "cues": "Gesäss/Bauch an; kontrolliert zurück; ROM progressiv."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-revnordic",
+    "name": "Reverse Nordic",
+    "dosage": "2 × 6–10 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 90,
+      "max": 150
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-revnordic",
+    "iconId": "do-revnordic",
+    "group": "knee",
+    "core": false,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "light",
+    "video": {
+      "label": "Gymless Fitness: Scapula Pull-up",
+      "url": "https://www.youtube.com/watch?v=1yxFXaH3rtE",
+      "match": "passend",
+      "note": "Arme bleiben gestreckt. Nur Schulterblattbewegung - keine Ellbogenbeugung.",
+      "cues": "Aus Hang aktiv depressieren; kurze Kontrolle; langsam zurück."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-scappullup",
+    "name": "Scapular Pull-up",
+    "dosage": "2 × 8–12 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 60,
+      "max": 90
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "do-scappullup",
+    "iconId": "do-scappullup",
+    "group": "rotation",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Isometric 4 Way Manual Neck",
+      "url": "https://www.youtube.com/watch?v=0-OLyDk7-Qk",
+      "match": "ähnlich",
+      "note": "Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.",
+      "cues": "Kopf bleibt still; Kraft gleichmässig aufbauen; Nacken neutral, kein Ausweichen."
+    },
+    "note": "Kopf neutral und still. Widerstand mit der Hand allmählich aufbauen. Gleiche Handposition, Richtung und Anstrengung dokumentieren. Nur kontrolliert und beschwerdefrei steigern; Sekunden allein messen keine Nackenkraft.",
+    "directions": [
+      "Stirn",
+      "Hinterkopf",
+      "Seite links",
+      "Seite rechts"
+    ],
+    "id": "do-neck",
+    "name": "Nacken-Isometrie 4-Wege",
+    "dosage": "3 × 15–20 Sek. je Richtung",
+    "sets": 3,
+    "holdSec": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": {
+      "min": 20,
+      "max": 30
+    },
+    "type": "mobility_active",
+    "slotId": "do-neck",
+    "iconId": "do-neck",
+    "group": "neck",
+    "tracking": "neck",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "[P]rehab: Y Wall Slide mit Lift-off",
+      "url": "https://www.youtube.com/watch?v=k_zZ6XB9jds",
+      "match": "ähnlich",
+      "note": "Wähle eine aktive Lift-off-Demo. Nicht nur passiv an der Wand stretchen: Arm aktiv von der Wand wegheben, ohne stark ins Hohlkreuz zu gehen.",
+      "cues": "Rippen unten; Ellbogen lang; aktive Schulterflexion."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-wallshoulder",
+    "name": "Wall Shoulder Flexion Lift-off",
+    "dosage": "2 × 6–10 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 45,
+      "max": 60
+    },
+    "type": "mobility_active",
+    "slotId": "do-wallshoulder",
+    "iconId": "do-wallshoulder",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Peak Gymnastics: Seated Straddle Compression Lifts",
+      "url": "https://www.youtube.com/watch?v=7MNNGqec0Dc",
+      "match": "ähnlich",
+      "note": "Wichtig: nicht mit den Händen die Beine hochheben. Hände am Boden als Stütze, Beine aktiv aus Hüftflexion anheben.",
+      "cues": "Knie lang; Oberschenkel aktiv; kleine saubere Lift-offs reichen."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-pikelift",
+    "name": "Seated Pike/Straddle Compression Lift",
+    "dosage": "2 × 8–12 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 60,
+      "max": 90
+    },
+    "type": "mobility_active",
+    "slotId": "do-pikelift",
+    "iconId": "do-pikelift",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "How To Straddle Good Morning",
+      "url": "https://www.youtube.com/watch?v=XSiQUqZDsSU",
+      "match": "ähnlich",
+      "note": "Viele Videos machen daraus einen schweren Kraftlift. Für deinen Plan leicht, breite Straddle-Position, aus der Hüfte nach vorne kippen und lange Wirbelsäule halten.",
+      "cues": "Hip hinge; leicht; Adduktoren/Hamstrings unter kontrollierter Last."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-straddlegm",
+    "name": "Straddle Good Morning, leicht",
+    "dosage": "2 × 8–12 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 60,
+      "max": 90
+    },
+    "type": "mobility_loaded",
+    "slotId": "do-straddlegm",
+    "iconId": "do-straddlegm",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Strength Side: Pancake Stretch",
+      "url": "https://www.youtube.com/watch?v=CHRUb43S6RM",
+      "match": "ähnlich",
+      "note": "Für deinen Plan statischer 30-60s-Hold. Nicht federn; Tiefe über Hüftbeugung statt aggressives Rundziehen erzwingen.",
+      "cues": "Straddle stabil; ruhig atmen; kontrollierte Endposition."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-pancake",
+    "name": "Pancake Hold",
+    "dosage": "2 × 30–60 Sek.",
+    "sets": 2,
+    "holdSec": {
+      "min": 30,
+      "max": 60
+    },
+    "restSec": {
+      "min": 30,
+      "max": 60
+    },
+    "type": "stretch_static",
+    "slotId": "do-pancake",
+    "iconId": "do-pancake",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Anatomy In Motion: Lat Stretch an Ringen",
+      "url": "https://www.youtube.com/watch?v=AeYlzzTOtdQ",
+      "match": "ähnlich",
+      "note": "Körper nach hinten/unten verlagern, bis Lat/Schulter angenehm gedehnt werden. Für deinen Plan passiver Zusatz-ROM, nicht aggressiv in die Schulter ziehen.",
+      "cues": "Ruhige Atmung; Schulter tolerierbar; kein Schmerz vorne im Gelenk."
+    },
+    "note": null,
+    "directions": null,
+    "id": "do-latstretch",
+    "name": "Lat/Overhead Stretch an Ringen",
+    "dosage": "2 × 30–45 Sek.",
+    "sets": 2,
+    "holdSec": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": {
+      "min": 30,
+      "max": 60
+    },
+    "type": "stretch_static",
+    "slotId": "do-latstretch",
+    "iconId": "do-latstretch",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "kind": "article",
+      "text": "Im Trainingsplan ist Polar Zone 2 mit 60–70 % deiner maximalen Herzfrequenz vorgesehen. Steuere die Einheit über Herzfrequenz und lockeres Gefühl, nicht über ein festes Tempo.",
+      "label": "Polar Heart Rate Zones",
+      "url": "https://www.polar.com/us-en/guide/heart-rate-zones",
+      "match": "passend",
+      "note": "Kein Technikvideo nötig - Referenz zu den Herzfrequenzzonen.",
+      "cues": null
+    },
+    "note": "Nicht dem Tempo hinterherlaufen; Herzfrequenz und lockeres Gefühl steuern.",
+    "directions": null,
+    "id": "mi-cardio",
+    "name": "Kurze lockere Ausdauer",
+    "dosage": "20 Min",
+    "type": "cardio",
+    "durationSec": {
+      "min": 1200,
+      "max": 1200
+    },
+    "hrZonePct": "60-70% HFmax (Polar Zone 2)",
+    "slotId": "mi-cardio",
+    "iconId": "di-cardio",
+    "group": "cardio",
+    "core": true
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "Shoulder CARs Demo",
+      "url": "https://www.youtube.com/watch?v=898QrvpmRWc",
+      "match": "passend",
+      "note": "Sehr langsam und aktiv ausführen. Bewegungsradius so gross wie möglich, ohne den Rumpf stark mitzudrehen.",
+      "cues": "Ganzkörperspannung; Schulterkreis aktiv; keine Schwungbewegung."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mi-shouldercars",
+    "name": "Controlled Articular Rotations: Schulter",
+    "dosage": "2 × 3–3 Wdh. je Seite",
+    "sets": 2,
+    "reps": {
+      "min": 3,
+      "max": 3
+    },
+    "restSec": {
+      "min": 30,
+      "max": 60
+    },
+    "type": "mobility_active",
+    "slotId": "mi-shouldercars",
+    "iconId": "mi-shouldercars",
+    "group": "mobility",
+    "core": true,
+    "targetSets": 2
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "90/90 Lift-off Demo",
+      "url": "https://www.youtube.com/watch?v=MoFes2W7qKE",
+      "match": "passend",
+      "note": "Die Referenz deckt den Lift-off ab. Ergänze zwischen den Seiten kontrollierte 90/90-Switches ohne Schwung.",
+      "cues": "Becken kontrollieren; Lift-off aktiv aus Hüftrotation; ROM nicht erzwingen."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mi-9090",
+    "name": "90/90 Hip Switch + Lift-off",
+    "dosage": "2 × 6–6 Wdh. je Seite",
+    "sets": 2,
+    "reps": {
+      "min": 6,
+      "max": 6
+    },
+    "restSec": {
+      "min": 45,
+      "max": 60
+    },
+    "type": "mobility_active",
+    "slotId": "mi-9090",
+    "iconId": "mi-9090",
+    "group": "mobility",
+    "core": true,
+    "targetSets": 2
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "E3 Rehab: Quadruped Thoracic Rotation",
+      "url": "https://www.youtube.com/watch?v=ADeGAWCDjhQ",
+      "match": "ähnlich",
+      "note": "Wähle eine Vierfüssler-Demo. Für deinen Plan Becken möglichst ruhig lassen, damit die Bewegung vor allem aus der BWS kommt.",
+      "cues": "Becken ruhig; Rotation statt Seitneigung; langsam."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mi-thoracic",
+    "name": "Thoracic Rotation im Vierfüssler",
+    "dosage": "1 × 6–6 Wdh. je Seite",
+    "sets": 1,
+    "reps": {
+      "min": 6,
+      "max": 6
+    },
+    "restSec": {
+      "min": 30,
+      "max": 45
+    },
+    "type": "mobility_active",
+    "slotId": "mi-thoracic",
+    "iconId": "mi-thoracic",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Matthew Stevens: Wrist Rocks",
+      "url": "https://www.youtube.com/watch?v=5mil82fqj30",
+      "match": "ähnlich",
+      "note": "Nutze Extension- und Side-to-side-Varianten. Belastung progressiv über die Hände verschieben, Finger/Handfläche bleiben kontrolliert.",
+      "cues": "Keine scharfen Schmerzen; Druck langsam steigern; Ellbogen kontrolliert."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mi-wrist",
+    "name": "Wrist Rocks",
+    "dosage": "1 × 10–10 Wdh.",
+    "sets": 1,
+    "reps": {
+      "min": 10,
+      "max": 10
+    },
+    "restSec": {
+      "min": 30,
+      "max": 45
+    },
+    "type": "mobility_active",
+    "slotId": "mi-wrist",
+    "iconId": "mi-wrist",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "How to Perform a Towel Dead Hang",
+      "url": "https://www.youtube.com/watch?v=UpP-77-GeLA",
+      "match": "passend",
+      "note": "Handtuch um die Klimmzugstange wickeln, an beiden Enden greifen - erhöht die Griffanforderung deutlich. Erwarte kürzere Haltezeiten als am blanken Griff, das ist normal. Danach wie bisher ohne Ellbogenbeugung nur die Schulterblätter aktiv bewegen.",
+      "cues": "Arme lang; Scapula bewegt; Rumpf ruhig; Griff aktiv zudrücken, nicht nur halten."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mi-hang",
+    "name": "Passive Hang -> Active Hang (Handtuch-Griff)",
+    "dosage": "1 × 5–5 Wdh.",
+    "sets": 1,
+    "holdSec": {
+      "min": 20,
+      "max": 30
+    },
+    "reps": {
+      "min": 5,
+      "max": 5
+    },
+    "restSec": {
+      "min": 60,
+      "max": 60
+    },
+    "type": "mobility_active",
+    "slotId": "mi-hang",
+    "iconId": "mi-hang",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "School of Calisthenics: Cossack Squat Tutorial",
+      "url": "https://www.youtube.com/watch?v=d4IPCXI8GQc",
+      "match": "ähnlich",
+      "note": "Nimm eine kontrollierte Cossack-Demo, aber für Mittwoch als Flow: leicht, flüssig und ohne Nähe zum Versagen. Tiefe nach Beweglichkeit.",
+      "cues": "Belasteter Fuss voll am Boden; Knie folgt Zehen; langes Bein kontrolliert."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mi-cossack",
+    "name": "Cossack Squat Flow",
+    "dosage": "1 × 6–6 Wdh. je Seite",
+    "sets": 1,
+    "reps": {
+      "min": 6,
+      "max": 6
+    },
+    "restSec": {
+      "min": 45,
+      "max": 60
+    },
+    "type": "mobility_active",
+    "slotId": "mi-cossack",
+    "iconId": "mi-cossack",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Mountain Edge Performance: Deep Squat Pry",
+      "url": "https://www.youtube.com/watch?v=E85ihAjzaXw",
+      "match": "ähnlich",
+      "note": "Nicht aggressiv mit den Ellbogen die Knie auseinanderpressen. Ziel ist entspannt-kontrollierte tiefe Squatposition und kleine Gewichtsverlagerungen.",
+      "cues": "Füsse stabil; Atmung ruhig; keine scharfen Gelenkgefühle."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mi-squatpry",
+    "name": "Deep Squat Pry",
+    "dosage": "1 × 30–45 Sek.",
+    "sets": 1,
+    "holdSec": {
+      "min": 30,
+      "max": 45
+    },
+    "restSec": {
+      "min": 30,
+      "max": 60
+    },
+    "type": "mobility_active",
+    "slotId": "mi-squatpry",
+    "iconId": "mi-squatpry",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Dr. Megan Yim: Segmental Cat Cow",
+      "url": "https://www.youtube.com/watch?v=MyDU7GpttVA",
+      "match": "ähnlich",
+      "note": "Normales Cat-Cow ist nur ähnlich. Für deinen Plan Wirbel für Wirbel bewegen - nicht die ganze Wirbelsäule gleichzeitig rund/hohl machen.",
+      "cues": "Langsam segmentieren; keine Endrange erzwingen; Atmung mit Bewegung."
+    },
+    "note": null,
+    "directions": null,
+    "id": "mi-catcow",
+    "name": "Segmental Cat-Cow",
+    "dosage": "1 × 6–6 Wdh.",
+    "sets": 1,
+    "reps": {
+      "min": 6,
+      "max": 6
+    },
+    "restSec": {
+      "min": 30,
+      "max": 45
+    },
+    "type": "mobility_active",
+    "slotId": "mi-catcow",
+    "iconId": "mi-catcow",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "HSS: Pogo Jumps",
+      "url": "https://www.youtube.com/watch?v=8VddB27UkY4",
+      "match": "passend",
+      "note": "Sehr nah an der Planidee: elastische Fuss-/Sprunggelenksarbeit. Nicht in tiefe Kniebeugen absinken.",
+      "cues": "Kurzer Bodenkontakt; aufrecht; federnd aus dem Sprunggelenk."
+    },
+    "note": "Schnell und sauber ausführen. Bei deutlich geringerer Höhe/Geschwindigkeit den Satz beenden und erholen.",
+    "directions": null,
+    "id": "sa-pogo",
+    "name": "Pogo Jumps",
+    "dosage": "3 × 10–20 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 10,
+      "max": 20
+    },
+    "restSec": {
+      "min": 90,
+      "max": 150
+    },
+    "type": "power",
+    "slotId": "sa-pogo",
+    "iconId": "sa-pogo",
+    "group": "power",
+    "targetRIR": null,
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "power",
+    "video": {
+      "label": "FitnessFAQs: How To Unlock Chest To Bar Pull-Ups",
+      "url": "https://www.youtube.com/watch?v=SmduaQzt8Jk",
+      "match": "ähnlich",
+      "note": "Gleiche saubere Grundposition wie beim Pull-up, aber konzentrisch maximal beschleunigen. Kein Kipping. Satz stoppen, sobald Höhe/Geschwindigkeit klar fällt.",
+      "cues": "Schnell hoch; kontrolliert runter; kein Beinschwung."
+    },
+    "note": "Schnell und sauber ausführen. Bei deutlich geringerer Höhe/Geschwindigkeit den Satz beenden und erholen.",
+    "directions": null,
+    "id": "sa-explosivepullup",
+    "name": "Explosive Pull-up",
+    "dosage": "4 × 3–5 Wdh.",
+    "sets": 4,
+    "reps": {
+      "min": 3,
+      "max": 5
+    },
+    "restSec": {
+      "min": 150,
+      "max": 240
+    },
+    "type": "power",
+    "slotId": "sa-explosivepullup",
+    "iconId": "sa-explosivepullup",
+    "group": "power",
+    "targetRIR": null,
+    "core": true,
+    "targetSets": 4
+  },
+  {
+    "perSide": true,
+    "warmup": "power",
+    "video": {
+      "label": "Cable Rotational Punch: Explosive Rotation & Force Transfer",
+      "url": "https://www.youtube.com/watch?v=R-yu0RjMW-k",
+      "match": "passend",
+      "note": "Explosiver Zug aus Hüfte/Rotation gegen den Kabelzug, kontrollierte Rückführung. Volle Erholung zwischen den Wiederholungen - Qualität/Explosivität vor Tempo-Serie.",
+      "cues": "Aus der Hüfte starten; Kraft durch den Rumpf übertragen; Arm folgt nur der Rotation."
+    },
+    "note": "Schnell und sauber ausführen. Bei deutlich geringerer Höhe/Geschwindigkeit den Satz beenden und erholen. Kabelgriff festhalten, nicht loslassen.",
+    "directions": null,
+    "id": "sa-rotpower",
+    "name": "Explosive Kabelrotation",
+    "dosage": "2 × 5–5 Wdh. je Seite",
+    "sets": 2,
+    "reps": {
+      "min": 5,
+      "max": 5
+    },
+    "restSec": {
+      "min": 120,
+      "max": 240
+    },
+    "type": "power",
+    "slotId": "sa-rotpower",
+    "iconId": "sa-rotpower",
+    "group": "power",
+    "targetRIR": null,
+    "core": false,
+    "targetSets": 3
+  },
+  {
+    "perSide": true,
+    "warmup": "moderate",
+    "video": {
+      "label": "E3 Rehab: How To Perform Perfect Split Squats",
+      "url": "https://www.youtube.com/watch?v=4bNQITw0VdY",
+      "match": "passend",
+      "note": "Bei Reverse Lunge Rückschritt ergänzen; bei Split Squat stationär bleiben. Beide Varianten kontrolliert und mit stabiler Vorderbeinmechanik.",
+      "cues": "Vorderer Fuss voll; Becken stabil; aus Vorderbein hoch."
+    },
+    "note": null,
+    "directions": null,
+    "id": "sa-revlunge~reverse",
+    "name": "Reverse Lunge mit Kurzhanteln",
+    "dosage": "3 × 8–12 Wdh. je Seite",
+    "sets": 3,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "sa-revlunge",
+    "iconId": "sa-revlunge",
+    "group": "knee",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": true,
+    "warmup": "moderate",
+    "video": {
+      "label": "E3 Rehab: How To Perform Perfect Split Squats",
+      "url": "https://www.youtube.com/watch?v=4bNQITw0VdY",
+      "match": "ähnlich",
+      "note": "Hinterer Fuß bleibt am Boden. Beide Seiten gleich trainieren; Standlänge und Tiefe konstant halten. E3 zeigt die Split-Squat-Grundmechanik. Für deinen Plan hinteren Fuss erhöhen und bewusst tiefere, kontrollierte ROM nutzen. Bei Bedarf an Stütze festhalten, damit Balance nicht die ROM begrenzt.",
+      "cues": "Vorderer Fuss voll belastet; kontrolliert tief; kein Aufprall unten; Becken stabil."
+    },
+    "note": null,
+    "directions": null,
+    "id": "sa-revlunge~split-squat",
+    "name": "Split Squat mit Kurzhanteln",
+    "dosage": "3 x 6-10 / Bein",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "sa-revlunge",
+    "iconId": "mo-splitsquat",
+    "group": "knee",
+    "variant": "split-squat",
+    "alternativeNote": "Hinterer Fuß bleibt am Boden. Beide Seiten gleich trainieren; Standlänge und Tiefe konstant halten."
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "Tykato Fitness: Ring Push-Ups Tutorial",
+      "url": "https://www.youtube.com/watch?v=dSRY2IHqOsI",
+      "match": "ähnlich",
+      "note": "Die Ring-Push-up-Technik übernehmen, aber für deinen Plan bewusst die zusätzliche Tiefe der Ringe nutzen - nur solange Schulter und Rumpf stabil bleiben.",
+      "cues": "Körper als Brett; Ringe kontrolliert; tiefe schmerzfreie ROM."
+    },
+    "note": null,
+    "directions": null,
+    "id": "sa-ringpushup",
+    "name": "Deep Ring Push-up",
+    "dosage": "3 × 8–15 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 8,
+      "max": 15
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "sa-ringpushup",
+    "iconId": "sa-ringpushup",
+    "group": "chestPush",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "ScottHermanFitness: Dumbbell Bench Press",
+      "url": "https://www.youtube.com/watch?v=622ku8i0M14",
+      "match": "ähnlich",
+      "note": "Brust/Trizeps bleiben der Schwerpunkt. Eine eigene Gewichtsreihe beginnt. Bei geführter Maschine Sitz/Bank so einstellen, dass die Druckbahn zur Schulter passt. Für deinen Plan kontrollierte, schmerzfreie grosse ROM; nicht extra kurz für mehr Gewicht.",
+      "cues": "Schulterblätter stabil; Handgelenke über Unterarmen; kontrolliert absenken."
+    },
+    "note": null,
+    "directions": null,
+    "id": "sa-ringpushup~bench-db",
+    "name": "Kurzhantel-Bankdrücken",
+    "dosage": "3 x 6-10",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 150,
+      "max": 210
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "sa-ringpushup",
+    "iconId": "do-bench",
+    "group": "chestPush",
+    "variant": "bench-db",
+    "alternativeNote": "Brust/Trizeps bleiben der Schwerpunkt. Eine eigene Gewichtsreihe beginnt."
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "Bodybuilding.com: Seated Cable Row",
+      "url": "https://www.youtube.com/watch?v=xQNrFHEMhI4",
+      "match": "ähnlich",
+      "note": "Kein starkes Vor-/Zurückschwingen des Rumpfs. Schulterblätter dürfen sich kontrolliert bewegen; Zug-ROM reproduzierbar.",
+      "cues": "Rumpf ruhig; Ellbogen ziehen; kontrollierte Pro-/Retraktion."
+    },
+    "note": null,
+    "directions": null,
+    "id": "sa-cablerow",
+    "name": "Cable Row",
+    "dosage": "3 × 8–12 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "sa-cablerow",
+    "iconId": "sa-cablerow",
+    "group": "row",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "moderate",
+    "video": {
+      "label": "Leon Thorley: Ring Rows Tutorial",
+      "url": "https://www.youtube.com/watch?v=VQn3aGSUorc",
+      "match": "ähnlich",
+      "note": "Horizontaler Zug bleibt erhalten. Ringhöhe, Körperwinkel und Fußposition dokumentieren. Ringe erlauben freie Handrotation. Körper als Einheit bewegen und die obere Position nur so weit ziehen, wie Schulter/Rumpf stabil bleiben.",
+      "cues": "Kein Hüftknick; Brust zu den Ringen; Scapula kontrolliert."
+    },
+    "note": null,
+    "directions": null,
+    "id": "sa-cablerow~ring-row",
+    "name": "Ringrudern",
+    "dosage": "3 x 6-12",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 12
+    },
+    "restSec": {
+      "min": 120,
+      "max": 180
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "sa-cablerow",
+    "iconId": "do-ringrow",
+    "group": "row",
+    "variant": "ring-row",
+    "alternativeNote": "Horizontaler Zug bleibt erhalten. Ringhöhe, Körperwinkel und Fußposition dokumentieren."
+  },
+  {
+    "perSide": false,
+    "warmup": "light",
+    "video": {
+      "label": "ATHLEAN-X: Hanging Leg Raise",
+      "url": "https://www.youtube.com/watch?v=Pr1ieGZ5atk",
+      "match": "ähnlich",
+      "note": "Viele Demos zeigen nur Hüftbeugung. Für deinen Plan ohne Schwung; oben aktiv Becken einrollen, soweit kontrollierbar. Bei Bedarf Knie beugen.",
+      "cues": "Kein Kipping; Rippen/Becken kontrolliert; langsam absenken."
+    },
+    "note": null,
+    "directions": null,
+    "id": "sa-leraise",
+    "name": "Hanging Leg Raise",
+    "dosage": "3 × 8–15 Wdh.",
+    "sets": 3,
+    "reps": {
+      "min": 8,
+      "max": 15
+    },
+    "restSec": {
+      "min": 90,
+      "max": 120
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "sa-leraise",
+    "iconId": "sa-leraise",
+    "group": "core",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": "light",
+    "video": {
+      "label": "PrimeMVMNT: Wall Tibialis Raise",
+      "url": "https://www.youtube.com/watch?v=nQKgHwi8W9E",
+      "match": "ähnlich",
+      "note": "Fersen bleiben am Boden, Vorderfuss aktiv hochziehen und kontrolliert absenken. Abstand zur Wand so wählen, dass 12-20 saubere Reps möglich sind.",
+      "cues": "Keine Hüftbewegung; volle Dorsalflexion; kontrollierter Rückweg."
+    },
+    "note": null,
+    "directions": null,
+    "id": "sa-tibialis",
+    "name": "Tibialis Raise",
+    "dosage": "2 × 12–20 Wdh.",
+    "sets": 2,
+    "reps": {
+      "min": 12,
+      "max": 20
+    },
+    "restSec": {
+      "min": 60,
+      "max": 90
+    },
+    "type": "strength",
+    "targetRIR": "1-2",
+    "slotId": "sa-tibialis",
+    "iconId": "sa-tibialis",
+    "group": "shin",
+    "core": false,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Isometric 4 Way Manual Neck",
+      "url": "https://www.youtube.com/watch?v=0-OLyDk7-Qk",
+      "match": "ähnlich",
+      "note": "Insgesamt 12 kurze Sätze: 3 Sätze je Richtung, nacheinander alle 4 Richtungen durch (Stirn, Hinterkopf, beide Seiten). Im Video gibt ein Partner den Widerstand - für deinen Plan Widerstand mit der eigenen Hand geben, Prinzip bleibt gleich: Kopf bewegt sich nicht, nur Kraft gegen die Hand.",
+      "cues": "Kopf bleibt still; Kraft gleichmässig aufbauen; Nacken neutral, kein Ausweichen."
+    },
+    "note": "Kopf neutral und still. Widerstand mit der Hand allmählich aufbauen. Gleiche Handposition, Richtung und Anstrengung dokumentieren. Nur kontrolliert und beschwerdefrei steigern; Sekunden allein messen keine Nackenkraft.",
+    "directions": [
+      "Stirn",
+      "Hinterkopf",
+      "Seite links",
+      "Seite rechts"
+    ],
+    "id": "sa-neck",
+    "name": "Nacken-Isometrie 4-Wege",
+    "dosage": "2 × 15–20 Sek. je Richtung",
+    "sets": 2,
+    "holdSec": {
+      "min": 15,
+      "max": 20
+    },
+    "restSec": {
+      "min": 20,
+      "max": 30
+    },
+    "type": "mobility_active",
+    "slotId": "sa-neck",
+    "iconId": "sa-neck",
+    "group": "neck",
+    "tracking": "neck",
+    "core": false,
+    "targetSets": 3
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": null,
+    "note": "Zirkel aus bereits bekannten, sauberen Übungen (z.B. Ring Push-up, Ring Row, KH-Squat) im 3:1-Verhältnis - spiegelt die Runden-Struktur von Boxen/MMA. Keine neuen Technikregeln. Runde abbrechen oder Tempo/Reps reduzieren, bevor Technik deutlich zerfällt.",
+    "directions": null,
+    "id": "sa-finisher",
+    "name": "Runden-Conditioning",
+    "dosage": "10 Min",
+    "type": "finisher",
+    "durationSec": {
+      "min": 600,
+      "max": 660
+    },
+    "restSec": {
+      "min": 60,
+      "max": 60
+    },
+    "slotId": "sa-finisher",
+    "iconId": "sa-finisher",
+    "group": "conditioning",
+    "core": false
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "School of Calisthenics: Cossack Squat Tutorial",
+      "url": "https://www.youtube.com/watch?v=d4IPCXI8GQc",
+      "match": "ähnlich",
+      "note": "Am Freitag darf die Variante kräftiger sein als Mittwoch. Trotzdem kontrollierte ROM; keine Tiefe erzwingen, wenn Fuss/Knie/Becken ausweichen.",
+      "cues": "Belasteter Fuss stabil; Knie folgt Zehen; aktiv aus der Tiefe."
+    },
+    "note": null,
+    "directions": null,
+    "id": "fr-cossack",
+    "name": "Cossack Squat",
+    "dosage": "3 × 6–10 Wdh. je Seite",
+    "sets": 3,
+    "reps": {
+      "min": 6,
+      "max": 10
+    },
+    "restSec": {
+      "min": 90,
+      "max": 120
+    },
+    "type": "mobility_loaded",
+    "slotId": "fr-cossack",
+    "iconId": "fr-cossack",
+    "group": "mobility",
+    "core": true,
+    "targetSets": 3
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "Dominic Munnelly: Half Kneeling Adductor Lift-off",
+      "url": "https://www.youtube.com/watch?v=kWN8n7wpwfY",
+      "match": "ähnlich",
+      "note": "Entscheidend ist der aktive Lift-off aus Endrange. Kein passiver Stretch und kein Schwung.",
+      "cues": "Becken ruhig; Bein aktiv anheben; kleine ROM ist okay."
+    },
+    "note": null,
+    "directions": null,
+    "id": "fr-adductor",
+    "name": "Adductor Lift-off",
+    "dosage": "2 × 8–12 Wdh. je Seite",
+    "sets": 2,
+    "reps": {
+      "min": 8,
+      "max": 12
+    },
+    "restSec": {
+      "min": 45,
+      "max": 60
+    },
+    "type": "mobility_active",
+    "slotId": "fr-adductor",
+    "iconId": "fr-adductor",
+    "group": "mobility",
+    "core": true,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Mayhem Athlete: Frog Stretch",
+      "url": "https://www.youtube.com/watch?v=SUENf0yNR_A",
+      "match": "ähnlich",
+      "note": "Nur bis deutliches, tolerierbares Dehngefühl. Nicht mit Gewalt nach hinten schieben; Knieposition bequem polstern.",
+      "cues": "Becken kontrolliert; ruhig atmen; kein scharfer Leistenschmerz."
+    },
+    "note": null,
+    "directions": null,
+    "id": "fr-frog",
+    "name": "Frog Stretch",
+    "dosage": "2 × 30–60 Sek.",
+    "sets": 2,
+    "holdSec": {
+      "min": 30,
+      "max": 60
+    },
+    "restSec": {
+      "min": 30,
+      "max": 60
+    },
+    "type": "stretch_static",
+    "slotId": "fr-frog",
+    "iconId": "fr-frog",
+    "group": "mobility",
+    "core": true,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Movement by David: Middle Split Tutorial",
+      "url": "https://www.youtube.com/watch?v=hsNvqUmCAAo",
+      "match": "ähnlich",
+      "note": "Nutze Blocks/Stütze und halte 30-60s. Kein Bouncing. Tiefe nur steigern, wenn du die Position aktiv kontrollieren und schmerzfrei verlassen kannst.",
+      "cues": "Füsse/Knie passend ausrichten; Stütze nutzen; kontrolliert rein und raus."
+    },
+    "note": null,
+    "directions": null,
+    "id": "fr-middlesplit",
+    "name": "Middle Split mit Stütze",
+    "dosage": "1 × 30–60 Sek.",
+    "sets": 1,
+    "holdSec": {
+      "min": 30,
+      "max": 60
+    },
+    "restSec": {
+      "min": 30,
+      "max": 60
+    },
+    "type": "stretch_static",
+    "slotId": "fr-middlesplit",
+    "iconId": "fr-middlesplit",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": true,
+    "warmup": null,
+    "video": {
+      "label": "Mind Pump TV: Side Lunge Technique",
+      "url": "https://www.youtube.com/watch?v=liFeq7swKfc",
+      "match": "ähnlich",
+      "note": "Nutze eine Standard-Lateral-Lunge-Demo, aber für deinen Plan langsamer und tiefer innerhalb sauberer ROM. Das lange Bein bleibt kontrolliert.",
+      "cues": "Hüfte zur belasteten Seite; Fuss voll; kein Abprallen."
+    },
+    "note": null,
+    "directions": null,
+    "id": "fr-laterallunge",
+    "name": "Lateral Lunge, langsam/tief",
+    "dosage": "1 × 8–8 Wdh. je Seite",
+    "sets": 1,
+    "reps": {
+      "min": 8,
+      "max": 8
+    },
+    "restSec": {
+      "min": 90,
+      "max": 120
+    },
+    "type": "mobility_loaded",
+    "slotId": "fr-laterallunge",
+    "iconId": "fr-laterallunge",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  },
+  {
+    "perSide": false,
+    "warmup": null,
+    "video": {
+      "label": "Daniele Riccadonna: Horse Stance Tutorial",
+      "url": "https://www.youtube.com/watch?v=uyAQEnmCVTg",
+      "match": "ähnlich",
+      "note": "Viele Martial-Arts-Demos variieren stark. Für deinen Plan als isometrische Bein-/Adduktorenarbeit: stabile breite Position, Knie in Fussrichtung, 30-60s.",
+      "cues": "Rumpf aufrecht; Knie nicht nach innen; gleichmässig belasten."
+    },
+    "note": null,
+    "directions": null,
+    "id": "fr-horsestance",
+    "name": "Horse Stance",
+    "dosage": "1 × 30–60 Sek.",
+    "sets": 1,
+    "holdSec": {
+      "min": 30,
+      "max": 60
+    },
+    "restSec": {
+      "min": 60,
+      "max": 90
+    },
+    "type": "mobility_loaded",
+    "slotId": "fr-horsestance",
+    "iconId": "fr-horsestance",
+    "group": "mobility",
+    "core": false,
+    "targetSets": 2
+  }
+]

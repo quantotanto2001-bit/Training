@@ -41,6 +41,18 @@ const CHOICES = {
   'mo-rdl': [{ key: 'rdl-guided', source: 'mo-rdl', name: 'RDL an vorhandener geführter Station', note: 'Nur verwenden, wenn deine Station die Hüftbeuge zulässt. Knie leicht gebeugt, Hüfte nach hinten; eigene Lastreihe.' }],
 };
 
+export const STEP_UP_VIDEO = {
+  label: 'E3 Rehab Exercise Library: Step Ups',
+  url: 'https://www.youtube.com/watch?v=ORE0cd7k85c', match: 'passend',
+  note: 'Step-up-Bewegung: eine stabile Auflage verwenden und deren Höhe an deine Kontrolle anpassen. Kurzhanteln bei der belasteten Variante seitlich halten.',
+  cues: 'Den ganzen oberen Fuß aufsetzen; mit dem oberen Bein hochdrücken; kontrolliert zum Boden zurückkehren.',
+};
+
+// Also repair media in saved workout snapshots without changing their dosage.
+export function currentExerciseMedia(exercise) {
+  return exercise.id?.endsWith('~stepup') ? { ...exercise, video: { ...STEP_UP_VIDEO } } : exercise;
+}
+
 function baseExercise(id) {
   const source = id === 'mi-cardio' ? { ...original.get('di-cardio'), id, name: 'Kurze lockere Ausdauer', durationSec: { min: 900, max: 1200 } } : original.get(id);
   if (!source) throw new Error('Unbekannte Übung: ' + id);
@@ -73,7 +85,7 @@ export function resolveExercise(slotId, variant = '') {
   return { ...source, id: slotId + '~' + choice.key, slotId, variant: choice.key, name: choice.name,
     group: base.group, alternativeNote: choice.note,
     // A tutorial for a different variant must not be labelled as the exact exercise.
-    video: source.video ? { ...source.video, match: 'ähnlich', note: choice.note + ' ' + (source.video.note || '') } : null };
+    video: choice.key === 'stepup' ? { ...STEP_UP_VIDEO } : source.video ? { ...source.video, match: 'ähnlich', note: choice.note + ' ' + (source.video.note || '') } : null };
 }
 
 const CORE = {

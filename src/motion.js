@@ -1,4 +1,5 @@
 import { h } from './ui.js';
+import { GENERATED_MOTIONS } from './motionCatalog.js';
 
 // Schematic reminders: share assets only across the same exercise variant.
 const LOOPS = {
@@ -13,17 +14,19 @@ const LOOPS = {
     description: 'Beidbeiniges Wadenheben mit gestreckten Knien auf einer Stufe: drei schematische Bewegungsphasen ohne Zusatzgewicht.' },
 };
 
-export const motionFor = exercise => LOOPS[exercise.id] || null;
+export const motionFor = exercise => GENERATED_MOTIONS[exercise.id] || LOOPS[exercise.id] || null;
 
 export function renderMotion(exercise, { expanded = false, autoplay = false } = {}) {
   const motion = motionFor(exercise);
   if (!motion) return null;
   const root = h(expanded ? 'div' : 'details', { class: expanded ? 'motion-card' : 'quiet-details motion-card' });
   if (!expanded) root.appendChild(h('summary', {}, 'Schnellansicht · Bewegung'));
-  const paths = [1, 2, 3].map(n => `assets/motion/${motion.directory}/${n}.png`);
+  const paths = motion.labels.map((_, n) => `assets/motion/${motion.directory}/${n + 1}.png`);
   const img = h('img', { class: 'motion-image', src: paths[0], alt: motion.description, loading: 'lazy', width: '372', height: '408' });
+  // Decode upcoming phases before their first transition, including in Safari.
+  const preload = paths.slice(1).map(src => { const frame = new Image(); frame.src = src; return frame; });
   const caption = h('p', { class: 'motion-caption', 'aria-live': 'off' }, motion.labels[0]);
-  const sequence = [0, 1, 2, 1];
+  const sequence = motion.sequence || [0, 1, 2, 1];
   let index = 0, timeout = null, playing = false;
   const update = () => { img.src = paths[sequence[index]]; caption.textContent = motion.labels[sequence[index]]; };
   const stop = () => { playing = false; clearTimeout(timeout); timeout = null; play.textContent = 'Abspielen'; play.setAttribute('aria-pressed', 'false'); };
@@ -39,11 +42,11 @@ export function renderMotion(exercise, { expanded = false, autoplay = false } = 
   root.addEventListener('toggle', () => { if (!root.open) stop(); });
   root.append(img, caption, h('div', { class: 'motion-controls' }, [play, h('button', { class: 'btn btn-small', onclick: () => { stop(); index = (index + 1) % sequence.length; update(); } }, 'Nächste Phase')]),
     h('ul', { class: 'motion-cues' }, motion.cues.map(c => h('li', {}, c))),
-    h('p', { class: 'muted small' }, 'Drei schematische Positionen als Technikerinnerung. Die Bildwechsel bilden keinen vollständigen Bewegungsablauf und kein verbindliches Trainingstempo ab. Bewegungstiefe an deine Kontrolle anpassen; für die durchgehende Ausführung das Video nutzen.'),
+    h('p', { class: 'muted small' }, 'Schematische Bewegungsphasen als Technikerinnerung. Die Bildfolge zeigt kein verbindliches Trainingstempo. Bei Halteübungen die Position ruhig halten. Bewegungstiefe an deine Kontrolle anpassen; für die durchgehende Ausführung das Technikvideo nutzen.'),
     h('a', { class: 'link-small', href: `assets/motion/${motion.directory}/${motion.file}`, download: `${motion.directory}.gif` }, 'GIF herunterladen'));
   const onVisibility = () => { if (document.visibilityState === 'hidden') stop(); };
   document.addEventListener('visibilitychange', onVisibility);
-  root.dispose = () => { stop(); document.removeEventListener('visibilitychange', onVisibility); };
+  root.dispose = () => { stop(); preload.length = 0; document.removeEventListener('visibilitychange', onVisibility); };
   if (autoplay && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) start();
   return root;
 }

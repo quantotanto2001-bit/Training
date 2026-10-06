@@ -4,8 +4,8 @@
 const STORAGE_KEY = 'universal-athlete-rest-timer';
 
 export class RestTimer {
-  constructor({ onTick, onDone, sessionId } = {}) {
-    Object.assign(this, { onTick, onDone, sessionId, total: 0, running: false,
+  constructor({ onTick, onDone, sessionId, storageKey = STORAGE_KEY } = {}) {
+    Object.assign(this, { onTick, onDone, sessionId, storageKey, total: 0, running: false,
       ownerId: null, endAt: null, _remainingMs: 0, _intervalId: null,
       _lastRemaining: null });
     this._onVisibility = () => {
@@ -69,8 +69,8 @@ export class RestTimer {
   _persist() {
     if (!this.sessionId) return;
     try {
-      if (this.total <= 0) localStorage.removeItem(STORAGE_KEY);
-      else localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      if (this.total <= 0) localStorage.removeItem(this.storageKey);
+      else localStorage.setItem(this.storageKey, JSON.stringify({
         version: 1, sessionId: this.sessionId, ownerId: this.ownerId,
         total: this.total, running: this.running,
         endAt: this.endAt, remainingMs: this._remainingMs,
@@ -81,7 +81,7 @@ export class RestTimer {
   _restore() {
     if (!this.sessionId) return;
     try {
-      const state = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      const state = JSON.parse(localStorage.getItem(this.storageKey));
       if (!state) return;
       const valid = state.version === 1 && state.sessionId === this.sessionId
         && Number.isFinite(state.total) && state.total > 0
@@ -89,7 +89,7 @@ export class RestTimer {
         && (state.running
           ? Number.isFinite(state.endAt) && state.endAt > Date.now()
           : Number.isFinite(state.remainingMs) && state.remainingMs > 0);
-      if (!valid) { localStorage.removeItem(STORAGE_KEY); return; }
+      if (!valid) { localStorage.removeItem(this.storageKey); return; }
       this.total = state.total;
       this.ownerId = typeof state.ownerId === 'string' ? state.ownerId : null;
       this.running = state.running;
@@ -126,6 +126,7 @@ export class RestTimer {
   }
 
   _finish(vibrate = false) {
+    const result = { ownerId: this.ownerId, seconds: this.total, expired: vibrate };
     this.running = false;
     this.total = 0;
     this._remainingMs = 0;
@@ -134,7 +135,7 @@ export class RestTimer {
     this._clearLoop();
     this._persist();
     this._notify();
-    this.onDone && this.onDone();
+    this.onDone && this.onDone(result);
     if (vibrate && !document.hidden && navigator.vibrate) {
       try { navigator.vibrate([200, 100, 200]); } catch (e) { /* optional */ }
     }

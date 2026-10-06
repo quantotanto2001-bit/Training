@@ -638,3 +638,6 @@ a { color: inherit; }
 .set-completion { margin: 0; text-align: right; }
 .next-training-note { border-left: 3px solid var(--text); padding: 10px 14px; background: var(--bg-inset); border-radius: 0 10px 10px 0; }
 .next-training-note strong { font-size: .9rem; }
+
+.hold-timer { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 16px; }
+.hold-timer p { margin: 0; }

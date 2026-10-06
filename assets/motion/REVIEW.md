@@ -1,3 +1,9 @@
+# Aktualisierung vom 05.10.2026
+
+Alle 67 aktuellen Übungseinträge und Varianten haben nun schematische Bildfolgen. Die verworfenen Bankdrück- und Ringruderentwürfe unten beschreiben den früheren Stand. Die neuen Versionen und die Sichtprüfung sind in `production-jobs.json` dokumentiert; die aktuelle Zuordnung steht in `COVERAGE.json`. Die Sichtprüfung ist keine biomechanische Vermessung oder Trainerzertifizierung.
+
+## Historischer Prüfstand
+
 # Sichtprüfung der Bewegungsbilder · 30.09.2026
 
 Die drei Phasen pro Übung wurden durch den Assistenten mit den Technikhinweisen der App und den unten genannten Quellen verglichen. Dies ist keine Freigabe durch einen Trainer, keine Gelenkwinkelmessung und keine Validierung der vollständigen Bewegung. Zwischen gezeichneten Positionen fehlen kontinuierliche Übergänge. Bildabstände sind keine verbindliche Tempoempfehlung; individuelle Tiefe und Griffwinkel können abweichen.

@@ -3,7 +3,7 @@ import { h, fmtRestRange, fmtMinSec } from '../ui.js';
 import { PLAN, TYPES } from '../plan.js';
 import { getActiveSession, setActiveSession, clearActiveSession, getLastPerformance, getExerciseNote, setExerciseNote, getSettings, saveSettings, uid } from '../db.js';
 import { getCurrentDay, completeCurrentDay } from '../state.js';
-import { PLAN_VERSION, buildSessionPlan, defaultMinutes, timeOptions, alternativesFor, resolveExercise, sessionExercises, plannedSets, prescription, sessionMinutes, GROUP_LABELS, SCIENCE_LINKS } from '../training.js';
+import { PLAN_VERSION, currentExerciseMedia, buildSessionPlan, defaultMinutes, timeOptions, alternativesFor, resolveExercise, sessionExercises, plannedSets, prescription, sessionMinutes, GROUP_LABELS, SCIENCE_LINKS } from '../training.js';
 import { progressionFor, setDefaults } from '../progression.js';
 import { buildSetForm, formatLoggedSet } from '../setForms.js';
 import { renderWarmupBox, renderVideoCard } from './workout-helpers.js';
@@ -29,10 +29,33 @@ export async function renderWorkout() {
   let stepIndex = Math.min(active.currentIndex || 0, active.planSnapshot.exercises.length - 1);
   let mode = started ? 'exercise' : 'overview';
   const timer = new RestTimer({ sessionId: active.timerSessionId });
+  let holdCompleted = null;
+  let holdAudio = null;
+  const prepareHoldSound = () => {
+    try {
+      const Audio = window.AudioContext || window.webkitAudioContext;
+      if (Audio && !holdAudio) holdAudio = new Audio();
+      holdAudio?.resume().catch(() => {});
+    } catch (e) { /* Sound is optional; the visible timer still works. */ }
+  };
+  const holdTimer = new RestTimer({ sessionId: active.timerSessionId, storageKey: 'universal-athlete-hold-timer', onDone: result => {
+    holdCompleted = result.expired ? result : null;
+    if (result.expired && !document.hidden && holdAudio?.state === 'running') {
+      try {
+        const oscillator = holdAudio.createOscillator(), gain = holdAudio.createGain(), now = holdAudio.currentTime;
+        oscillator.frequency.value = 740; gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        oscillator.connect(gain); gain.connect(holdAudio.destination);
+        oscillator.start(now); oscillator.stop(now + 0.4);
+        oscillator.onended = () => { oscillator.disconnect(); gain.disconnect(); };
+      } catch (e) { /* Optional foreground completion sound. */ }
+    }
+    holdTimer.onTick?.(holdTimer);
+  } });
   const wrap = h('div', { class: 'view workout-view' });
   const error = h('p', { class: 'save-error', role: 'alert', hidden: '' });
   const content = h('div', {}); wrap.append(error, content);
-  wrap.dispose = () => { renderToken++; timer.dispose(); closeExerciseMedia(); };
+  wrap.dispose = () => { renderToken++; timer.dispose(); holdTimer.dispose(); holdAudio?.close().catch(() => {}); closeExerciseMedia(); };
   const exercises = () => active.planSnapshot.exercises;
   const doneSets = ex => (active.entries[ex.id]?.sets || []).filter(s => !s.isWarmup);
   const completed = ex => doneSets(ex).length >= plannedSets(ex);
@@ -56,7 +79,7 @@ export async function renderWorkout() {
     if (!window.confirm(full ? 'Einheit abschließen und zur nächsten Einheit wechseln?' : 'Als verkürzte Einheit speichern und zur nächsten Einheit wechseln? Alle erledigten Sätze bleiben erhalten.')) return;
     await persist(); finishing = true;
     try {
-      const result = await completeCurrentDay(active, full ? 'completed' : 'partial'); timer.skip();
+      const result = await completeCurrentDay(active, full ? 'completed' : 'partial'); timer.skip(); holdTimer.skip();
       navigate(result.cycleJustCompleted ? `#/cycle-complete/${result.completedCycleNumber}` : '#/');
     } catch (e) { finishing = false; error.hidden = false; error.textContent = 'Abschluss konnte nicht gespeichert werden. Bitte erneut versuchen.'; }
   }
@@ -92,12 +115,12 @@ export async function renderWorkout() {
     } });
     box.appendChild(detail('Datum und Verwaltung', [h('label', { class: 'field' }, [h('span', {}, 'Datum bei nachträglichem Eintragen'), date]), h('button', { class: 'link-small link-button', onclick: async () => {
       if (!window.confirm('Diese laufende Einheit verwerfen? Abgeschlossene Trainings bleiben erhalten.')) return;
-      finishing = true; timer.skip(); await clearActiveSession(); navigate('#/');
+      finishing = true; timer.skip(); holdTimer.skip(); await clearActiveSession(); navigate('#/');
     } }, 'Laufende Einheit verwerfen')]));
     return box;
   }
   async function exerciseScreen() {
-    const ex = exercises()[stepIndex];
+    const ex = currentExerciseMedia(exercises()[stepIndex]);
     const entry = active.entries[ex.id] ||= { sets: [], exercise: clone(ex), plannedSets: plannedSets(ex), drafts: {} };
     entry.drafts ||= {}; entry.plannedSets ||= plannedSets(ex);
     const note = await getExerciseNote(ex.id); entry.setup ??= note.setup || '';
@@ -113,6 +136,12 @@ export async function renderWorkout() {
       for (let i = 0; i < plannedSets(ex); i++) if (!work(entry).some(s => s.slotIndex === i)) entry.drafts[i] = { ...entry.drafts[i], weightKg: suggestion.suggestedWeight };
       await persist(); await render();
     } }, `${suggestion.suggestedWeight} kg übernehmen`)] : [])]));
+    if (ex.holdSec || holdTimer.total > 0) {
+      box.appendChild(renderHoldTimer(ex, holdTimer, () => holdCompleted, seconds => {
+        holdCompleted = null; prepareHoldSound();
+        timer.skip(); holdTimer.start(seconds, ex.id);
+      }));
+    }
     const timerHost = h('div', {}); box.appendChild(timerHost);
     const updateTimer = () => {
       timerHost.replaceChildren(); if (timer.total <= 0) return;
@@ -120,7 +149,7 @@ export async function renderWorkout() {
         h('div', { class: 'timer-actions' }, [h('button', { class: 'btn btn-small', onclick: () => timer.extend(30) }, '+30 s'), h('button', { class: 'btn btn-small', onclick: () => timer.togglePause() }, timer.running ? 'Anhalten' : 'Weiter'), h('button', { class: 'link-small link-button', onclick: () => timer.skip() }, 'Beenden')]) ]));
     };
     timer.onTick = updateTimer; updateTimer();
-    const onSave = async logged => { await persist(); if (logged === true && ex.restSec) timer.start(ex.restSec.min, ex.id); else if (logged === false && timer.ownerId === ex.id) timer.skip(); await render(); };
+    const onSave = async logged => { await persist(); if (logged === true && holdTimer.ownerId === ex.id) holdTimer.skip(); if (logged === true && ex.restSec) timer.start(ex.restSec.min, ex.id); else if (logged === false && timer.ownerId === ex.id) timer.skip(); await render(); };
     box.appendChild(ex.sets ? setTable(ex, entry, last, onSave, saveDraft) : singleForm(ex, entry, last, onSave, saveDraft));
     if (completed(ex) && ex.type === TYPES.STRENGTH) {
       const next = progressionFor(ex, { sets: entry.sets, plannedSets: entry.plannedSets, status: 'completed', rirReliable: true, feedback: entry.feedback, quality: entry.quality }, note.increment);
@@ -152,8 +181,34 @@ export async function renderWorkout() {
     box.appendChild(detail('Technik und Zweck', [h('p', { class: 'small' }, ex.note || `Trainingsaufgabe: ${GROUP_LABELS[ex.group] || 'kontrollierte Bewegung'}. Aufbau und Bewegungsumfang vergleichbar halten.`), ...(ex.alternativeNote ? [h('p', { class: 'small' }, ex.alternativeNote)] : []), ...(ex.video ? [renderVideoCard(ex.video)] : []), h('p', { class: 'muted small' }, 'Die Forschung stützt Trainingsprinzipien; die konkrete Zusammenstellung ist eine praktische Ableitung.'), h('a', { href: SCIENCE_LINKS[ex.tracking === 'neck' ? 4 : 0].url, target: '_blank', rel: 'noopener noreferrer', class: 'link-small' }, 'Wissenschaftlicher Hintergrund ↗')]));
     return box;
   }
-  async function render() { const token = ++renderToken; timer.onTick = () => {}; const view = mode === 'overview' ? overview() : await exerciseScreen(); if (token === renderToken) { closeExerciseMedia(); content.replaceChildren(view); } }
+  async function render() { const token = ++renderToken; timer.onTick = () => {}; holdTimer.onTick = () => {}; const view = mode === 'overview' ? overview() : await exerciseScreen(); if (token === renderToken) { closeExerciseMedia(); content.replaceChildren(view); } }
   await render(); return wrap;
+}
+
+function renderHoldTimer(ex, timer, completed, start) {
+  const root = h('section', { class: 'hold-timer', 'aria-label': 'Halte-Timer' });
+  const label = h('span', { class: 'card-label' }, 'Halte-Timer');
+  const digits = h('div', { class: 'timer-digits', role: 'timer', 'aria-label': 'Verbleibende Haltezeit' });
+  const pause = h('button', { type: 'button', class: 'btn btn-small', onclick: () => timer.togglePause() });
+  const active = h('div', { class: 'compact-timer' }, [h('div', {}, [label, digits]), h('div', { class: 'timer-actions' }, [pause, h('button', { type: 'button', class: 'link-small link-button', onclick: () => timer.skip() }, 'Timer beenden')])]);
+  const status = h('p', { class: 'small', role: 'status' });
+  root.append(active, status);
+  if (ex.holdSec) {
+    const choices = [...new Set([ex.holdSec.min, 30, 45, ex.holdSec.max])].filter(n => Number.isFinite(n) && n >= ex.holdSec.min && n <= ex.holdSec.max).sort((a,b) => a-b);
+    root.append(h('span', { class: 'card-label' }, 'Haltezeit starten'), h('div', { class: 'time-options' }, choices.map(seconds => h('button', { type: 'button', class: 'btn btn-small', onclick: () => start(seconds) }, `${seconds} s starten`))));
+    if (ex.perSide || ex.directions) root.appendChild(h('p', { class: 'muted small' }, ex.directions ? 'Timer für jede Richtung neu starten.' : 'Timer für jede Seite neu starten.'));
+  }
+  timer.onTick = () => {
+    active.hidden = timer.total <= 0;
+    label.textContent = timer.ownerId === ex.id ? 'Halte-Timer' : 'Haltezeit · vorherige Übung';
+    digits.textContent = fmtMinSec(timer.remaining);
+    pause.textContent = timer.running ? 'Timer anhalten' : 'Timer fortsetzen';
+    const done = completed();
+    status.hidden = !done || done.ownerId !== ex.id;
+    status.textContent = done?.ownerId === ex.id ? `${done.seconds} Sekunden abgelaufen. Tatsächlich gehaltene Zeit im Satz eintragen.` : '';
+  };
+  timer.onTick();
+  return root;
 }
 
 function setTable(ex, entry, last, onSave, saveDraft) {

@@ -154,25 +154,24 @@ test('thumbnail opens RDL without starting a workout, plays, pauses and returns 
   await expect(page.getByLabel('Satz 1 Wiederholungen',{exact:true})).toHaveValue('8');
 });
 
-test('all plan rows have a preview and missing animations are not labelled as GIFs',async({page},info)=>{
+test('all plan rows and equipment variants have playable animations',async({page},info)=>{
   await open(page);await page.getByRole('link',{name:'Plan ansehen',exact:true}).click();
   const counts=await page.evaluate(async()=>{
     const {PLAN}=await import('/src/plan.js'),{buildSessionPlan,defaultMinutes}=await import('/src/training.js');
     return PLAN.reduce((sum,day)=>{const p=buildSessionPlan(day,defaultMinutes(day));return sum+p.exercises.length+p.optional.length;},0);
   });
-  await expect(page.locator('.plan-exercise-media-row .exercise-thumbnail')).toHaveCount(counts);
+  await expect(page.locator('.plan-exercise-media-row .exercise-thumbnail.has-motion')).toHaveCount(counts);
   const day=page.locator('.plan-day').filter({has:page.locator('.plan-day-title').filter({hasText:'Full Body B'})});
   await day.locator(':scope > summary').click();
-  await day.getByRole('button',{name:'Übung ansehen: Kurzhantel-Bankdrücken',exact:true}).click();
+  await day.getByRole('button',{name:'Animation öffnen: Kurzhantel-Bankdrücken',exact:true}).click();
   const dialog=page.getByRole('dialog',{name:'Kurzhantel-Bankdrücken',exact:true});
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByText('Für diese Variante ist noch keine Animation hinterlegt.',{exact:true})).toBeVisible();
-  await expect(dialog.locator('.motion-image')).toHaveCount(0);
-  await expect.poll(()=>dialog.locator('.exercise-poster img').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+  await expect.poll(()=>dialog.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+  await page.screenshot({path:`test-results/previews/bankdruecken-${info.project.name}.png`});
   await expect(dialog.getByRole('button',{name:'Technikvideo öffnen',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
-  await day.getByRole('button',{name:'Übung ansehen: Step-up mit Kurzhanteln',exact:true}).click();
-  await expect(page.getByRole('dialog').locator('.exercise-poster')).toHaveCount(0);
+  await day.getByRole('button',{name:'Animation öffnen: Step-up mit Kurzhanteln',exact:true}).click();
+  await expect.poll(()=>page.getByRole('dialog').locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
   await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.goto('/#/workout');
@@ -182,9 +181,29 @@ test('all plan rows have a preview and missing animations are not labelled as GI
   await page.screenshot({path:`test-results/previews/uebung-vorschauliste-${info.project.name}.png`});
 });
 
+test('four neck directions are individually controllable with reduced motion',async({page},info)=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await open(page);await page.getByRole('button',{name:'Training ansehen & starten'}).click();
+  await page.getByText('Weitere Übungen bei Bedarf',{exact:true}).click();
+  const thumbnail=page.locator('.exercise-thumbnail[data-exercise-id="mo-neck"]');
+  await thumbnail.click();
+  const dialog=page.getByRole('dialog');
+  await expect(dialog.getByRole('button',{name:'Abspielen',exact:true})).toBeVisible();
+  for(const direction of ['Stirn','Hinterkopf','Rechte Seite','Linke Seite']){
+    await expect(dialog.locator('.motion-caption')).toContainText(direction);
+    await expect.poll(()=>dialog.locator('.motion-image').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+    if(direction==='Linke Seite')await page.screenshot({path:`test-results/previews/nacken-${info.project.name}.png`});
+    await dialog.getByRole('button',{name:'Nächste Phase',exact:true}).click();
+  }
+  await expect(dialog.locator('.motion-caption')).toContainText('Stirn');
+  await dialog.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
+  await expect(thumbnail).toBeFocused();
+});
+
 test.describe('offline installation',()=>{
   test.use({serviceWorkers:'allow'});
-  test('cached app shell and RDL images remain available offline',async({page})=>{
+  test('cached app shell and every animation remain available offline',async({page})=>{
+    test.setTimeout(90000);
     // WebKit's emulated offline flag rejects even literal worker responses:
     // https://github.com/microsoft/playwright/issues/42775
     // Stop this test's own origin instead, and require a real worker response.
@@ -204,6 +223,16 @@ test.describe('offline installation',()=>{
       await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
       server.closeAllConnections();
       await new Promise(resolve=>server.close(resolve));
+      await page.evaluate(async()=>{
+        const {PLAN}=await import('/src/plan.js');
+        const {GENERATED_MOTIONS}=await import('/src/motionCatalog.js');
+        for(const m of Object.values(GENERATED_MOTIONS)){
+          for(const file of [...m.labels.map((_,i)=>`${i+1}.png`),m.file]){
+            const r=await fetch(`assets/motion/${m.directory}/${file}`);
+            if(!r.ok || (await r.blob()).size<1000)throw new Error(`${m.directory}/${file}`);
+          }
+        }
+      });
       const response=await page.reload();
       expect(response.fromServiceWorker()).toBe(true);
       await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
@@ -231,4 +260,39 @@ test('three completed target sets produce a next-session recommendation without 
   await expect(page.getByRole('button',{name:'Am Limit',exact:true})).toHaveCount(0);
   await page.locator('.set-table').evaluate(el=>el.scrollIntoView({block:'start'}));
   await page.screenshot({path:`test-results/previews/satzanzeige-${info.project.name}.png`});
+});
+
+test('hold timer uses prescribed seconds, survives reload and never fabricates a set',async({page},info)=>{
+  await page.clock.install();await open(page);
+  await page.evaluate(async()=>{
+    const {setActiveSession}=await import('/src/db.js');
+    const {resolveExercise,PLAN_VERSION}=await import('/src/training.js');
+    await setActiveSession({sessionId:'hold-test',timerSessionId:'hold-test',dayId:'di',dayName:'Mobility',planVersion:PLAN_VERSION,startedAt:new Date().toISOString(),currentIndex:0,entries:{},planSnapshot:{exercises:[resolveExercise('di-hipflexor')],optional:[]}});
+  });
+  await page.goto('/#/workout');
+  const card=page.getByRole('region',{name:'Halte-Timer',exact:true});
+  await card.getByRole('button',{name:'30 s starten',exact:true}).click();
+  await expect(card.getByRole('timer')).toHaveText('0:30');
+  await card.getByRole('button',{name:'45 s starten',exact:true}).click();
+  await expect(card.getByRole('timer')).toHaveText('0:45');
+  await expect.poll(()=>page.locator('.exercise-thumbnail img').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
+  await page.screenshot({path:`test-results/previews/halte-timer-laufend-${info.project.name}.png`});
+  await page.clock.runFor(2000);
+  await expect(card.getByRole('timer')).toHaveText('0:43');
+  await card.getByRole('button',{name:'Timer anhalten',exact:true}).click();
+  await page.clock.runFor(10000);
+  await expect(card.getByRole('timer')).toHaveText('0:43');
+  await page.reload();
+  await expect(card.getByRole('timer')).toHaveText('0:43');
+  await card.getByRole('button',{name:'Timer fortsetzen',exact:true}).click();
+  await page.clock.runFor(43000);
+  await expect(card.getByRole('status')).toContainText('45 Sekunden abgelaufen');
+  await expect(page.getByLabel('Satz 1 Haltezeit',{exact:true})).toHaveValue('');
+  expect(await page.evaluate(async()=>(await (await import('/src/db.js')).getActiveSession()).entries['di-hipflexor'].sets.length)).toBe(0);
+  await page.screenshot({path:`test-results/previews/halte-timer-${info.project.name}.png`});
+  await card.getByRole('button',{name:'30 s starten',exact:true}).click();
+  await page.getByLabel('Satz 1 Haltezeit',{exact:true}).fill('30');
+  await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).click();
+  await expect(card.getByRole('timer')).toBeHidden();
+  await expect(page.getByText('Satzpause',{exact:true})).toBeVisible();
 });

@@ -130,3 +130,18 @@ test('blocked storage does not break foreground/background timekeeping', () => e
   assert.equal(timer.remaining, 40);
   timer.dispose();
 }));
+
+test('hold timer has independent persistence, survives reload and reports expiry once', () => environment(e => {
+  const rest = new RestTimer({sessionId:'session'});
+  const hold = new RestTimer({sessionId:'session',storageKey:'hold'});
+  rest.start(120,'rest');hold.start(45,'stretch');
+  e.hide();e.advance(15000);hold.dispose();
+  let result;
+  const restored = new RestTimer({sessionId:'session',storageKey:'hold',onDone:r=>result=r});
+  assert.equal(restored.remaining,30);assert.equal(rest.remaining,105);
+  restored.togglePause();e.advance(10000);assert.equal(restored.remaining,30);
+  restored.togglePause();e.advance(30000);e.show();
+  assert.deepEqual(result,{ownerId:'stretch',seconds:45,expired:true});
+  assert.equal(rest.remaining,65);assert.equal(e.data.has('hold'),false);
+  rest.dispose();restored.dispose();
+}));

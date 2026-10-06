@@ -1,6 +1,7 @@
 import { h, typeIcon, openVideoModal } from './ui.js';
 import { iconFor } from './plan.js';
 import { motionFor, renderMotion } from './motion.js';
+import { currentExerciseMedia } from './training.js';
 
 // Exact variant matches only. In particular, a squat poster cannot demonstrate
 // a step-up, and dumbbells cannot stand in for an unspecified guided machine.
@@ -35,6 +36,7 @@ export function renderExerciseThumbnail(exercise) {
 }
 
 export function openExerciseMedia(exercise) {
+  exercise = currentExerciseMedia(exercise);
   closeExerciseMedia();
   const previousFocus = document.activeElement;
   const previousOverflow = document.body.style.overflow;

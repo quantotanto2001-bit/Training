@@ -1,0 +1,1103 @@
+[
+  {
+    "key": "ring-dip",
+    "ids": [
+      "mo-dip"
+    ],
+    "movement": "Strict weighted RING DIP. Fixed overhead anchor points and TWO taut straps of UNCHANGING length, two rings stay at the SAME height while the body moves. Side three-quarter view. A modest plate on a dip belt. Three phases: 1 upright support with nearly straight arms, rings alongside hips, feet off floor; 2 elbows bending and torso leaning slightly forward; 3 controlled bottom with upper arms around horizontal, wrists beneath elbows, rings beside lower chest, shoulders not collapsing. Hands securely grip rings throughout; elbows track back, quiet legs.",
+    "highlight": "Triceps and pectorals",
+    "labels": [
+      "Stützposition",
+      "Kontrolliert absenken",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-f82498ce-797b-4805-90c2-7701c21854aa.png",
+    "prompt": "Create an ORIGINAL anatomical fitness illustration strip. STYLE ONLY reference: grayscale athletic adult male, short dark hair, dark shorts and shoes, white background, subtle red emphasis on Triceps and pectorals. THREE equal square panels in a 3:1 strip, no text/borders/logos, full body plus apparatus inside each tile with margins. Strict weighted RING DIP. Fixed overhead anchor points and TWO taut straps of UNCHANGING length, two rings stay at the SAME height while the body moves. Side three-quarter view. A modest plate on a dip belt. Three phases: 1 upright support with nearly straight arms, rings alongside hips, feet off floor; 2 elbows bending and torso leaning slightly forward; 3 controlled bottom with upper arms around horizontal, wrists beneath elbows, rings beside lower chest, shoulders not collapsing. Hands securely grip rings throughout; elbows track back, quiet legs.. Draw TWO VERTICAL straps of the SAME length in all panels, attached at identical fixed anchor locations. The rings and hand grips are fixed spatial anchors. Only the elbows, shoulders and body height change. The man is HIGHER with straight elbows in the first panel and LOWER with bent elbows in the last panel. Never move the rings or stretch the straps to follow his waist. Keep person size identical. Schematic motion reminder, not a measurement diagram.",
+    "review": "Rings remain at same height, grip stays closed, elbows bend as body descends. Free legs and belt preserved."
+  },
+  {
+    "key": "bench-db-v3",
+    "ids": [
+      "do-bench~db",
+      "mo-dip~bench-db",
+      "sa-ringpushup~bench-db"
+    ],
+    "movement": "DUMBBELL FLAT BENCH PRESS. Full bench and person in fixed three-quarter view, head LEFT, feet RIGHT planted on floor. Three phases: 1 both dumbbells above mid chest, elbows nearly extended; 2 lower halfway; 3 bottom, dumbbells beside mid chest, upper arms about torso height. SEMI-NEUTRAL grip: palms partly face each other, straight dumbbell handles clearly pass through each CLOSED hand between two weight discs. EACH HAND must wrap the central handle with fingers and opposing thumb, wrist stays straight. Forearms vertical under handles at bottom; elbows moderately tucked, not a T shape. Bench, shoulderblades, buttocks and feet maintain contact. Do not change dumbbell orientation between poses; no floating handles or fingers through discs. Make hands large enough to inspect.",
+    "highlight": "Pectorals and triceps",
+    "labels": [
+      "Oben stabilisieren",
+      "Kontrolliert absenken",
+      "Hanteln neben der Brust"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-b5d357e4-2498-4d73-adab-34f704cb5eaa.png",
+    "prompt": "Create an ORIGINAL anatomical fitness illustration strip for a mobile exercise reminder. Reference image is STYLE ONLY, not its movement. Grey shaded muscular adult male, short dark hair, dark shorts and shoes, white background, restrained red highlights on Pectorals and triceps. Exactly the same character, equipment, fixed camera and proportions in all panels. THREE equal square tiles in one 3:1 horizontal strip, no text, no borders, generous margins, full body and equipment completely visible. Movement: DUMBBELL FLAT BENCH PRESS. Full bench and person in fixed three-quarter view, head LEFT, feet RIGHT planted on floor. Three phases: 1 both dumbbells above mid chest, elbows nearly extended; 2 lower halfway; 3 bottom, dumbbells beside mid chest, upper arms about torso height. SEMI-NEUTRAL grip: palms partly face each other, straight dumbbell handles clearly pass through each CLOSED hand between two weight discs. EACH HAND must wrap the central handle with fingers and opposing thumb, wrist stays straight. Forearms vertical under handles at bottom; elbows moderately tucked, not a T shape. Bench, shoulderblades, buttocks and feet maintain contact. Do not change dumbbell orientation between poses; no floating handles or fingers through discs. Make hands large enough to inspect.. Stable contact points must align at identical tile-relative coordinates. Do not add unrelated props, motion lines, labels, extra limbs or duplicated weights. Schematic key positions for a visual reminder, not a measurement diagram. Prioritize readable hands and physically coherent equipment contact over decorative detail.",
+    "review": "Grip rechecked at full size and 372 px: closed hands on handles, wrists aligned; full bench and supported feet. Adjusted first crop to preserve shoe.",
+    "crops": [
+      [
+        0,
+        0,
+        750,
+        724
+      ],
+      [
+        750,
+        0,
+        715,
+        724
+      ],
+      [
+        1465,
+        0,
+        707,
+        724
+      ]
+    ]
+  },
+  {
+    "key": "bulgarian",
+    "ids": [
+      "mo-splitsquat",
+      "do-pistol~bulgarian"
+    ],
+    "movement": "DUMBBELL BULGARIAN SPLIT SQUAT. Side three-quarter view facing right. Rear foot rests on a stable low bench to LEFT, front foot planted RIGHT. One dumbbell hangs in each hand alongside body. Bench and feet have identical tile-relative coordinates. Three phases: 1 high split stance with slightly flexed front knee; 2 descend; 3 controlled deep position with front thigh near parallel and rear knee close to floor, front heel fully grounded, knee following toes. Torso leans slightly forward as a single stable segment, pelvis stays level. Rear FOOT must remain on bench, rear knee bends, front foot doesn't slide. Full bench and both legs visible.",
+    "highlight": "Front-leg quadriceps and gluteals",
+    "labels": [
+      "Stabiler Stand",
+      "Absenken",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-2b5683c1-7652-4c99-8363-7d88d8f4b7cd.png",
+    "prompt": "Create an ORIGINAL anatomical fitness illustration sprite strip. The reference image is STYLE ONLY: same grey shaded athletic adult male, dark shorts/shoes, short hair, white background, restrained red muscle highlights on Front-leg quadriceps and gluteals. THREE equal square panels, side by side in one 3:1 strip. Fixed camera, consistent body size and proportions, whole body and all equipment completely visible, at least 6% margins. No text, borders, watermarks or motion lines. DUMBBELL BULGARIAN SPLIT SQUAT. Side three-quarter view facing right. Rear foot rests on a stable low bench to LEFT, front foot planted RIGHT. One dumbbell hangs in each hand alongside body. Bench and feet have identical tile-relative coordinates. Three phases: 1 high split stance with slightly flexed front knee; 2 descend; 3 controlled deep position with front thigh near parallel and rear knee close to floor, front heel fully grounded, knee following toes. Torso leans slightly forward as a single stable segment, pelvis stays level. Rear FOOT must remain on bench, rear knee bends, front foot doesn't slide. Full bench and both legs visible.. Prioritize coherent foot, hand and weight contacts and consistent equipment geometry. Three schematic positions, not a measurement diagram.",
+    "review": "Front heel grounded, rear foot supported, front knee bends under controlled torso. Both dumbbells largely overlap in side view. Check crop registration and contacts."
+  },
+  {
+    "key": "stepup-db",
+    "ids": [
+      "mo-splitsquat~stepup",
+      "do-pistol~stepup"
+    ],
+    "movement": "DUMBBELL STEP-UP onto a stable knee-below-height exercise box. Side view facing right, box on right. Hold one dumbbell each hand arms long. Three phases: 1 full right foot planted on box, left foot on floor behind; 2 rise using right leg, right knee extending, left foot leaving floor with no jump; 3 tall supported stance on right leg atop box, left foot hanging relaxed beside box, hips level. Same box, same planted right foot in all panels, torso stable, knee follows toes, no strong push-off from trailing foot. Feet and dumbbells must not intersect box. Show full person and box.",
+    "highlight": "Working quadriceps and gluteals",
+    "labels": [
+      "Ganzer Fuß auf der Auflage",
+      "Mit dem oberen Bein hochdrücken",
+      "Oben stabilisieren"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-ca29c170-53aa-4d0f-b817-14187ec34501.png",
+    "prompt": "Create an ORIGINAL anatomical fitness illustration sprite strip. Reference image is STYLE ONLY: grey shaded adult muscular male, dark shorts and shoes, white background, restrained red emphasis on Working quadriceps and gluteals. Three equally sized square panels side by side in a 3:1 strip, whole body and all apparatus visible with generous margins, no text/borders/logos. Same person proportions, body scale, fixed camera and box dimensions in all panels. DUMBBELL STEP-UP onto a stable knee-below-height exercise box. Side view facing right, box on right. Hold one dumbbell each hand arms long. Three phases: 1 full right foot planted on box, left foot on floor behind; 2 rise using right leg, right knee extending, left foot leaving floor with no jump; 3 tall supported stance on right leg atop box, left foot hanging relaxed beside box, hips level. Same box, same planted right foot in all panels, torso stable, knee follows toes, no strong push-off from trailing foot. Feet and dumbbells must not intersect box. Show full person and box.. Pay special attention to foot staying on the TOP surface of the box, realistic closed grips on the dumbbell handles, consistent limb lengths, no impossible leg crossing. Schematic movement reminder, not a measurement diagram.",
+    "review": "Full leading foot stays on box, leading knee extends to stand, trailing foot lifts without a depicted jump; torso controlled. Check frame registration."
+  },
+  {
+    "key": "rdl-guided",
+    "ids": [
+      "mo-rdl~rdl-guided"
+    ],
+    "movement": "Three equal panels of a ROMANIAN DEADLIFT on a vertical guided BAR station. Camera almost TRUE FRONT VIEW, only 10 degrees to side, NOT profile. Both rail uprights visible at fixed x=15% and x=85% in each tile, perfectly parallel. Horizontal straight metal bar spans between rails and stays perfectly HORIZONTAL, translates vertically only. Both hands visibly wrapped on the bar outside thighs at fixed x=35% and65%, elbows straight. Frame1 upright, bar at upper thighs. Frame2 hip hinge with hips back, softly bent knees, bar at kneecaps. Frame3 controlled deeper hip hinge, bar near upper shins, head follows torso, back long. Feet stay fixed, torso foreshortens as it hinges toward camera. Do not bend bar or move rails; do not show side view. Bare minimum schematic machine with no plate loads.",
+    "highlight": "Gluteals and hamstrings",
+    "labels": [
+      "Aufrecht stehen",
+      "Hüfte zurück",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-32218b6a-e73b-41c5-a9a7-c9dbcdc12650.png",
+    "prompt": "Create an exercise illustration key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed body scale, same floor height and generous margins. Use the reference ONLY for illustration STYLE: grey anatomical adult male, dark shorts/shoes, white background, restrained red emphasis. Do not copy its deadlift pose or its dumbbells unless the new movement explicitly requires dumbbells. NEW MOVEMENT: Three equal panels of a ROMANIAN DEADLIFT on a vertical guided BAR station. Camera almost TRUE FRONT VIEW, only 10 degrees to side, NOT profile. Both rail uprights visible at fixed x=15% and x=85% in each tile, perfectly parallel. Horizontal straight metal bar spans between rails and stays perfectly HORIZONTAL, translates vertically only. Both hands visibly wrapped on the bar outside thighs at fixed x=35% and65%, elbows straight. Frame1 upright, bar at upper thighs. Frame2 hip hinge with hips back, softly bent knees, bar at kneecaps. Frame3 controlled deeper hip hinge, bar near upper shins, head follows torso, back long. Feet stay fixed, torso foreshortens as it hinges toward camera. Do not bend bar or move rails; do not show side view. Bare minimum schematic machine with no plate loads. No text, no arrows, no extra limbs. Hands must grip equipment correctly. Preserve equipment position, limb lengths, support points across frames; do not recenter each pose. Anatomically plausible restrained ranges.",
+    "review": "Rigid bar is visibly bent and changes horizontal position.",
+    "exampleNote": "Beispiel an einer geführten Hantelstange. Griff und Stand an die vorhandene Station anpassen."
+  },
+  {
+    "key": "nordic",
+    "ids": [
+      "mo-nordic",
+      "do-nordic"
+    ],
+    "movement": "NORDIC HAMSTRING CURL, side view facing right. Knees on a thick pad, both ankles securely under a FIXED padded ankle anchor behind at left. Three phases: 1 upright kneeling, straight shoulder-hip-knee line; 2 lean forward from the KNEES as one rigid body to a moderate incline, hips remain extended; 3 farther controlled lean, arms reaching to floor to catch/support the descent. Knees and ankle anchor stay fixed, no hip pike or hyperextended back. Forearms/hands visibly ready to catch before reaching floor; do not depict free fall. Full body and ankle restraint shown. IMPORTANT: ankle restraint at x=12% of EACH tile and knee pivot at x=30%, floor y=82%, IDENTICAL in all three panels. Scale person small enough that final forward-reaching hand remains inside right edge. No object crosses boundaries. Do not recenter each pose.",
+    "highlight": "Hamstrings",
+    "labels": [
+      "Kniestand mit fixierten Knöcheln",
+      "Als Einheit nach vorn neigen",
+      "Mit den Händen abfangen"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-93b07122-7e90-4cb6-8395-9884e7a25222.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Hamstrings. Do not copy its deadlift pose. New exercise: NORDIC HAMSTRING CURL, side view facing right. Knees on a thick pad, both ankles securely under a FIXED padded ankle anchor behind at left. Three phases: 1 upright kneeling, straight shoulder-hip-knee line; 2 lean forward from the KNEES as one rigid body to a moderate incline, hips remain extended; 3 farther controlled lean, arms reaching to floor to catch/support the descent. Knees and ankle anchor stay fixed, no hip pike or hyperextended back. Forearms/hands visibly ready to catch before reaching floor; do not depict free fall. Full body and ankle restraint shown. IMPORTANT: ankle restraint at x=12% of EACH tile and knee pivot at x=30%, floor y=82%, IDENTICAL in all three panels. Scale person small enough that final forward-reaching hand remains inside right edge. No object crosses boundaries. Do not recenter each pose. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Knees and ankle restraint fixed, shoulder hip knee alignment and hand catch visible."
+  },
+  {
+    "key": "external-rotation",
+    "ids": [
+      "mo-extrot"
+    ],
+    "movement": "Standing cable shoulder external rotation, FRONT view. Person RIGHT arm appears on IMAGE LEFT and is the working arm. Pulley is on IMAGE RIGHT at elbow height, therefore opposite to the working arm. Cable crosses across belly from image RIGHT to working RIGHT hand on image LEFT. RIGHT elbow fixed tucked to right waist, 90 degree bend, upper arm stationary. Panel1 right hand across belly near navel, panel2 forearm points toward camera with hand in front of fixed elbow, panel3 right hand rotates toward IMAGE LEFT away from pulley. Resistance pulls hand inward toward pulley. Torso does not turn. Straight wrist and closed grip. Same pulley and elbow location in every panel.",
+    "highlight": "Rear shoulder rotator cuff",
+    "labels": [
+      "Unterarm vor dem Bauch",
+      "Nach außen drehen",
+      "Oberarm bleibt ruhig"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-fa05bfeb-4ad0-42ee-a969-afaa46c4f56c.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Rear shoulder rotator cuff. Do not copy its deadlift pose. New exercise: Standing cable shoulder external rotation, FRONT view. Person RIGHT arm appears on IMAGE LEFT and is the working arm. Pulley is on IMAGE RIGHT at elbow height, therefore opposite to the working arm. Cable crosses across belly from image RIGHT to working RIGHT hand on image LEFT. RIGHT elbow fixed tucked to right waist, 90 degree bend, upper arm stationary. Panel1 right hand across belly near navel, panel2 forearm points toward camera with hand in front of fixed elbow, panel3 right hand rotates toward IMAGE LEFT away from pulley. Resistance pulls hand inward toward pulley. Torso does not turn. Straight wrist and closed grip. Same pulley and elbow location in every panel. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Cable now opposes outward hand movement; elbow remains near waist, torso steady."
+  },
+  {
+    "key": "neck-isometric",
+    "ids": [
+      "mo-neck",
+      "do-neck",
+      "sa-neck"
+    ],
+    "movement": "FOUR portrait panels in 2x2 grid. Adult male wears plain DARK T-SHIRT, seated upright. Chest-up view from front slightly oblique. Neutral head position unchanged in all four. Four-way neck isometric pressure demonstration: panel1 palm flat at CENTER OF FOREHEAD above eyebrows; panel2 BOTH HANDS interlaced behind BACK OF SKULL, elbows point out, no hand on temples; panel3 right palm against RIGHT temple (image left); panel4 left palm against LEFT temple (image right). No neck motion, bending, pulling or rotation; calm expression, shoulders relaxed. Show hand placement precisely and clearly; no equipment.",
+    "highlight": "Subtle neck muscles",
+    "labels": [
+      "Stirn · Kopf still halten",
+      "Hinterkopf · Kopf still halten",
+      "Rechte Seite · Kopf still halten",
+      "Linke Seite · Kopf still halten"
+    ],
+    "status": "accepted",
+    "review": "Posterior pressure missing: top-right shows temple again. Must depict palm against occiput.",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-69e25f89-fcd8-4d9d-8aac-e9de47d4980c.png",
+    "prompt": "Create an exercise illustration key-pose sheet, FOUR exactly equal square panels in a 2 by 2 grid. Faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed body scale, same floor height and generous margins. Use the reference ONLY for illustration STYLE: grey anatomical adult male, dark shorts/shoes, white background, restrained red emphasis. Do not copy its deadlift pose or its dumbbells unless the new movement explicitly requires dumbbells. NEW MOVEMENT: FOUR portrait panels in 2x2 grid. Adult male wears plain DARK T-SHIRT, seated upright. Chest-up view from front slightly oblique. Neutral head position unchanged in all four. Four-way neck isometric pressure demonstration: panel1 palm flat at CENTER OF FOREHEAD above eyebrows; panel2 BOTH HANDS interlaced behind BACK OF SKULL, elbows point out, no hand on temples; panel3 right palm against RIGHT temple (image left); panel4 left palm against LEFT temple (image right). No neck motion, bending, pulling or rotation; calm expression, shoulders relaxed. Show hand placement precisely and clearly; no equipment. No text, no arrows, no extra limbs. Hands must grip equipment correctly. Preserve equipment position, limb lengths, support points across frames; do not recenter each pose. Anatomically plausible restrained ranges.",
+    "sequence": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "durations": [
+      2500,
+      2500,
+      2500,
+      2500
+    ],
+    "exampleNote": "Vier getrennte Halterichtungen. Der Kopf bleibt neutral und bewegt sich beim Druck gegen die Hand nicht."
+  },
+  {
+    "key": "easy-run",
+    "ids": [
+      "di-cardio",
+      "mi-cardio"
+    ],
+    "movement": "EASY JOGGING as one example of steady aerobic activity, no exercise machine. Side view facing right. Three successive phases of a relaxed jogging stride with light knee bend and arms bent naturally, opposite arm-leg coordination, stable upright/slightly forward torso. 1 right foot supporting under body, left leg swinging forward; 2 brief transition, limbs exchange; 3 left foot supporting under body, right leg swinging. Do not show sprinting, high kicking or extreme heel reach. Same floor baseline, constant character size and pace impression, full body.",
+    "highlight": "Subtle leg muscles",
+    "labels": [
+      "Lockerer Laufschritt",
+      "Ruhig weiterlaufen",
+      "Gleichmäßiger Rhythmus"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-ac524df6-c64a-4543-8647-d8a911e72b98.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Subtle leg muscles. Do not copy its deadlift pose. New exercise: EASY JOGGING as one example of steady aerobic activity, no exercise machine. Side view facing right. Three successive phases of a relaxed jogging stride with light knee bend and arms bent naturally, opposite arm-leg coordination, stable upright/slightly forward torso. 1 right foot supporting under body, left leg swinging forward; 2 brief transition, limbs exchange; 3 left foot supporting under body, right leg swinging. Do not show sprinting, high kicking or extreme heel reach. Same floor baseline, constant character size and pace impression, full body. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Three jogging checkpoints with modest stride, shown as an example of aerobic activity, not a full stride cycle.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "exampleNote": "Beispiel: lockeres Joggen. Du kannst deine gewohnte Ausdauerform nutzen; die Bildfolge zeigt keinen vollständigen Laufzyklus."
+  },
+  {
+    "key": "aslr",
+    "ids": [
+      "di-aslr"
+    ],
+    "movement": "SUPINE ACTIVE STRAIGHT LEG RAISE. Side view, head left, feet right, lying face up on mat. Arms resting beside torso, pelvis and torso fixed. Three phases: 1 both straight legs on mat; 2 right leg lifts to about 35 degrees with knee STRAIGHT; 3 right leg lifts to a controlled roughly 65-degree hip flexion, right knee stays straight, opposite heel and entire left leg stay on mat. No hands pulling leg, no pelvis rolling, no sit-up. Both feet fully visible.",
+    "highlight": "Hip flexors, subtle",
+    "labels": [
+      "Rückenlage",
+      "Bein aktiv anheben",
+      "Becken und Gegenbein ruhig"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-1d9b66c1-7a50-4ca0-879f-828642f5d185.png",
+    "prompt": "Create an ORIGINAL anatomical exercise illustration sprite sheet, THREE EXACTLY EQUAL square tiles side by side in one horizontal 3:1 image. Add very faint straight vertical separator lines exactly at one-third and two-thirds width, no text. No figure or apparatus may cross a tile boundary. Same fixed side camera, same person scale, same floor baseline, whole person with margins in each tile. Reference STYLE ONLY: shaded grey athletic adult male, dark shorts and shoes, white background, red emphasis on Hip flexors, subtle. SUPINE ACTIVE STRAIGHT LEG RAISE. Side view, head left, feet right, lying face up on mat. Arms resting beside torso, pelvis and torso fixed. Three phases: 1 both straight legs on mat; 2 right leg lifts to about 35 degrees with knee STRAIGHT; 3 right leg lifts to a controlled roughly 65-degree hip flexion, right knee stays straight, opposite heel and entire left leg stay on mat. No hands pulling leg, no pelvis rolling, no sit-up. Both feet fully visible.. Keep the head, pelvis and non-moving leg at IDENTICAL positions relative to every tile. ONLY the raised leg changes angle at the hip. Hands stay relaxed next to body and do not assist. Schematic key positions, not a measurement diagram.",
+    "review": "Active leg stays long; opposite leg, pelvis and trunk remain supported."
+  },
+  {
+    "key": "hip-flexor-hold",
+    "ids": [
+      "di-hipflexor"
+    ],
+    "movement": "HALF KNEELING HIP FLEXOR STRETCH/HOLD, side view facing right. Left knee on padded mat behind, right foot flat ahead, front shin near vertical. Three phases entry and hold: 1 tall half kneeling; 2 small posterior pelvic tilt, gently squeeze trailing-side glute, keep ribs stacked over pelvis; 3 subtly shift whole pelvis forward a few centimeters while torso upright, NO lumbar arch, rear knee stays on mat. Hands on hips. Do not make a deep lunge or bend backward. Fixed feet/knee landmarks, full body.",
+    "highlight": "Small highlight at front of trailing hip",
+    "labels": [
+      "Halbkniestand",
+      "Becken ausrichten",
+      "Position ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-5c82b410-f5f8-4242-b0d6-edead712f380.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Small highlight at front of trailing hip. Do not copy its deadlift pose. New exercise: HALF KNEELING HIP FLEXOR STRETCH/HOLD, side view facing right. Left knee on padded mat behind, right foot flat ahead, front shin near vertical. Three phases entry and hold: 1 tall half kneeling; 2 small posterior pelvic tilt, gently squeeze trailing-side glute, keep ribs stacked over pelvis; 3 subtly shift whole pelvis forward a few centimeters while torso upright, NO lumbar arch, rear knee stays on mat. Hands on hips. Do not make a deep lunge or bend backward. Fixed feet/knee landmarks, full body. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Small alignment changes, knee/foot supported, no exaggerated lumbar arch. Hold reminder, not repetitions.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1300,
+      1300,
+      3500
+    ]
+  },
+  {
+    "key": "front-split",
+    "ids": [
+      "di-frontsplit"
+    ],
+    "movement": "SUPPORTED FRONT SPLIT ENTRY AND HOLD, side view facing right, front leg right rear leg left, one hand on each stable yoga block beside pelvis. Three phases: 1 a modest supported split stance close to floor, legs nearly straight; 2 legs extend into a deeper controlled split while hands support weight on same blocks; 3 comfortable supported final position with pelvis above floor, do NOT force full flat split. Hips square forward, no rear-leg turnout, back controlled, front knee faces ceiling, rear knee faces ground. Full body, hands firmly on blocks, no bouncing. Position is individualized, not a prescribed extreme depth.",
+    "highlight": "Hamstrings of front leg, hip flexor region of rear leg",
+    "labels": [
+      "Mit Blöcken abstützen",
+      "Kontrolliert in die Position",
+      "Ruhig halten"
+    ],
+    "status": "accepted",
+    "review": "Supported partial split, hands on blocks, feet visible. No forced full split.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1300,
+      1300,
+      3500
+    ],
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-262c8faa-5d2e-4d14-8bcc-ba367a25dbeb.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Hamstrings of front leg, hip flexor region of rear leg. Do not copy its deadlift pose. New exercise: SUPPORTED FRONT SPLIT ENTRY AND HOLD, side view facing right, front leg right rear leg left, one hand on each stable yoga block beside pelvis. Three phases: 1 a modest supported split stance close to floor, legs nearly straight; 2 legs extend into a deeper controlled split while hands support weight on same blocks; 3 comfortable supported final position with pelvis above floor, do NOT force full flat split. Hips square forward, no rear-leg turnout, back controlled, front knee faces ceiling, rear knee faces ground. Full body, hands firmly on blocks, no bouncing. Position is individualized, not a prescribed extreme depth. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated."
+  },
+  {
+    "key": "long-split-squat",
+    "ids": [
+      "di-atg"
+    ],
+    "movement": "LIGHT LONG SPLIT SQUAT for mobility, bodyweight, side view facing right. Wide front-back stance, front right foot flat on floor, rear left forefoot planted heel raised. Hands on hips. Three phases: 1 high long split stance; 2 lower and travel forward; 3 controlled deeper front-knee flexion with front heel down, rear knee hovering, rear hip extended without lumbar arch. Front knee follows toes and can travel forward, torso controlled. Fixed foot positions, no elevated rear foot.",
+    "highlight": "Front quadriceps and rear hip-flexor region",
+    "labels": [
+      "Langer Schrittstand",
+      "Langsam absenken",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-dcc07d4b-ace7-4e70-baa5-ffb681e808a4.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Front quadriceps and rear hip-flexor region. Do not copy its deadlift pose. New exercise: LIGHT LONG SPLIT SQUAT for mobility, bodyweight, side view facing right. Wide front-back stance, front right foot flat on floor, rear left forefoot planted heel raised. Hands on hips. Three phases: 1 high long split stance; 2 lower and travel forward; 3 controlled deeper front-knee flexion with front heel down, rear knee hovering, rear hip extended without lumbar arch. Front knee follows toes and can travel forward, torso controlled. Fixed foot positions, no elevated rear foot. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Both feet maintain support, front heel down, controlled knee bend and torso."
+  },
+  {
+    "key": "light-hamstring-hinge",
+    "ids": [
+      "di-rdl-light"
+    ],
+    "movement": "LIGHT STRAIGHT-LEG HAMSTRING HIP HINGE with two small dumbbells, side view facing right. Three phases upright, moderate hip hinge, deeper controlled hinge stopping before lumbar rounding. Knees remain softly straight with only slight flexion (not forcefully locked). Hips move back, arms long, dumbbells skim near thighs then upper shins, head follows torso with downward gaze. Same planted feet and nearly vertical shins, no squat, no forced toe reach.",
+    "highlight": "Hamstrings and gluteals",
+    "labels": [
+      "Weiche Knie",
+      "Hüfte nach hinten",
+      "Kontrollierte Dehnung"
+    ],
+    "status": "accepted",
+    "review": "Hips move back, knees softly bent and weights close to legs.",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-6a49045c-2bb0-484e-a052-777b5cfdb1f8.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Hamstrings and gluteals. Do not copy its deadlift pose. New exercise: LIGHT STRAIGHT-LEG HAMSTRING HIP HINGE with two small dumbbells, side view facing right. Three phases upright, moderate hip hinge, deeper controlled hinge stopping before lumbar rounding. Knees remain softly straight with only slight flexion (not forcefully locked). Hips move back, arms long, dumbbells skim near thighs then upper shins, head follows torso with downward gaze. Same planted feet and nearly vertical shins, no squat, no forced toe reach. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated."
+  },
+  {
+    "key": "tuck-lsit",
+    "ids": [
+      "do-lsit"
+    ],
+    "movement": "TUCK L-SIT on TWO short parallel bars, side three-quarter view. Both hands grip fixed bars beside hips, elbows remain straight, shoulders actively push down. Three phases: 1 seated low between bars, bent knees feet on mat; 2 push down and lift hips from mat; 3 hold hips suspended with BOTH knees tucked toward chest and BOTH feet clearly off floor. Hands and bars stay fixed, torso upright, no bent elbows or passive sagging. This is a tuck-L-sit example, not full straight-leg L-sit.",
+    "highlight": "Abdominals and hip flexors",
+    "labels": [
+      "Stütz vorbereiten",
+      "Hüfte anheben",
+      "Tuck-Position halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-66e07daa-5b71-47a1-897b-99eee5c5a0d3.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Abdominals and hip flexors. Do not copy its deadlift pose. New exercise: TUCK L-SIT on TWO short parallel bars, side three-quarter view. Both hands grip fixed bars beside hips, elbows remain straight, shoulders actively push down. Three phases: 1 seated low between bars, bent knees feet on mat; 2 push down and lift hips from mat; 3 hold hips suspended with BOTH knees tucked toward chest and BOTH feet clearly off floor. Hands and bars stay fixed, torso upright, no bent elbows or passive sagging. This is a tuck-L-sit example, not full straight-leg L-sit. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Both hands on bars, elbows long and feet lift clear. Hold reminder.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1300,
+      1300,
+      3500
+    ]
+  },
+  {
+    "key": "handstand-wall",
+    "ids": [
+      "do-handstand"
+    ],
+    "movement": "CHEST-TO-WALL HANDSTAND with stable wall, side view facing right. Three schematic hold phases of SAME already established handstand: 1 both palms shoulder-width on floor, straight arms, tall shoulders, straight stacked torso, toes lightly against wall; 2 maintain this aligned hold with active upward shoulder push; 3 same hold with toes briefly barely away from wall showing a small controlled balance adjustment. Head between arms gaze toward hands, no arched banana back, no kick-up or uncontrolled dismount. Hands fixed at same baseline, full body visible, wall fixed. These are hold/balance reminders, not an entry tutorial.",
+    "highlight": "Shoulders and upper back subtly",
+    "labels": [
+      "An der Wand ausrichten",
+      "Boden aktiv wegdrücken",
+      "Balance ruhig kontrollieren"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-a3d4f4ef-ad8d-44c8-8fd6-3807ffccb5fb.png",
+    "prompt": "Correct this exercise illustration sheet. Preserve its grey anatomical male, dark shorts/shoes, white background, clean panel boundaries and all details not mentioned. Keep the same number of equal panels. IMPORTANT correction: The wall must face the man's CHEST rather than his BACK. Move wall to image RIGHT in each panel, preserve man facing right. This is a CHEST-TO-WALL handstand: toes lightly on wall, heels face away from wall. Full aligned inverted body, long elbows, palms flat on ground shoulder width, ribs controlled, no banana arch. Three nearly identical held checkpoints: aligned hold, active shoulder push, toes just barely clear wall. Do not show entry or dismount. No text or arrows. Hands, fingers and equipment contact must be anatomically plausible. Full figure stays inside each panel.",
+    "review": "Supported wall hold, straight elbows, hands and toes remain in contact; no entry sequence depicted.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1600,
+      1800,
+      3000
+    ],
+    "exampleNote": "Gezeigt wird eine Wand-Variante als Erinnerung an die Halteposition. Einstieg und Abgang im Technikvideo ansehen."
+  },
+  {
+    "key": "bench-guided",
+    "ids": [
+      "do-bench~bench-guided"
+    ],
+    "movement": "GUIDED FLAT BENCH PRESS on a simple vertical guided BAR station (schematic). Same flat bench, head left feet right fixed to floor, fixed rails, bar horizontal across chest. Three phases: 1 bar above mid chest, arms almost straight; 2 lower halfway; 3 bar near chest, elbows bent and moderately tucked, forearms vertical. Both hands closed around bar with thumbs around it, wrists straight. Head, upper back, buttocks supported on bench, modest natural arch. Do not show dumbbells. This is a generic guided-bar example; actual station type is not specified.",
+    "highlight": "Pectorals and triceps",
+    "labels": [
+      "Oben stabilisieren",
+      "Geführt absenken",
+      "Kontrollierte untere Position"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-38beb49f-b7a2-4318-8817-ec737b0e1f80.png",
+    "prompt": "Correct this exercise illustration sheet. Preserve its grey anatomical male, dark shorts/shoes, white background, clean panel boundaries and all details not mentioned. Keep the same number of equal panels. IMPORTANT correction: Fix hand spacing and equipment invariants. BOTH hands must grip the SAME positions on the straight bar in every panel, exactly the first panel's grip spacing, with thumbs wrapped and straight wrists. Do not narrow grip when lowering. Bar and slider blocks translate vertically on unchanged rails only. Redraw elbows/forearms in middle and bottom so forearms are under the unchanged grips, elbows moderately tucked and lower bar reaches mid chest. Keep bench, feet, head, buttocks fixed. No text or arrows. Hands, fingers and equipment contact must be anatomically plausible. Full figure stays inside each panel.",
+    "review": "Corrected stable grip spacing on straight bar; supported feet, upper back and pelvis. Generic station example.",
+    "exampleNote": "Beispiel an einer geführten Stange. Griff, Bankposition und Bewegungsbahn müssen zu deiner vorhandenen Station passen."
+  },
+  {
+    "key": "ring-pushup",
+    "ids": [
+      "sa-ringpushup",
+      "do-bench~ring-pushup"
+    ],
+    "movement": "RING PUSH-UP on two low suspended gymnastic rings. Side three-quarter view, head RIGHT feet LEFT. Two fixed taut straps from overhead anchors, constant ring height and strap length through all phases. Full body straight from head through pelvis to heels, toes fixed on floor. Three phases: 1 straight-arm plank, both hands gripping rings; 2 elbows bending back diagonally; 3 chest lowers slightly below hands for controlled comfortable depth, elbows around torso level, body stays a rigid plank. Rings stay fixed in height as body pivots at toes, no straps shortening, no sagging pelvis or flared T-shaped elbows.",
+    "highlight": "Pectorals and triceps",
+    "labels": [
+      "Stabiler Stütz",
+      "Körper als Einheit absenken",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-7c03f322-3bfb-43e7-8c5e-3285ef1941ed.png",
+    "prompt": "Correct this exercise illustration sheet. Preserve its grey anatomical male, dark shorts/shoes, white background, clean panel boundaries and all details not mentioned. Keep the same number of equal panels. IMPORTANT correction: The rings incorrectly rise in middle/last panels. LOCK both rings/hands at panel ONE height and x coordinates in all panels; identical strap length. Redraw middle and last BODY poses descending to these fixed low rings. Feet/toes fixed on same floor points, body rigid shoulder-hip-heel line pivots down around toes as elbows bend back. Final chest reaches hand/ring height while elbows are behind and above wrists. Never shorten straps, no sagging hips. No text or arrows. Hands, fingers and equipment contact must be anatomically plausible. Full figure stays inside each panel.",
+    "review": "Corrected constant ring height and strap length. Body descends as unit, toes supported, hands grip rings."
+  },
+  {
+    "key": "ring-row-v2",
+    "ids": [
+      "do-ringrow",
+      "sa-cablerow~ring-row"
+    ],
+    "movement": "RING ROW, side view facing right, feet RIGHT fixed on floor, head LEFT. Man leans backward under two rings. STRAPS taut and of identical unchanging length anchored above; rings at IDENTICAL height and x-position relative to each panel. Three phases: 1 straight arms reaching upward to fixed rings, body a straight line from shoulders through hips to heels, inclined roughly 40 degrees above floor; 2 elbows bend and chest moves toward rings, straight body pivots about fixed heels; 3 rings beside lower chest, elbows behind torso, same straight body line. Body becomes more upright as it moves toward rings, arms pull body upward; rings NEVER move up or down. No shortening straps, no bending hips, no moving heels. Show both straps and contact clearly.",
+    "highlight": "Upper back and biceps",
+    "labels": [
+      "Gerade Körperlinie",
+      "Brust zu den Ringen ziehen",
+      "Schulterblätter kontrollieren"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-dc53cf59-667b-4d25-949a-48524b5aced6.png",
+    "prompt": "Correct this exercise illustration sheet. Preserve its grey anatomical male, dark shorts/shoes, white background, clean panel boundaries and all details not mentioned. Keep the same number of equal panels. IMPORTANT correction: Keep panels1 and2 unchanged. LAST PANEL is currently a curl toward the FACE, which is wrong. Raise and lengthen the rigid BODY so rings meet LOWER CHEST, not face. Keep rings at identical height to first panel and feet in place. Last head is close to top of tile with 2% margin; shoulders ABOVE rings; elbows point DOWN/BACK beside ribs and hands at lower chest. Heels remain on floor bottom right; straight body pivots to a more upright angle. Do not bend hips, shorten the man, move ring height, or cut off the head. No text or arrows. Hands, fingers and equipment contact must be anatomically plausible. Full figure stays inside each panel.",
+    "review": "Checked stationary ring height, grips, heel contact and straight body in all three phases.",
+    "correctionPrompt": "Low ring row, side view, three phases. Keep ring heights and suspension lengths fixed, heels on floor, body rigid, hands gripping the rings, elbows back and chest approaching rings. Final edit aligned the tops of all rings across the three panels."
+  },
+  {
+    "key": "cable-row",
+    "ids": [
+      "sa-cablerow",
+      "do-ringrow~cable-row"
+    ],
+    "movement": "SEATED LOW CABLE ROW on bench with fixed foot support. Side three-quarter view facing right, low pulley at right. Both feet fixed on supports, knees slightly bent, torso upright stable. Both hands grip a single close neutral-grip handle connected to taut cable. Three phases: 1 arms extended forward and shoulderblades allowed to reach; 2 elbows pull backward, torso does NOT rock; 3 handle near lower ribs, elbows alongside torso, controlled scapular retraction. Same seat, pelvis, foot positions, cable pulley location. Cable length changes as handle moves; no shoulder shrug.",
+    "highlight": "Mid back and biceps",
+    "labels": [
+      "Arme lang",
+      "Ellbogen nach hinten",
+      "Griff zu den unteren Rippen"
+    ],
+    "status": "accepted",
+    "review": "Supported feet and seat, handle drawn toward lower ribs, torso stays steady.",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-45e744be-d763-402e-aeb9-705a0a411c8b.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Mid back and biceps. Do not copy its deadlift pose. New exercise: SEATED LOW CABLE ROW on bench with fixed foot support. Side three-quarter view facing right, low pulley at right. Both feet fixed on supports, knees slightly bent, torso upright stable. Both hands grip a single close neutral-grip handle connected to taut cable. Three phases: 1 arms extended forward and shoulderblades allowed to reach; 2 elbows pull backward, torso does NOT rock; 3 handle near lower ribs, elbows alongside torso, controlled scapular retraction. Same seat, pelvis, foot positions, cable pulley location. Cable length changes as handle moves; no shoulder shrug. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated."
+  },
+  {
+    "key": "db-overhead-press",
+    "ids": [
+      "do-ohp"
+    ],
+    "movement": "STANDING DUMBBELL OVERHEAD PRESS. Front three-quarter view, feet fixed shoulder width, knees quiet, ribs over pelvis. Two dumbbells securely gripped, palms comfortably forward/slightly inward, straight wrists. Three phases: 1 dumbbells just above shoulder height with elbows beneath wrists; 2 press upward, forearms stacked under handles; 3 arms nearly straight overhead with dumbbells above shoulders, upper arms beside head. Do not use legs to push, arch lower back, shrug head forward or change grip. Keep full body visible; dumbbells don't merge.",
+    "highlight": "Deltoids and triceps",
+    "labels": [
+      "Hanteln auf Schulterhöhe",
+      "Nach oben drücken",
+      "Über den Schultern stabilisieren"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-545a4386-de30-4b81-890f-5c08992b29a1.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Deltoids and triceps. Do not copy its deadlift pose. New exercise: STANDING DUMBBELL OVERHEAD PRESS. Front three-quarter view, feet fixed shoulder width, knees quiet, ribs over pelvis. Two dumbbells securely gripped, palms comfortably forward/slightly inward, straight wrists. Three phases: 1 dumbbells just above shoulder height with elbows beneath wrists; 2 press upward, forearms stacked under handles; 3 arms nearly straight overhead with dumbbells above shoulders, upper arms beside head. Do not use legs to push, arch lower back, shrug head forward or change grip. Keep full body visible; dumbbells don't merge. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Hands closed around central handles; forearms support weights, trunk and feet stable."
+  },
+  {
+    "key": "hip-thrust",
+    "ids": [
+      "do-hipthrust"
+    ],
+    "movement": "BODYWEIGHT HIP THRUST, side view head LEFT feet RIGHT. Upper back supported across edge of stable low bench LEFT; feet flat RIGHT hip width, hands across chest. Three phases: 1 hips low, upper back still supported; 2 lift hips using hip extension; 3 shoulders-hips-knees roughly straight, shins near vertical, chin gently tucked and ribs down, no lumbar hyperextension. Bench, shoulder contact point and feet remain fixed. Do not turn into floor glute bridge. Show full body and bench.",
+    "highlight": "Gluteals",
+    "labels": [
+      "Schulterblätter auf der Bank",
+      "Hüfte anheben",
+      "Oben Gesäß anspannen"
+    ],
+    "status": "accepted",
+    "review": "Upper back and feet supported, hips rise to near shoulder-knee line; bodyweight technique example.",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-4bf23acf-3246-445b-a675-fbb03c0f17c0.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Gluteals. Do not copy its deadlift pose. New exercise: BODYWEIGHT HIP THRUST, side view head LEFT feet RIGHT. Upper back supported across edge of stable low bench LEFT; feet flat RIGHT hip width, hands across chest. Three phases: 1 hips low, upper back still supported; 2 lift hips using hip extension; 3 shoulders-hips-knees roughly straight, shins near vertical, chin gently tucked and ribs down, no lumbar hyperextension. Bench, shoulder contact point and feet remain fixed. Do not turn into floor glute bridge. Show full body and bench. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "exampleNote": "Die Animation zeigt die Grundbewegung ohne Zusatzgewicht."
+  },
+  {
+    "key": "reverse-nordic",
+    "ids": [
+      "do-revnordic"
+    ],
+    "movement": "REVERSE NORDIC, side view facing right, kneeling on thick mat, tops of feet resting behind. Knees fixed, hips extended, shoulder-hip-knee line straight. Three phases: 1 tall kneeling arms crossed; 2 lean backward from knees as one straight segment; 3 slightly deeper backward lean within control, hips still extended, no lower-back arch or hip fold. Head follows torso. Do not drop onto heels, don't sit, knees and ankles remain on mat.",
+    "highlight": "Quadriceps",
+    "labels": [
+      "Aufrechter Kniestand",
+      "Als Einheit zurücklehnen",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "review": "Shoulder-hip-knee alignment stays extended as body leans backward; knees supported.",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-de1c4dd3-5cdc-4444-88cc-eb4805a567b7.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Quadriceps. Do not copy its deadlift pose. New exercise: REVERSE NORDIC, side view facing right, kneeling on thick mat, tops of feet resting behind. Knees fixed, hips extended, shoulder-hip-knee line straight. Three phases: 1 tall kneeling arms crossed; 2 lean backward from knees as one straight segment; 3 slightly deeper backward lean within control, hips still extended, no lower-back arch or hip fold. Head follows torso. Do not drop onto heels, don't sit, knees and ankles remain on mat. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated."
+  },
+  {
+    "key": "scapular-pullup",
+    "ids": [
+      "do-scappullup"
+    ],
+    "movement": "SCAPULAR PULL-UP hanging from fixed overhead bar. Front three-quarter view with full body and bar. Hands fixed pronated grip, elbows STRAIGHT in EVERY panel. Three phases: 1 passive long-arm hang with shoulders nearer ears; 2 initiate shoulder depression, torso rises only a few centimeters; 3 active hang, shoulders away from ears, body slightly higher without ANY elbow bend. Legs quiet, no swing, no chin-up motion. Same bar coordinates.",
+    "highlight": "Lower trapezius and lat region subtle",
+    "labels": [
+      "Langer Hang",
+      "Schulterblätter aktiv bewegen",
+      "Aktiven Hang halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-7813ac7b-dd37-4f1d-a82c-fac6d90b9d4c.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Lower trapezius and lat region subtle. Do not copy its deadlift pose. New exercise: SCAPULAR PULL-UP hanging from fixed overhead bar. Front three-quarter view with full body and bar. Hands fixed pronated grip, elbows STRAIGHT in EVERY panel. Three phases: 1 passive long-arm hang with shoulders nearer ears; 2 initiate shoulder depression, torso rises only a few centimeters; 3 active hang, shoulders away from ears, body slightly higher without ANY elbow bend. Legs quiet, no swing, no chin-up motion. Same bar coordinates. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Elbows stay long; small rise of torso via scapular movement. Grip and bar fixed."
+  },
+  {
+    "key": "wall-shoulder-liftoff",
+    "ids": [
+      "do-wallshoulder"
+    ],
+    "movement": "WALL SHOULDER FLEXION LIFT-OFF. Side view facing right toward wall, half kneeling comfortably near wall. Both arms reach diagonally overhead with elbows straight, fingertips initially lightly on wall. Three phases: 1 fingertips touch wall with ribs down; 2 actively lift both hands a few centimeters away from wall while arms stay overhead; 3 hold small separation with torso/pelvis completely unchanged. Do not lean backward, bend elbows or arch back to fake shoulder range. Fixed wall and lower-body support.",
+    "highlight": "Shoulders and upper back subtle",
+    "labels": [
+      "Arme lang an der Wand",
+      "Hände aktiv lösen",
+      "Rumpf ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-8bd9dc6e-990b-4348-b691-d727314e3882.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Shoulders and upper back subtle. Do not copy its deadlift pose. New exercise: WALL SHOULDER FLEXION LIFT-OFF. Side view facing right toward wall, half kneeling comfortably near wall. Both arms reach diagonally overhead with elbows straight, fingertips initially lightly on wall. Three phases: 1 fingertips touch wall with ribs down; 2 actively lift both hands a few centimeters away from wall while arms stay overhead; 3 hold small separation with torso/pelvis completely unchanged. Do not lean backward, bend elbows or arch back to fake shoulder range. Fixed wall and lower-body support. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Hands lift a small distance away from wall, elbows long, supported lower body and trunk steady."
+  },
+  {
+    "key": "seated-compression",
+    "ids": [
+      "do-pikelift"
+    ],
+    "movement": "SEATED PIKE COMPRESSION LEG LIFT, side three-quarter view facing right. Sit upright on mat with both straight legs together extended forward. Both palms on floor beside thighs a little ahead of hips, elbows straight. Three phases: 1 heels on floor; 2 lift both straight legs a small distance from floor actively; 3 hold heels several centimeters above floor, knees remain straight, pelvis stays grounded. No swing, no backward collapse of torso, no bent knees, no floating pelvis.",
+    "highlight": "Hip flexors and abdominals",
+    "labels": [
+      "Sitz mit langen Beinen",
+      "Fersen aktiv anheben",
+      "Kleine Höhe kontrollieren"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-6fc1717c-2df5-4bea-97d1-4ebbae6a0d31.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Hip flexors and abdominals. Do not copy its deadlift pose. New exercise: SEATED PIKE COMPRESSION LEG LIFT, side three-quarter view facing right. Sit upright on mat with both straight legs together extended forward. Both palms on floor beside thighs a little ahead of hips, elbows straight. Three phases: 1 heels on floor; 2 lift both straight legs a small distance from floor actively; 3 hold heels several centimeters above floor, knees remain straight, pelvis stays grounded. No swing, no backward collapse of torso, no bent knees, no floating pelvis. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Both legs lift clear with long knees, pelvis remains grounded. Hands beside hips represent easier support position."
+  },
+  {
+    "key": "straddle-goodmorning",
+    "ids": [
+      "do-straddlegm"
+    ],
+    "movement": "SEATED STRADDLE GOOD MORNING, light bodyweight mobility example. Sit on mat with legs spread in a comfortable wide V and knees straight but not forcefully locked. Front three-quarter view showing both legs. Arms crossed over chest. Three phases: 1 torso upright; 2 hinge forward from hips; 3 deeper controlled forward hinge, back long, pelvis tilts forward, no forced rounded reach. Legs, heels and pelvis contact stay fixed. No additional heavy weight.",
+    "highlight": "Adductors and hamstrings subtle",
+    "labels": [
+      "Aufrechter Grätschsitz",
+      "Aus der Hüfte vorlehnen",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-4afa55d2-4c5e-4bbc-9433-06eeba58e43f.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Adductors and hamstrings subtle. Do not copy its deadlift pose. New exercise: SEATED STRADDLE GOOD MORNING, light bodyweight mobility example. Sit on mat with legs spread in a comfortable wide V and knees straight but not forcefully locked. Front three-quarter view showing both legs. Arms crossed over chest. Three phases: 1 torso upright; 2 hinge forward from hips; 3 deeper controlled forward hinge, back long, pelvis tilts forward, no forced rounded reach. Legs, heels and pelvis contact stay fixed. No additional heavy weight. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Seated wide legs remain supported; trunk hinges from hips with arms crossed."
+  },
+  {
+    "key": "pancake-hold",
+    "ids": [
+      "do-pancake"
+    ],
+    "movement": "PANCAKE STRETCH ENTRY AND HOLD. Front three-quarter view, seated on floor legs in a wide comfortable V, knees straight, heels grounded. Three phases: 1 upright straddle sit with hands on floor ahead; 2 walk hands forward and hinge torso at hips; 3 hold a comfortable inclined torso with hands supported on floor, NOT forced chest-flat end range. Keep hips/legs in place, no bouncing, relaxed controlled posture.",
+    "highlight": "Adductors and hamstrings subtle",
+    "labels": [
+      "Grätschsitz",
+      "Langsam vorlehnen",
+      "Ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-33584793-074c-4df7-a34e-b832c4a96487.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Adductors and hamstrings subtle. Do not copy its deadlift pose. New exercise: PANCAKE STRETCH ENTRY AND HOLD. Front three-quarter view, seated on floor legs in a wide comfortable V, knees straight, heels grounded. Three phases: 1 upright straddle sit with hands on floor ahead; 2 walk hands forward and hinge torso at hips; 3 hold a comfortable inclined torso with hands supported on floor, NOT forced chest-flat end range. Keep hips/legs in place, no bouncing, relaxed controlled posture. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Hands support the forward hinge; legs and pelvis remain supported, no forced flat split.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1300,
+      1500,
+      3500
+    ]
+  },
+  {
+    "key": "ring-lat-stretch",
+    "ids": [
+      "do-latstretch"
+    ],
+    "movement": "SUPPORTED LAT/OVERHEAD STRETCH HOLD using two suspended rings at shoulder height. Side view facing right, anchors fixed, straps taut constant length, both hands firmly grip rings. Three phases: 1 standing slight hinge arms reaching to rings; 2 move hips backward and bend knees softly until torso inclines forward and arms extend overhead relative to torso; 3 hold controlled stretch, back long, ribs controlled. Hands/rings fixed, hips move back, no forced lumbar arch or sinking into shoulder pain.",
+    "highlight": "Latissimus region",
+    "labels": [
+      "Ringe sicher greifen",
+      "Hüfte zurückführen",
+      "Dehnung ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-392f9e36-9732-4457-a15c-b38bda8b084c.png",
+    "prompt": "Create an exercise illustration key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed body scale, same floor height and generous margins. Use the reference ONLY for illustration STYLE: grey anatomical adult male, dark shorts/shoes, white background, restrained red emphasis. Do not copy its deadlift pose or its dumbbells unless the new movement explicitly requires dumbbells. NEW MOVEMENT: SUPPORTED LAT/OVERHEAD STRETCH HOLD using two suspended rings at shoulder height. Side view facing right, anchors fixed, straps taut constant length, both hands firmly grip rings. Three phases: 1 standing slight hinge arms reaching to rings; 2 move hips backward and bend knees softly until torso inclines forward and arms extend overhead relative to torso; 3 hold controlled stretch, back long, ribs controlled. Hands/rings fixed, hips move back, no forced lumbar arch or sinking into shoulder pain. No text, no arrows, no extra limbs. Hands must grip equipment correctly. Preserve equipment position, limb lengths, support points across frames; do not recenter each pose. Anatomically plausible restrained ranges.",
+    "review": "Supported hip hinge with long arms and hands gripping rings; no free hanging or forced lumbar arch.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1300,
+      1500,
+      3500
+    ]
+  },
+  {
+    "key": "shoulder-cars",
+    "ids": [
+      "mi-shouldercars"
+    ],
+    "movement": "FOUR panels in TWO BY TWO grid, anatomical male standing front three-quarter view doing a slow RIGHT SHOULDER CONTROLLED ARTICULAR ROTATION. LEFT arm relaxed and torso/hips remain forward and completely still. Right elbow stays long. Top-left right arm at side beginning to move forward with palm facing inward; top-right right arm overhead beside ear; bottom-left right arm rotates at shoulder and moves behind torso in a controlled arc without chest turning, thumb orientation changes with internal rotation; bottom-right right arm back at side completing circle. Show hand orientations clearly, no impossible shoulder bend, no spine arch, no leaning sideways. These are schematic checkpoints of one slow circle, not a strength press.",
+    "highlight": "Right shoulder subtle",
+    "labels": [
+      "Arm nach vorn führen",
+      "Über Kopf bewegen",
+      "Kontrolliert nach hinten führen",
+      "Kreis schließen"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-eb0576dc-0f4f-4784-b497-784b4259a573.png",
+    "prompt": "Create an exercise illustration key-pose sheet, FOUR exactly equal square panels in a 2 by 2 grid. Faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed body scale, same floor height and generous margins. Use the reference ONLY for illustration STYLE: grey anatomical adult male, dark shorts/shoes, white background, restrained red emphasis. Do not copy its deadlift pose or its dumbbells unless the new movement explicitly requires dumbbells. NEW MOVEMENT: FOUR panels in TWO BY TWO grid, anatomical male standing front three-quarter view doing a slow RIGHT SHOULDER CONTROLLED ARTICULAR ROTATION. LEFT arm relaxed and torso/hips remain forward and completely still. Right elbow stays long. Top-left right arm at side beginning to move forward with palm facing inward; top-right right arm overhead beside ear; bottom-left right arm rotates at shoulder and moves behind torso in a controlled arc without chest turning, thumb orientation changes with internal rotation; bottom-right right arm back at side completing circle. Show hand orientations clearly, no impossible shoulder bend, no spine arch, no leaning sideways. These are schematic checkpoints of one slow circle, not a strength press. No text, no arrows, no extra limbs. Hands must grip equipment correctly. Preserve equipment position, limb lengths, support points across frames; do not recenter each pose. Anatomically plausible restrained ranges.",
+    "review": "Four shoulder-circle checkpoints with long elbow and stable torso; not a continuous measured circle."
+  },
+  {
+    "key": "hip-9090",
+    "ids": [
+      "mi-9090"
+    ],
+    "movement": "Four equal panels 2x2, TRUE FRONT VIEW of seated adult male doing 90/90 HIP SWITCH + ankle lift-off. Both palms behind hips, torso faces camera throughout. Panel1: right leg in FRONT, right knee to image LEFT, right shin crosses in front of pelvis toward image RIGHT; left leg to SIDE/BEHIND with left knee at image RIGHT and left ankle behind left hip. Both knees 90deg. Panel2: both knees rotate UP toward center, feet contact floor. Panel3 is clearly MIRRORED leg configuration: LEFT leg now in FRONT, left knee to image RIGHT, left shin crosses pelvis toward image LEFT; right leg to SIDE/BEHIND on image LEFT. Panel4: preserve panel3 exactly except lift the REAR RIGHT ankle slightly while rear right knee stays on floor. Two distinct anatomically correct legs. Never repeat panel1 leg configuration in panel3.",
+    "highlight": "Hip region subtle",
+    "labels": [
+      "90/90-Sitz",
+      "Kontrolliert wechseln",
+      "Andere Seite",
+      "Kleiner aktiver Lift-off"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-940dba06-1943-4560-a510-de2ad8750861.png",
+    "prompt": "Correct this exercise illustration sheet. Preserve its grey anatomical male, dark shorts/shoes, white background, clean panel boundaries and all details not mentioned. Keep the same number of equal panels. IMPORTANT correction: Preserve panels1,2,3 EXACTLY. Only bottom-right panel: reduce rear ankle lift to just a few centimeters above floor, about one shoe-sole thickness gap. Keep rear knee firmly DOWN at its panel3 coordinates. Rear shin rotates only slightly upward from knee; do not lift entire knee or raise foot near hip height. Preserve front leg, hands and torso unchanged. No text or arrows. Hands, fingers and equipment contact must be anatomically plausible. Full figure stays inside each panel.",
+    "review": "First and third poses not mirrored correctly; switch must change sides."
+  },
+  {
+    "key": "thoracic-rotation",
+    "ids": [
+      "mi-thoracic"
+    ],
+    "movement": "QUADRUPED THORACIC ROTATION. Side three-quarter view showing left support palm on mat beneath shoulder, both knees under hips. Right fingertips lightly at right temple (not pulling neck). Three phases: 1 right elbow points down toward left wrist; 2 slowly rotate upper ribcage right, right elbow moves outward; 3 right elbow points upward as chest opens within range, pelvis remains square to floor and lower back quiet. Support elbow straight, knees/palm fixed, no whole-body side shift, head follows chest.",
+    "highlight": "Upper back subtle",
+    "labels": [
+      "Vierfüßler stabilisieren",
+      "Brustwirbelsäule drehen",
+      "Becken ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-160ee21b-f2eb-4295-8628-1b6f247dca28.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Upper back subtle. Do not copy its deadlift pose. New exercise: QUADRUPED THORACIC ROTATION. Side three-quarter view showing left support palm on mat beneath shoulder, both knees under hips. Right fingertips lightly at right temple (not pulling neck). Three phases: 1 right elbow points down toward left wrist; 2 slowly rotate upper ribcage right, right elbow moves outward; 3 right elbow points upward as chest opens within range, pelvis remains square to floor and lower back quiet. Support elbow straight, knees/palm fixed, no whole-body side shift, head follows chest. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Supporting palm and knees stay planted; upper chest rotates with elbow, pelvis remains roughly square."
+  },
+  {
+    "key": "wrist-rocks",
+    "ids": [
+      "mi-wrist"
+    ],
+    "movement": "QUADRUPED WRIST ROCKS, side three-quarter view. Both palms flat on mat, fingers spread pointing forward, elbows straight, knees on padded mat. Three phases: 1 shoulders slightly behind wrists; 2 shoulders over wrists; 3 small controlled forward shift bringing shoulders slightly ahead of wrists while PALM HEELS and fingers remain flat. Knees and hands fixed. No deep forced wrist angle, no finger lift, no bent elbows. Show entire hands clearly.",
+    "highlight": "Forearm region subtle",
+    "labels": [
+      "Hände flach aufsetzen",
+      "Gewicht nach vorn verlagern",
+      "Kontrolliert zurück"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-57c60363-a98d-472e-9cdc-fc19da06e9f7.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Forearm region subtle. Do not copy its deadlift pose. New exercise: QUADRUPED WRIST ROCKS, side three-quarter view. Both palms flat on mat, fingers spread pointing forward, elbows straight, knees on padded mat. Three phases: 1 shoulders slightly behind wrists; 2 shoulders over wrists; 3 small controlled forward shift bringing shoulders slightly ahead of wrists while PALM HEELS and fingers remain flat. Knees and hands fixed. No deep forced wrist angle, no finger lift, no bent elbows. Show entire hands clearly. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Palms and knees stay supported; only a modest forward weight shift, elbows long."
+  },
+  {
+    "key": "towel-hang",
+    "ids": [
+      "mi-hang"
+    ],
+    "movement": "TOWEL PASSIVE TO ACTIVE HANG. Front three-quarter view. One thick towel draped over fixed pull-up bar, man grasps TWO hanging towel ends, one in each hand, not the bar. Hands stay at same height and grips throughout, towel length and bar fixed. Three phases: 1 passive hang shoulders close to ears, elbows straight; 2 slight shoulder depression with elbows still STRAIGHT; 3 active hang body only slightly higher, shoulders down, legs quiet. No pull-up elbow bending, no pulling towel apart, full towel-bar contact visible.",
+    "highlight": "Forearms and upper back subtle",
+    "labels": [
+      "Am Handtuch hängen",
+      "Schultern aktivieren",
+      "Arme bleiben lang"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-0fdccbcd-1e56-41c4-893c-0d78d91ae10c.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Forearms and upper back subtle. Do not copy its deadlift pose. New exercise: TOWEL PASSIVE TO ACTIVE HANG. Front three-quarter view. One thick towel draped over fixed pull-up bar, man grasps TWO hanging towel ends, one in each hand, not the bar. Hands stay at same height and grips throughout, towel length and bar fixed. Three phases: 1 passive hang shoulders close to ears, elbows straight; 2 slight shoulder depression with elbows still STRAIGHT; 3 active hang body only slightly higher, shoulders down, legs quiet. No pull-up elbow bending, no pulling towel apart, full towel-bar contact visible. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Hands grip towel ends, not bar; elbows remain long during small shoulder activation."
+  },
+  {
+    "key": "cossack",
+    "ids": [
+      "mi-cossack",
+      "fr-cossack"
+    ],
+    "movement": "BODYWEIGHT COSSACK SQUAT. Front three-quarter view, very wide stance with both feet fixed. Three phases: 1 wide upright stance hands loosely together ahead chest; 2 shift hips toward RIGHT foot and bend RIGHT knee while LEFT leg stays straight; 3 deeper controlled right squat with right heel flat, right knee follows toes, LEFT leg straight with left toes raised and left heel grounded. Pelvis low only as far as controlled, torso long. Show BOTH legs in every panel, no knee collapse, no moving feet.",
+    "highlight": "Right quadriceps, gluteals and left adductors",
+    "labels": [
+      "Breiter Stand",
+      "Gewicht zu einer Seite",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-b711bbe2-2c64-4480-a34f-e2b004e640b8.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Right quadriceps, gluteals and left adductors. Do not copy its deadlift pose. New exercise: BODYWEIGHT COSSACK SQUAT. Front three-quarter view, very wide stance with both feet fixed. Three phases: 1 wide upright stance hands loosely together ahead chest; 2 shift hips toward RIGHT foot and bend RIGHT knee while LEFT leg stays straight; 3 deeper controlled right squat with right heel flat, right knee follows toes, LEFT leg straight with left toes raised and left heel grounded. Pelvis low only as far as controlled, torso long. Show BOTH legs in every panel, no knee collapse, no moving feet. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Loaded knee follows foot; opposite leg remains long, heel planted and toes lift."
+  },
+  {
+    "key": "squat-pry",
+    "ids": [
+      "mi-squatpry"
+    ],
+    "movement": "DEEP SQUAT PRY, front three-quarter view. Bodyweight squat heels flat, feet turned slightly out. Three phases: 1 comfortable deep squat with elbows lightly inside knees and palms together; 2 small slow controlled shift toward right hip while both heels stay down; 3 small shift toward left hip while both heels stay down. Back long and chest relaxed, knees track toes, not using elbows to force joints. All phases at similar comfortable depth, no bouncing or forced maximal depth.",
+    "highlight": "Hip/adductor region subtle",
+    "labels": [
+      "Stabile tiefe Hocke",
+      "Ruhig zu einer Seite",
+      "Ruhig zur anderen Seite"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-6d9e8d7e-d907-4ac9-b842-b279aab009d3.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Hip/adductor region subtle. Do not copy its deadlift pose. New exercise: DEEP SQUAT PRY, front three-quarter view. Bodyweight squat heels flat, feet turned slightly out. Three phases: 1 comfortable deep squat with elbows lightly inside knees and palms together; 2 small slow controlled shift toward right hip while both heels stay down; 3 small shift toward left hip while both heels stay down. Back long and chest relaxed, knees track toes, not using elbows to force joints. All phases at similar comfortable depth, no bouncing or forced maximal depth. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Small weight shifts in comfortable squat, heels remain grounded."
+  },
+  {
+    "key": "cat-cow",
+    "ids": [
+      "mi-catcow"
+    ],
+    "movement": "QUADRUPED CAT-COW, true side view facing right, palms under shoulders knees under hips fixed on mat. Three phases: 1 gently rounded spine, pelvis tucked and head follows natural downward curve; 2 neutral spine and head; 3 gentle spinal extension with pelvis tipping forward and chest opening, head follows without excessive neck crank. Elbows remain straight, palms/knees unchanged. Smooth distributed spinal motion, no violent end-range arch.",
+    "highlight": "Spinal muscles subtle",
+    "labels": [
+      "Rücken sanft runden",
+      "Neutral durchbewegen",
+      "Sanft strecken"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-ab34d048-cbf1-4f8b-8ab7-92d2ef0e560a.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Spinal muscles subtle. Do not copy its deadlift pose. New exercise: QUADRUPED CAT-COW, true side view facing right, palms under shoulders knees under hips fixed on mat. Three phases: 1 gently rounded spine, pelvis tucked and head follows natural downward curve; 2 neutral spine and head; 3 gentle spinal extension with pelvis tipping forward and chest opening, head follows without excessive neck crank. Elbows remain straight, palms/knees unchanged. Smooth distributed spinal motion, no violent end-range arch. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Palms/knees fixed, spine moves through flexion/neutral/extension."
+  },
+  {
+    "key": "pogo",
+    "ids": [
+      "sa-pogo"
+    ],
+    "movement": "POGO JUMPS. Side view facing right, upright torso and softly straight knees. Three phases: 1 light forefoot ground contact, ankles slightly dorsiflexed; 2 small vertical spring with ankles extending, feet only a little above floor; 3 light landing on forefeet with ankle flexion, knees only minimally flexed. Arms relaxed, no deep squat, no high tuck, quiet upright body. Same ground baseline and body scale.",
+    "highlight": "Calves",
+    "labels": [
+      "Kurzer Bodenkontakt",
+      "Aus dem Sprunggelenk federn",
+      "Leicht landen"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-92411e6d-28b5-41fc-9f01-d375c048af35.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Calves. Do not copy its deadlift pose. New exercise: POGO JUMPS. Side view facing right, upright torso and softly straight knees. Three phases: 1 light forefoot ground contact, ankles slightly dorsiflexed; 2 small vertical spring with ankles extending, feet only a little above floor; 3 light landing on forefeet with ankle flexion, knees only minimally flexed. Arms relaxed, no deep squat, no high tuck, quiet upright body. Same ground baseline and body scale. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Small ankle-led jump, quiet torso and softly long knees.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      700,
+      800,
+      800
+    ]
+  },
+  {
+    "key": "explosive-pullup",
+    "ids": [
+      "sa-explosivepullup"
+    ],
+    "movement": "STRICT EXPLOSIVE BODYWEIGHT PULL-UP, no dip belt and no added weight. Same fixed pronated grip bar and three-quarter camera. Three phases: 1 controlled straight-arm hang feet off floor; 2 rapid upward pull with elbows bending down, quiet legs; 3 high pull with upper chest close to bar, elbows down/back, no excessive neck extension. Full body/feet/bar visible, fixed hand positions and bar height. Do not show kipping, bent hips or kicking legs. Speed is represented only by sequence labels later, no motion lines.",
+    "highlight": "Lats and biceps",
+    "labels": [
+      "Ruhiger Hang",
+      "Schnell hochziehen",
+      "Kontrolliert zurück"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-7025af62-9b95-433e-8248-bf215afd6dd6.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Lats and biceps. Do not copy its deadlift pose. New exercise: STRICT EXPLOSIVE BODYWEIGHT PULL-UP, no dip belt and no added weight. Same fixed pronated grip bar and three-quarter camera. Three phases: 1 controlled straight-arm hang feet off floor; 2 rapid upward pull with elbows bending down, quiet legs; 3 high pull with upper chest close to bar, elbows down/back, no excessive neck extension. Full body/feet/bar visible, fixed hand positions and bar height. Do not show kipping, bent hips or kicking legs. Speed is represented only by sequence labels later, no motion lines. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Pronated grip, controlled hanging start, no visible leg kick. Top positions schematic; height varies with ability."
+  },
+  {
+    "key": "cable-rotation",
+    "ids": [
+      "sa-rotpower"
+    ],
+    "movement": "STANDING EXPLOSIVE CABLE ROTATIONAL PUNCH, schematic three phases. Front three-quarter view. Cable pulley at chest level LEFT and slightly behind subject, right hand grips attached handle, split athletic stance with LEFT foot forward RIGHT foot behind, knees soft. Three phases: 1 right hand near right shoulder/ribs, torso slightly turned toward cable; 2 rotate hips and torso toward RIGHT/front, rear heel pivots naturally; 3 finish controlled rotation with right arm extended forward across body at chest height, hand STILL firmly holding handle and cable taut. Do NOT release handle or throw an object. Pelvis/torso rotate together rather than twisting lumbar spine against fixed hips. Same feet positions with permitted rear pivot.",
+    "highlight": "Oblique abdominal region",
+    "labels": [
+      "Stand und Griff vorbereiten",
+      "Aus Hüfte und Rumpf drehen",
+      "Endposition · Griff festhalten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-c4845631-0a27-4394-9bf1-08b2dc9afda4.png",
+    "prompt": "Create an exercise illustration key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed body scale, same floor height and generous margins. Use the reference ONLY for illustration STYLE: grey anatomical adult male, dark shorts/shoes, white background, restrained red emphasis. Do not copy its deadlift pose or its dumbbells unless the new movement explicitly requires dumbbells. NEW MOVEMENT: STANDING EXPLOSIVE CABLE ROTATIONAL PUNCH, schematic three phases. Front three-quarter view. Cable pulley at chest level LEFT and slightly behind subject, right hand grips attached handle, split athletic stance with LEFT foot forward RIGHT foot behind, knees soft. Three phases: 1 right hand near right shoulder/ribs, torso slightly turned toward cable; 2 rotate hips and torso toward RIGHT/front, rear heel pivots naturally; 3 finish controlled rotation with right arm extended forward across body at chest height, hand STILL firmly holding handle and cable taut. Do NOT release handle or throw an object. Pelvis/torso rotate together rather than twisting lumbar spine against fixed hips. Same feet positions with permitted rear pivot. No text, no arrows, no extra limbs. Hands must grip equipment correctly. Preserve equipment position, limb lengths, support points across frames; do not recenter each pose. Anatomically plausible restrained ranges.",
+    "review": "Handle retained, cable taut, split stance and rotation through hips/trunk; controlled finishing position."
+  },
+  {
+    "key": "reverse-lunge-db",
+    "ids": [
+      "sa-revlunge~reverse"
+    ],
+    "movement": "DUMBBELL REVERSE LUNGE, side view facing right. One dumbbell in each hand hanging at sides. Three phases: 1 upright feet hip-width; 2 LEFT leg steps backward while RIGHT front foot stays planted; 3 lower into split stance with right front knee bent, front heel flat, left knee hovering near floor and left rear heel raised. Torso stable, pelvis level, knee tracks toes. Front foot fixed, rear foot deliberately moves BACK, no rear-foot bench. Full body and both dumbbells visible.",
+    "highlight": "Front quadriceps and gluteals",
+    "labels": [
+      "Aufrechter Stand",
+      "Rückschritt",
+      "Kontrolliert absenken"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-9951c6df-5ac7-4d2a-a69c-8c18197ef726.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Front quadriceps and gluteals. Do not copy its deadlift pose. New exercise: DUMBBELL REVERSE LUNGE, side view facing right. One dumbbell in each hand hanging at sides. Three phases: 1 upright feet hip-width; 2 LEFT leg steps backward while RIGHT front foot stays planted; 3 lower into split stance with right front knee bent, front heel flat, left knee hovering near floor and left rear heel raised. Torso stable, pelvis level, knee tracks toes. Front foot fixed, rear foot deliberately moves BACK, no rear-foot bench. Full body and both dumbbells visible. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Rear foot steps backward, front heel remains grounded; both dumbbells at sides and controlled knee bend."
+  },
+  {
+    "key": "split-squat-db",
+    "ids": [
+      "sa-revlunge~split-squat"
+    ],
+    "movement": "DUMBBELL SPLIT SQUAT with BOTH feet on floor (no bench). Side view facing right, RIGHT foot forward flat, LEFT forefoot behind with heel raised. One dumbbell in each hand at sides. Three phases: 1 high split stance; 2 lower by bending both knees; 3 controlled bottom with rear knee hovering near floor, front heel grounded and front knee tracking toes. Both foot contact locations identical through all three phases, no step backward/forward, no elevated rear foot. Stable torso and pelvis.",
+    "highlight": "Front quadriceps and gluteals",
+    "labels": [
+      "Fester Schrittstand",
+      "Beide Knie beugen",
+      "Kontrollierte Tiefe"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-4f7629d9-f800-4f55-857c-302bd1dabdd6.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Front quadriceps and gluteals. Do not copy its deadlift pose. New exercise: DUMBBELL SPLIT SQUAT with BOTH feet on floor (no bench). Side view facing right, RIGHT foot forward flat, LEFT forefoot behind with heel raised. One dumbbell in each hand at sides. Three phases: 1 high split stance; 2 lower by bending both knees; 3 controlled bottom with rear knee hovering near floor, front heel grounded and front knee tracking toes. Both foot contact locations identical through all three phases, no step backward/forward, no elevated rear foot. Stable torso and pelvis. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Fixed floor split stance with rear heel raised, both knees flex and front heel remains down."
+  },
+  {
+    "key": "hanging-legraise",
+    "ids": [
+      "sa-leraise"
+    ],
+    "movement": "STRICT HANGING LEG RAISE from fixed bar, side three-quarter view facing right. Hands fixed pronated grip, arms straight all phases. Three phases: 1 steady long-arm hang with legs straight downward; 2 raise BOTH straight legs together forward to about 45 degrees without swing; 3 legs near horizontal and pelvis gently curls upward (posterior tilt), ribs controlled, no arch. Both knees stay long, no kipping, full man/bar/feet visible with enough space right for feet, bar and hands fixed.",
+    "highlight": "Abdominals and hip flexors",
+    "labels": [
+      "Ruhiger Hang",
+      "Beine ohne Schwung anheben",
+      "Becken aktiv einrollen"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-49f749b7-5cfc-4a0c-937e-1753566f1ea6.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Abdominals and hip flexors. Do not copy its deadlift pose. New exercise: STRICT HANGING LEG RAISE from fixed bar, side three-quarter view facing right. Hands fixed pronated grip, arms straight all phases. Three phases: 1 steady long-arm hang with legs straight downward; 2 raise BOTH straight legs together forward to about 45 degrees without swing; 3 legs near horizontal and pelvis gently curls upward (posterior tilt), ribs controlled, no arch. Both knees stay long, no kipping, full man/bar/feet visible with enough space right for feet, bar and hands fixed. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Both long legs rise from a stable long-arm hang; bar grip preserved."
+  },
+  {
+    "key": "tibialis",
+    "ids": [
+      "sa-tibialis"
+    ],
+    "movement": "Three side-view panels of WALL TIBIALIS RAISE, adult man with EMPTY hands resting on thighs, no weights at all. Wall vertical on image LEFT. Whole body leans backward about 20 degrees, upper back supported at wall x=30% tile width, hips x=40%, grounded HEELS x=65%. Feet are a full shoe length FORWARD of wall, clearly a large empty floor gap between heels and wall. Knees softly long. Frame1 feet flat; frame2 lift toes halfway from ankle, heels grounded; frame3 toes lifted high, heels grounded. Body stays at same diagonal supported angle throughout. This is heel-supported dorsiflexion, NOT calf raise.",
+    "highlight": "Anterior shin muscles",
+    "labels": [
+      "Fersen fest am Boden",
+      "Vorderfüße anheben",
+      "Obere Position kontrollieren"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-8e425780-f3bf-4709-84e7-c3508bc1d0e0.png",
+    "prompt": "Create an exercise illustration key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed body scale, same floor height and generous margins. Use the reference ONLY for illustration STYLE: grey anatomical adult male, dark shorts/shoes, white background, restrained red emphasis. Do not copy its deadlift pose or its dumbbells unless the new movement explicitly requires dumbbells. NEW MOVEMENT: Three side-view panels of WALL TIBIALIS RAISE, adult man with EMPTY hands resting on thighs, no weights at all. Wall vertical on image LEFT. Whole body leans backward about 20 degrees, upper back supported at wall x=30% tile width, hips x=40%, grounded HEELS x=65%. Feet are a full shoe length FORWARD of wall, clearly a large empty floor gap between heels and wall. Knees softly long. Frame1 feet flat; frame2 lift toes halfway from ankle, heels grounded; frame3 toes lifted high, heels grounded. Body stays at same diagonal supported angle throughout. This is heel-supported dorsiflexion, NOT calf raise. No text, no arrows, no extra limbs. Hands must grip equipment correctly. Preserve equipment position, limb lengths, support points across frames; do not recenter each pose. Anatomically plausible restrained ranges.",
+    "review": "Remove unrequested dumbbells; show feet forward and back supported against wall."
+  },
+  {
+    "key": "adductor-liftoff",
+    "ids": [
+      "fr-adductor"
+    ],
+    "movement": "HALF KNEELING ADDUCTOR LIFT-OFF. Front three-quarter view. RIGHT knee on padded floor under right hip; LEFT leg extended straight sideways with heel initially on floor, toes upward. Hands lightly support on floor or blocks in front, torso stable. Three phases: 1 left heel rests on floor; 2 actively lift the entire straight LEFT leg/heel a SMALL distance off floor without moving pelvis or pushing torso sideways; 3 hold heel a few centimeters above floor with knee straight, right knee and supporting hands fixed. Do NOT show passive leaning stretch instead of active lift. Keep pelvis level and whole foot visible.",
+    "highlight": "Inner thigh of extended leg",
+    "labels": [
+      "Seitlich ausgestrecktes Bein",
+      "Bein aktiv leicht anheben",
+      "Becken ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-977881b7-ef78-44a7-9b88-1297195ee18a.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Inner thigh of extended leg. Do not copy its deadlift pose. New exercise: HALF KNEELING ADDUCTOR LIFT-OFF. Front three-quarter view. RIGHT knee on padded floor under right hip; LEFT leg extended straight sideways with heel initially on floor, toes upward. Hands lightly support on floor or blocks in front, torso stable. Three phases: 1 left heel rests on floor; 2 actively lift the entire straight LEFT leg/heel a SMALL distance off floor without moving pelvis or pushing torso sideways; 3 hold heel a few centimeters above floor with knee straight, right knee and supporting hands fixed. Do NOT show passive leaning stretch instead of active lift. Keep pelvis level and whole foot visible. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Supporting knee and hands on blocks stay fixed, extended leg lifts a small distance with quiet pelvis."
+  },
+  {
+    "key": "frog-hold",
+    "ids": [
+      "fr-frog"
+    ],
+    "movement": "FROG STRETCH ENTRY AND HOLD. Front three-quarter view low enough to see torso, knees and both feet. On padded mat, knees spread comfortably, knees bent about 90 degrees, shins pointing backward, inner edges of feet resting down, forearms supported ahead. Three phases: 1 supported wide-knee quadruped with hips a little forward; 2 shift hips gently backward within comfort; 3 hold that position with pelvis controlled and back neutral. No forced split, no pushing violently, no collapsing pelvis to floor.",
+    "highlight": "Adductors subtle",
+    "labels": [
+      "Breiter gepolsterter Kniestand",
+      "Hüfte sanft zurück",
+      "Ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-5a5a2538-91e6-4ec5-b8aa-734d62ce48a3.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Adductors subtle. Do not copy its deadlift pose. New exercise: FROG STRETCH ENTRY AND HOLD. Front three-quarter view low enough to see torso, knees and both feet. On padded mat, knees spread comfortably, knees bent about 90 degrees, shins pointing backward, inner edges of feet resting down, forearms supported ahead. Three phases: 1 supported wide-knee quadruped with hips a little forward; 2 shift hips gently backward within comfort; 3 hold that position with pelvis controlled and back neutral. No forced split, no pushing violently, no collapsing pelvis to floor. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Forearms and wide knees supported on padding, small controlled hip movement into hold.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1300,
+      1500,
+      3500
+    ]
+  },
+  {
+    "key": "middle-split",
+    "ids": [
+      "fr-middlesplit"
+    ],
+    "movement": "SUPPORTED MIDDLE SPLIT ENTRY AND HOLD. Front view slightly oblique. Both legs extend out to left/right, hands on two sturdy yoga blocks in front to support weight. Three phases: 1 moderately wide supported stance; 2 feet slide farther apart as pelvis lowers; 3 comfortable supported partial middle split with hips still above floor, legs long, knees and feet aligned naturally and not twisted, hands taking support. Do not depict forced flat split or bouncing. Full body, blocks and feet visible, stable controlled torso.",
+    "highlight": "Adductors",
+    "labels": [
+      "Mit Blöcken abstützen",
+      "Kontrolliert weiter öffnen",
+      "Ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-7d4c9525-d80d-47fb-8bbf-eabda7f891cd.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Adductors. Do not copy its deadlift pose. New exercise: SUPPORTED MIDDLE SPLIT ENTRY AND HOLD. Front view slightly oblique. Both legs extend out to left/right, hands on two sturdy yoga blocks in front to support weight. Three phases: 1 moderately wide supported stance; 2 feet slide farther apart as pelvis lowers; 3 comfortable supported partial middle split with hips still above floor, legs long, knees and feet aligned naturally and not twisted, hands taking support. Do not depict forced flat split or bouncing. Full body, blocks and feet visible, stable controlled torso. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Both hands supported on blocks, long legs open only into partial range, no forced full split.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1300,
+      1500,
+      3500
+    ]
+  },
+  {
+    "key": "lateral-lunge",
+    "ids": [
+      "fr-laterallunge"
+    ],
+    "movement": "BODYWEIGHT LATERAL LUNGE, front view slightly oblique. Three phases: 1 upright feet hip width, hands held lightly together; 2 RIGHT foot steps to right into wide stance; 3 bend right knee and sit hips back into controlled side lunge while LEFT leg stays straight and both feet flat, toes mostly forward. Right knee tracks right toes, torso inclines as stable unit, no inward knee collapse. Unlike Cossack, extended-leg toes stay grounded. Full body and floor visible.",
+    "highlight": "Right quadriceps and gluteals, left adductors",
+    "labels": [
+      "Aufrechter Stand",
+      "Schritt zur Seite",
+      "Hüfte kontrolliert zurück"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-d311e91a-64bd-413a-be29-195d3db71171.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Right quadriceps and gluteals, left adductors. Do not copy its deadlift pose. New exercise: BODYWEIGHT LATERAL LUNGE, front view slightly oblique. Three phases: 1 upright feet hip width, hands held lightly together; 2 RIGHT foot steps to right into wide stance; 3 bend right knee and sit hips back into controlled side lunge while LEFT leg stays straight and both feet flat, toes mostly forward. Right knee tracks right toes, torso inclines as stable unit, no inward knee collapse. Unlike Cossack, extended-leg toes stay grounded. Full body and floor visible. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Step to side followed by hip/knee bend, extended leg foot remains grounded."
+  },
+  {
+    "key": "horse-stance",
+    "ids": [
+      "fr-horsestance"
+    ],
+    "movement": "HORSE STANCE ENTRY AND HOLD. Front view with full body, wide stable stance feet moderately turned outward, knees track same direction as toes, palms together in front of chest. Three phases: 1 upright wide stance; 2 bend both knees and lower hips equally; 3 hold controlled broad squat with thighs above or near horizontal, torso upright, heels flat, no inward knees and no forced extreme depth. Symmetric weight distribution, identical feet positions.",
+    "highlight": "Quadriceps and adductors",
+    "labels": [
+      "Breiter Stand",
+      "Gleichmäßig absenken",
+      "Position ruhig halten"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-96de16e9-c547-4561-805e-21a0dbaeeb1c.png",
+    "prompt": "Create an exercise illustration key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed body scale, same floor height and generous margins. Use the reference ONLY for illustration STYLE: grey anatomical adult male, dark shorts/shoes, white background, restrained red emphasis. Do not copy its deadlift pose or its dumbbells unless the new movement explicitly requires dumbbells. NEW MOVEMENT: HORSE STANCE ENTRY AND HOLD. Front view with full body, wide stable stance feet moderately turned outward, knees track same direction as toes, palms together in front of chest. Three phases: 1 upright wide stance; 2 bend both knees and lower hips equally; 3 hold controlled broad squat with thighs above or near horizontal, torso upright, heels flat, no inward knees and no forced extreme depth. Symmetric weight distribution, identical feet positions. No text, no arrows, no extra limbs. Hands must grip equipment correctly. Preserve equipment position, limb lengths, support points across frames; do not recenter each pose. Anatomically plausible restrained ranges.",
+    "review": "Symmetric controlled squat in wide stance, heels down and knees follow feet.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1300,
+      1500,
+      3500
+    ]
+  },
+  {
+    "key": "vertical-jump",
+    "ids": [
+      "mo-jump"
+    ],
+    "movement": "VERTICAL COUNTERMOVEMENT JUMP and landing, side three-quarter view facing right. Three phases: 1 shallow countermovement squat with hips back and arms sweeping behind, heels down; 2 jump upward with hip/knee/ankle extension and arms up, both feet clearly airborne; 3 controlled landing with both feet beneath body, hips and knees flexed to absorb and knees aligned with toes. Same ground baseline, full body with overhead space, no excessive knee valgus, no twisting.",
+    "highlight": "Quadriceps, gluteals and calves subtle",
+    "labels": [
+      "Sprung vorbereiten",
+      "Kraftvoll abspringen",
+      "Leise und stabil landen"
+    ],
+    "status": "accepted",
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-31f00ba4-7839-4101-ac22-7722f663d771.png",
+    "prompt": "Create an instructional key-pose sheet, THREE exactly equal square panels side by side in a 3:1 horizontal strip. Very faint straight panel separators at exact boundaries. No figure or equipment crosses a tile boundary. Fixed camera, fixed scale, same floor height. Leave sufficient margins for the whole movement. Use the supplied image ONLY as illustration STYLE reference: grey anatomical adult male, dark shorts/shoes, white background, subtle red muscle emphasis on Quadriceps, gluteals and calves subtle. Do not copy its deadlift pose. New exercise: VERTICAL COUNTERMOVEMENT JUMP and landing, side three-quarter view facing right. Three phases: 1 shallow countermovement squat with hips back and arms sweeping behind, heels down; 2 jump upward with hip/knee/ankle extension and arms up, both feet clearly airborne; 3 controlled landing with both feet beneath body, hips and knees flexed to absorb and knees aligned with toes. Same ground baseline, full body with overhead space, no excessive knee valgus, no twisting. No text, no letters, no arrows, no extra limbs. Hands visibly grip equipment correctly. Same support points and equipment coordinates across frames; do not recenter each pose. Anatomically plausible, restrained ranges, not exaggerated.",
+    "review": "Countermovement, airborne extension, then flexed landing; no backward replay of the flight.",
+    "sequence": [
+      0,
+      1,
+      2
+    ],
+    "durations": [
+      1200,
+      900,
+      1600
+    ],
+    "exampleNote": "Die Animation zeigt die Variante Vertical Jump. Zwischen den Sprüngen vollständig stabilisieren."
+  },
+  {
+    "source": "/workspace/scratch/2a6ec3624901/generated_images/exec-6f5f88e5-c8b4-41a9-89b9-a71581937be2.png",
+    "ids": [
+      "mo-pullup"
+    ],
+    "prompt": "Use case: illustration-story. Create a new ORIGINAL anatomical fitness illustration sprite strip for an exercise reminder in a mobile training app. Reference image is STYLE ONLY: use the same adult male appearance, greyscale shaded anatomical drawing, dark shorts and shoes, restrained red muscle emphasis, white background. The reference's RDL movement is NOT the target. NEW MOVEMENT: strict WEIGHTED PULL-UP on one fixed horizontal overhead bar. THREE equally sized square panels in one horizontal strip (3:1), no text, no lines between panels. Same fixed front three-quarter camera, same man, same limb proportions and body scale across every panel; full man, bar, hands, weight belt and feet fully visible in every tile with generous margins. Bar stays at IDENTICAL height and coordinates relative to each tile. Both hands grip the SAME bar with pronated palms, slightly wider than shoulders, thumbs wrapping underneath, grip locations never change. A single small round weight plate hangs from a dip belt below the hips; plate moves with the body. LEFT: controlled long-arm hang, arms overhead nearly straight, legs quiet and slightly bent, feet clear of floor. MIDDLE: pull upward, elbows bent about 90 degrees and directed down, torso steady, no leg swing. RIGHT: top of pull-up with chin naturally above bar, elbows bent down beside torso, shoulders away from ears, no neck craning. Red highlights on lats and biceps. Maintain hand-bar contact, no extra limbs, no changing grip, no kipping, no resizing character. Depict three schematic positions, not a measured biomechanical diagram.",
+    "review": "Accepted as schematic: hands stay on the bar, elbows flex as the torso rises, chin clears bar, legs remain quiet, belt weight is preserved. Not a measured movement.",
+    "key": "pullup-weighted",
+    "labels": [
+      "Kontrollierter Hang",
+      "Ohne Schwung hochziehen",
+      "Obere Position"
+    ],
+    "status": "accepted"
+  },
+  {
+    "key": "conditioning-example",
+    "ids": [
+      "sa-finisher"
+    ],
+    "status": "accepted",
+    "movement": "Beispielrunde aus Ring-Liegestütz, Ringrudern und Goblet Squat",
+    "labels": [
+      "Ring-Liegestütz · Phase 1",
+      "Ring-Liegestütz · Phase 2",
+      "Ring-Liegestütz · Phase 3",
+      "Ringrudern · Phase 1",
+      "Ringrudern · Phase 2",
+      "Ringrudern · Phase 3",
+      "Goblet Squat · Phase 1",
+      "Goblet Squat · Phase 2",
+      "Goblet Squat · Phase 3"
+    ],
+    "frameSources": [
+      "assets/motion/ring-pushup/1.png",
+      "assets/motion/ring-pushup/2.png",
+      "assets/motion/ring-pushup/3.png",
+      "assets/motion/ring-row-v2/1.png",
+      "assets/motion/ring-row-v2/2.png",
+      "assets/motion/ring-row-v2/3.png",
+      "assets/motion/goblet-squat/1.png",
+      "assets/motion/goblet-squat/2.png",
+      "assets/motion/goblet-squat/3.png"
+    ],
+    "sequence": [
+      0,
+      1,
+      2,
+      1,
+      0,
+      3,
+      4,
+      5,
+      4,
+      3,
+      6,
+      7,
+      8,
+      7,
+      6
+    ],
+    "durations": [
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000,
+      1000
+    ],
+    "exampleNote": "Beispiel für eine Runde. Übungsauswahl und Wiederholungen richten sich nach deinem Finisher; die Übergänge sind keine durchgehende Bewegung.",
+    "review": "Source sheet and extracted frames visually checked against the exercise cues; schematic checkpoints, not biomechanical certification."
+  }
+]

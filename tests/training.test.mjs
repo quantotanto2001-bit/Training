@@ -6,7 +6,7 @@ import { progressionFor, setDefaults } from '../src/progression.js';
 import { weeklySummary } from '../src/views/progress-v4.js';
 import { motionFor } from '../src/motion.js';
 import { posterIdFor } from '../src/exerciseMedia.js';
-import { statSync } from 'node:fs';
+import { statSync, readFileSync } from 'node:fs';
 
 test('preview posters do not substitute a different apparatus or movement',()=>{
   for(const id of ['mo-splitsquat~stepup','do-pistol~stepup','sa-revlunge~split-squat','mo-rdl~rdl-guided','do-bench~bench-guided']) assert.equal(posterIdFor({id,iconId:'mo-splitsquat'}),null,id);
@@ -87,10 +87,36 @@ test('three sets of seven at five kg trigger progression only at the upper rep t
  assert.equal(progressionFor({...e,sets:4},l,0.5).status,'keep');
 });
 
-test('motion guides exist locally and are restricted to the demonstrated variants',()=>{
- for(const id of ['mo-rdl~db','mo-gobletsquat','mo-calf']){
+test('all current exercises and alternatives have exact variant animations and offline assets',()=>{
+ const exercises=[...PLAN.flatMap(day=>{const p=buildSessionPlan(day,timeOptions(day).at(-1));return [...p.exercises,...p.optional];}),...allExercises().flatMap(ex=>alternativesFor(ex.id).map(a=>resolveExercise(ex.id,a.key)))];
+ const ids=[...new Set(exercises.map(ex=>ex.id))];
+ assert.equal(ids.length,67);
+ const sw=readFileSync(new URL('../sw.js',import.meta.url),'utf8');
+ for(const id of ids){
   const m=motionFor({id});assert.ok(m,id);
-  for(const name of ['1.png','2.png','3.png',m.file]) assert.ok(statSync(new URL(`../assets/motion/${m.directory}/${name}`,import.meta.url)).size > 1000,`${id}: ${name}`);
+  for(const name of [...m.labels.map((_,i)=>`${i+1}.png`),m.file]){
+   const path=`assets/motion/${m.directory}/${name}`;
+   assert.ok(statSync(new URL(`../${path}`,import.meta.url)).size>1000,`${id}: ${name}`);
+   assert.ok(sw.includes(`'./${path}'`),`offline: ${path}`);
+  }
+  const seq=m.sequence||[0,1,2,1];assert.ok(seq.every(i=>i>=0&&i<m.labels.length),id);
+  if(m.durations)assert.equal(m.durations.length,seq.length,id);
  }
- for(const id of ['mo-rdl','mo-rdl~rdl-guided','do-bench~db','mo-dip~bench-db','sa-ringpushup~bench-db','do-bench~bench-guided','do-bench~ring-pushup','do-ringrow','mo-dip','sa-ringpushup']) assert.equal(motionFor({id}),null,id);
+ for(const id of ['mo-rdl','unknown-variant'])assert.equal(motionFor({id}),null);
+ assert.equal(motionFor({id:'do-bench~db'}).directory,motionFor({id:'mo-dip~bench-db'}).directory);
+ assert.notEqual(motionFor({id:'do-pistol~stepup'}).directory,motionFor({id:'do-pistol~bulgarian'}).directory);
+ assert.notEqual(motionFor({id:'sa-revlunge~split-squat'}).directory,motionFor({id:'sa-revlunge~reverse'}).directory);
+});
+
+test('both step-up slots and saved snapshots use the step-up reference',async()=>{
+ const {currentExerciseMedia}=await import('../src/training.js');
+ for(const slot of ['mo-splitsquat','do-pistol']){
+  const ex=resolveExercise(slot,'stepup');
+  assert.equal(ex.video.url,'https://www.youtube.com/watch?v=ORE0cd7k85c');
+  assert.ok(!ex.video.label.toLowerCase().includes('pistol'));
+  const old={...ex,sets:5,video:{url:'https://www.youtube.com/watch?v=vq5-vdgJc0I'}};
+  const fixed=currentExerciseMedia(old);
+  assert.equal(fixed.sets,5);assert.equal(fixed.video.url,ex.video.url);
+  assert.notEqual(old.video.url,fixed.video.url);
+ }
 });
