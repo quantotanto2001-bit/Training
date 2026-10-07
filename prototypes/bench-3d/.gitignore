@@ -1,0 +1,5 @@
+frames/
+__pycache__/
+bottom*.png
+middle*.png
+top*.png
