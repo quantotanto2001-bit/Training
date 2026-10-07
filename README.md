@@ -2,7 +2,15 @@
 
 Private Trainingsplanung als statische, offlinefähige Web-App: [App öffnen](https://quantotanto2001-bit.github.io/Training/).
 
-## Version 4.1
+## App 4.2 · Design
+
+- Kompakte dunkle Oberfläche mit einer deutlich erkennbaren Hauptaktion. Die aktuelle Einheit erhält eine eigene Fläche; die übrigen Bereiche bleiben ruhig.
+- Die aktuelle Satzzeile hebt den Speicherbutton hervor. Erledigte Sätze sind dezenter und weiterhin bearbeitbar. Zielbereiche stehen über der Eingabe und werden nicht als scheinbar eingetragene Wiederholungen angezeigt.
+- Übung, Vorgabe und Satzeingabe stehen dicht zusammen. Empfehlungen, Gewichtsschritte, Gewichtsbeispiele und Zeitverwaltung bleiben aufklappbar erreichbar. Vorgeschlagene Lasten werden weiterhin erst auf Wunsch übernommen.
+- Während einer Übung ersetzt eine feste Trainingssteuerung die allgemeine Navigation. Satzpausen bleiben dort sichtbar. Über die Übersicht oder Pausieren sind die übrigen Bereiche erreichbar. Beim Bearbeiten eines Feldes auf schmalen Bildschirmen wird die Leiste ausgeblendet, damit sie der Bildschirmtastatur nicht im Weg steht.
+- Einheitliche Bezeichnungen und Bildrahmen, größere echte Trainingswerte, sichtbarer Tastaturfokus und ausreichender Abstand zur unteren Steuerung. Bestehende Übungsbilder, Animationen, Trainingsvorgaben und gespeicherte Daten bleiben erhalten.
+
+## Plan 4.1
 
 - Gewichtsangabe direkt an den Sätzen: je Kurzhantel, Gesamtlast, Kabelanzeige oder Zusatzgewicht. Belastete Übungen verlangen eine gültige Last; zulässige Varianten ohne Zusatzgewicht können 0 verwenden. Frühere uneindeutige kg-Werte werden erst nach einer ausdrücklichen Bestätigung für Empfehlungen verwendet und nicht umgerechnet.
 - Vorschlag für heute und verfügbarer Gewichtsschritt sind sichtbar. Sätze haben beschriftete Speichern-/Ändern-Knöpfe; Technik und RIR bleiben freiwillig aufklappbar.

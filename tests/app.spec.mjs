@@ -66,7 +66,7 @@ test('previous load is prefilled; increase is optional; different setup has its 
   await page.getByLabel('Vergleichbarer Aufbau',{exact:true}).fill('mit anderem Band');
   await page.getByLabel('Vergleichbarer Aufbau',{exact:true}).press('Tab');
   await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('');
-  await expect(page.getByText('Zuletzt',{exact:true})).toHaveCount(0);
+  await expect(page.getByText('Letzte Einheit',{exact:true})).toHaveCount(0);
 });
 
 test('matched alternatives change exercise identity without inheriting a different load',async({page})=>{
@@ -161,7 +161,7 @@ test('all plan rows and equipment variants have playable animations',async({page
     return PLAN.reduce((sum,day)=>{const p=buildSessionPlan(day,defaultMinutes(day));return sum+p.exercises.length+p.optional.length;},0);
   });
   await expect(page.locator('.plan-exercise-media-row .exercise-thumbnail.has-motion')).toHaveCount(counts);
-  const day=page.locator('.plan-day').filter({has:page.locator('.plan-day-title').filter({hasText:'Full Body B'})});
+  const day=page.locator('.plan-day').filter({has:page.locator('.plan-day-title').filter({hasText:'Ganzkörper B'})});
   await day.locator(':scope > summary').click();
   await day.getByRole('button',{name:'Animation öffnen: Kurzhantel-Bankdrücken',exact:true}).click();
   const dialog=page.getByRole('dialog',{name:'Kurzhantel-Bankdrücken',exact:true});
@@ -175,7 +175,7 @@ test('all plan rows and equipment variants have playable animations',async({page
   await page.getByRole('button',{name:'Übungsansicht schließen',exact:true}).click();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.goto('/#/workout');
-  await expect(page.getByRole('heading',{name:'Full Body A',exact:true})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Ganzkörper A',exact:true})).toBeVisible();
   await expect.poll(()=>page.locator('.workout-exercise-row .exercise-thumbnail img').evaluateAll(images=>images.length>0&&images.every(el=>el.complete&&el.naturalWidth>0))).toBe(true);
   await page.locator('.workout-exercise-row .exercise-thumbnail img').evaluateAll(async images=>{await Promise.all(images.map(img=>img.decode()));await new Promise(requestAnimationFrame);});
   await page.screenshot({path:`test-results/previews/uebung-vorschauliste-${info.project.name}.png`});
@@ -320,6 +320,7 @@ test('loaded exercises require kg and save an explicit convention with clear but
   const set=await page.evaluate(async()=>(await (await import('/src/db.js')).getActiveSession()).entries['do-bench~db'].sets[0]);
   expect(set.weightKg).toBe(10);expect(set.weightConvention).toBe('per-dumbbell');
   await expect(page.getByRole('region',{name:'Vorschlag für heute',exact:true})).toBeVisible();
+  await page.getByText('Empfehlung & Gewichtsschritt',{exact:true}).click();
   await expect(page.getByLabel('Verfügbarer Gewichtsschritt (kg/Hantel)',{exact:true})).toBeVisible();
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.screenshot({path:`test-results/previews/gewicht-eingabe-${info.project.name}.png`});
@@ -329,7 +330,7 @@ test('unilateral reps survive reload and changing the remaining budget preserves
   await open(page);
   await page.getByRole('button',{name:'90 Min',exact:true}).click();await start(page);
   await page.getByRole('button',{name:'‹ Übersicht',exact:true}).click();
-  await page.getByRole('button',{name:/^Deep Bulgarian Split Squat KH/}).click();
+  await page.getByRole('button',{name:/^Bulgarian Split Squat mit Kurzhanteln/}).click();
   await expect(page.getByLabel('Satz 1 Wiederholungen links',{exact:true})).toBeVisible();
   await page.getByLabel('Satz 1 Gewicht',{exact:true}).fill('5');
   await page.getByLabel('Satz 1 Wiederholungen links',{exact:true}).fill('10');

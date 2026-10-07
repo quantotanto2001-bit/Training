@@ -5,6 +5,7 @@ import { entryExercise, historyKey, groupFor, GROUP_LABELS } from '../training.j
 import { formatLoggedSet } from '../setForms.js';
 import { historicalLoads, effectiveValue } from '../measurements.js';
 import { comparePerformance, adaptationFor } from '../progression.js';
+import { exerciseTitle } from '../presentation.js';
 
 export function weeklySummary(logs, now = new Date()) {
   const start = new Date(now); start.setHours(0, 0, 0, 0); start.setDate(start.getDate() - (start.getDay() + 6) % 7);
@@ -41,7 +42,7 @@ export async function renderProgressList() {
   for (const log of logs) for (const [key, entry] of Object.entries(log.entries || {})) {
     if (!entry.sets?.some(s => !s.isWarmup)) continue;
     const id = historyKey(key, entry);
-    if (!catalogue.has(id)) catalogue.set(id, { ...entryExercise(key, entry, log), id, name: entry.substituteName || entryExercise(key, entry, log).name });
+    if (!catalogue.has(id)) catalogue.set(id, { ...entryExercise(key, entry, log), id, name: entry.substituteName || exerciseTitle(entryExercise(key, entry, log)) });
   }
   wrap.appendChild(h('p', { class: 'section-title' }, 'DEINE ÜBUNGEN UND VARIANTEN'));
   if (!catalogue.size) wrap.appendChild(h('p', { class: 'muted small' }, 'Nach deiner ersten gespeicherten Einheit erscheinen hier die tatsächlich trainierten Übungen.'));
@@ -52,7 +53,7 @@ export async function renderProgressDetail(rawId) {
   const id = decodeURIComponent(rawId), history = await getExerciseHistory(id), note = await getExerciseNote(id);
   const ex = history[0]?.exercise;
   if (!ex) return h('div', { class: 'view' }, [h('a', { href: '#/progress' }, '← Fortschritt'), h('p', {}, 'Noch keine Daten für diese Variante.')]);
-  const wrap = h('div', { class: 'view' }, [h('a', { href: '#/progress', class: 'back-link' }, '← Fortschritt'), h('h1', {}, ex.name)]);
+  const wrap = h('div', { class: 'view' }, [h('a', { href: '#/progress', class: 'back-link' }, '← Fortschritt'), h('h1', {}, exerciseTitle(ex))]);
   const setups = [...new Set(history.map(row => row.setup))];
   const content = h('div', { class: 'view' });
   function render(setup) {

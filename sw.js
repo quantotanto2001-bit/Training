@@ -1,4 +1,4 @@
-const CACHE_NAME = 'universal-athlete-v4-usability-1';
+const CACHE_NAME = 'universal-athlete-v4-design-2';
 const APP_SHELL = [
   './',
   './index.html',
@@ -6,6 +6,7 @@ const APP_SHELL = [
   './manifest.webmanifest',
   './src/app.js',
   './src/ui.js',
+  './src/presentation.js',
   './src/db.js',
   './src/state.js',
   './src/plan.js',

@@ -5,6 +5,7 @@ import { PLAN } from '../plan.js';
 import { formatLoggedSet, buildSetForm } from '../setForms.js';
 import { validateSet } from '../measurements.js';
 import { rerender } from '../app.js';
+import { dayTitle, daySubtitle, exerciseTitle } from '../presentation.js';
 
 function statusLabel(status) {
   if (status === 'completed') return 'Abgeschlossen';
@@ -49,7 +50,7 @@ export async function renderHistoryList() {
         h('span', { class: 'card-label' }, fmtDateTime(log.finishedAt || log.startedAt)),
         h('span', { class: `badge ${statusBadgeClass(log.status)}` }, statusLabel(log.status)),
       ]),
-      h('h2', {}, day ? day.name + (day.subtitle ? ' — ' + day.subtitle : '') : log.dayId),
+      h('h2', {}, day ? dayTitle(day) : log.dayId),
       log.status === 'skipped' && log.skipReason ? h('p', { class: 'muted small' }, 'Grund: ' + log.skipReason) : null,
       log.status !== 'skipped' ? h('p', { class: 'muted small' }, [
         `${exCount} Übung(en) geloggt`,
@@ -155,7 +156,7 @@ function renderCalendar(entries) {
       const isActive = log.status === 'in_progress';
       selectedEl.appendChild(h('a', { href: isActive ? '#/workout' : `#/history/${log.id}`, class: 'card-link' }, [
         h('div', { class: 'card-label-row' }, [
-          h('span', { class: 'small' }, day ? day.name : log.dayId),
+          h('span', { class: 'small' }, day ? dayTitle(day) : log.dayId),
           h('span', { class: `badge ${statusBadgeClass(log.status)}` }, statusLabel(log.status)),
         ]),
       ]));
@@ -224,7 +225,7 @@ export async function renderHistoryDetail(id) {
   const duration = Number.isFinite(log.activeDurationSec) ? `${Math.floor(log.activeDurationSec / 60)} Min aktiv${log.clock?.partialMeasurement ? ' (ab Aktualisierung erfasst)' : ' · ohne Trainingsunterbrechungen'}` : fmtDuration(log.startedAt, log.finishedAt);
   wrap.appendChild(h('div', { class: 'header' }, [
     h('a', { href: '#/history', class: 'back-link' }, '← Verlauf'),
-    h('h1', {}, day ? day.name : log.dayId),
+    h('h1', {}, day ? dayTitle(day) : log.dayId),
     h('div', { class: 'card-label-row' }, [
       h('p', { class: 'muted small' }, fmtDate(log.finishedAt || log.startedAt) + (duration ? ' · ' + duration : '')),
       h('span', { class: `badge ${statusBadgeClass(log.status)}` }, statusLabel(log.status)),
@@ -258,7 +259,7 @@ export async function renderHistoryDetail(id) {
 
 function renderEditableExerciseCard(log, exx, entry) {
   const card = h('div', { class: 'card' });
-  card.appendChild(h('h3', {}, entry.substituteName || exx.name));
+  card.appendChild(h('h3', {}, entry.substituteName || exerciseTitle(exx)));
   if (entry.substituteName) card.appendChild(h('p', { class: 'muted small' }, `Ersetzt: ${exx.name}`));
 
   if (entry.setup) card.appendChild(h('p', { class: 'muted small' }, 'Aufbau: ' + entry.setup));

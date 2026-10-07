@@ -6,6 +6,7 @@ import { PLAN, TYPE_LABELS } from '../plan.js';
 import { getCurrentProgramState } from '../state.js';
 import { getActiveSession } from '../db.js';
 import { renderExerciseThumbnail, closeExerciseMedia } from '../exerciseMedia.js';
+import { dayTitle, daySubtitle, exerciseTitle, presentedExercise } from '../presentation.js';
 
 export async function renderPlanOverview() {
   const [programState, active] = await Promise.all([getCurrentProgramState(), getActiveSession()]);
@@ -25,7 +26,7 @@ export async function renderPlanOverview() {
       const marker = isCurrent ? '->' : (isDone ? '[x]' : '[ ]');
       const row = h('div', { class: 'cycle-check-row' + (isCurrent ? ' cycle-check-current' : '') }, [
         h('span', { class: 'cycle-check-marker' }, marker),
-        h('span', { class: 'cycle-check-label' }, `Tag ${d.order + 1} — ${d.name}${d.subtitle ? ': ' + d.subtitle : ''}`),
+        h('span', { class: 'cycle-check-label' }, `Einheit ${d.order + 1} · ${dayTitle(d)}`),
         isCurrent && active ? h('span', { class: 'badge badge-yellow' }, 'In Bearbeitung') : null,
       ]);
       return row;
@@ -38,10 +39,11 @@ export async function renderPlanOverview() {
     const day = { ...originalDay, blocks: [{ title: 'Geplant für dein Zeitbudget', exercises: planned.exercises }, { title: 'Optionale Ergänzungen', exercises: planned.optional }] };
     const details = h('details', { class: 'card plan-day' });
     details.appendChild(h('summary', {}, [
-      h('span', { class: 'plan-day-title' }, `${day.name}${day.subtitle ? ' — ' + day.subtitle : ''}`),
+      h('span', { class: 'plan-day-title' }, dayTitle(day)),
+      h('span', { class: 'muted small' }, daySubtitle(day)),
     ]));
     if (day.mobilitySkillFocus) {
-      details.appendChild(h('p', { class: 'muted small' }, 'Mobility/Skill: ' + day.mobilitySkillFocus));
+      details.appendChild(h('p', { class: 'muted small' }, 'Schwerpunkt: ' + day.mobilitySkillFocus));
     }
     if (day.warmupGeneral) {
       details.appendChild(h('p', { class: 'small' }, day.warmupGeneral));
@@ -63,12 +65,12 @@ export async function renderPlanOverview() {
 }
 
 function renderExerciseDetail(exx) {
-  const row = h('div', { class: 'plan-exercise-media-row' }, [renderExerciseThumbnail(exx)]);
+  const row = h('div', { class: 'plan-exercise-media-row' }, [renderExerciseThumbnail(presentedExercise(exx))]);
   const item = h('details', { class: 'exercise-detail' });
   item.appendChild(h('summary', {}, [
     h('div', { class: 'exercise-icon-row' }, [
       h('div', {}, [
-        h('div', { class: 'exercise-name' }, exx.name),
+        h('div', { class: 'exercise-name' }, exerciseTitle(exx)),
         h('div', { class: 'muted small' }, [
           exx.dosage || '', exx.restSec ? ` · Pause ${fmtRestRange(exx.restSec)}` : '',
         ].join('')),

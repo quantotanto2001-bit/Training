@@ -1,16 +1,16 @@
 :root {
-  --bg: #000000;
-  --bg-card: #000000;
-  --bg-card-hover: #1c1c1e;
-  --bg-inset: #131314;
+  --bg: #0c0c0e;
+  --bg-card: #16161a;
+  --bg-card-hover: #232329;
+  --bg-inset: #19191e;
   --line: rgba(255,255,255,0.1);
   --accent: #ffffff;
   --accent-strong: #ffffff;
   --text: #f2f2f4;
-  --text-muted: #8a8a8f;
-  --text-faint: #767676;
+  --text-muted: #a5a5af;
+  --text-faint: #85858f;
   --border: rgba(255,255,255,0.1);
-  --radius: 14px;
+  --radius: 20px;
   --radius-sm: 10px;
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
@@ -58,8 +58,7 @@ html, body {
 .small { font-size: 0.84rem; }
 .muted.small, p.small.muted { color: var(--text-muted); }
 
-/* "Card" = kein Kasten mehr, sondern ein per Linie/Abstand abgegrenzter Bereich -
-   direkt auf der schwarzen Flaeche, wie in der Designrichtung gefordert. */
+/* Most content uses spacing and type; only the current task has a surface. */
 .card {
   background: transparent;
   border-top: 1px solid var(--line);
@@ -175,7 +174,7 @@ html, body {
 .cycle-check-current { color: var(--text); font-weight: 600; }
 .cycle-check-current .cycle-check-marker { color: var(--text); }
 
-/* Aktionen sind bevorzugt reduzierte typografische Elemente, kein Button-Kasten. */
+/* Quiet secondary actions; a filled button identifies the main action. */
 .btn {
   appearance: none;
   border: none;
@@ -653,3 +652,126 @@ a { color: inherit; }
 
 .hold-timer { display: grid; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 16px; }
 .hold-timer p { margin: 0; }
+
+/* App 4.2 — compact monochrome interface, designed around the current task. */
+.main { max-width: 600px; padding-bottom: calc(112px + var(--safe-bottom)); }
+.view { gap: 20px; }
+.header h1 { font-size: 1.9rem; letter-spacing: -.045em; line-height: 1.15; }
+.section-title, .card-label { text-transform: none; letter-spacing: .02em; font-size: .75rem; }
+.btn { min-height: 44px; border-radius: 14px; padding: 12px 16px; }
+.btn-primary { background: var(--text); color: var(--bg); min-height: 52px; }
+.btn-primary.btn-block { justify-content: center; }
+.btn-primary:active, .btn-tappable:active { opacity: .78; }
+.btn-small { min-height: 44px; padding: 10px 12px; }
+.btn-ghost { padding-left: 8px; padding-right: 8px; }
+.btn-icon { min-height: 44px; }
+button, input, select, a, summary { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px solid var(--text); outline-offset: 4px; }
+.link-button, .link-small { min-height: 44px; display: inline-flex; align-items: center; }
+.quiet-details > summary { min-height: 44px; padding: 10px 0; }
+.quiet-details { padding: 2px 0; }
+.time-options { gap: 4px; padding: 4px; background: var(--bg-inset); border-radius: 16px; }
+.time-option { border: 0; background: transparent; border-radius: 12px; font-size: .9rem; padding: 10px 12px; }
+.time-option.selected { background: var(--text); }
+.time-picker { gap: 10px; }
+.home-view > .section-title { margin-top: 6px; }
+.today-card { padding: 24px !important; border: 0; border-radius: 24px; background: var(--bg-card); gap: 14px; }
+.today-card .today-icon { display: none; }
+.today-card .today-card-head { display: block; }
+.today-card h2 { font-size: 1.85rem; letter-spacing: -.045em; line-height: 1.12; }
+.today-subtitle { margin: 8px 0 12px; color: var(--text-muted); font-size: .88rem; }
+.today-card .muted.small { font-size: .82rem; }
+.today-card .progress-track { height: 3px; margin: 2px 0; background: #ffffff12; }
+.today-card .next-card-links { gap: 16px; margin-top: 0; }
+.today-card .next-card-links .link-small { font-size: .75rem; }
+.today-card > .link-button { justify-content: center; }
+.upcoming-card { padding-top: 0; border: 0; }
+.upcoming-row { padding: 16px 0; min-height: 76px; gap: 16px; }
+.upcoming-row:first-child { border-top: 0; }
+.upcoming-number { font-variant-numeric: tabular-nums; color: var(--text-faint); font-size: .9rem; }
+.upcoming-row .exercise-name { font-size: .95rem; font-weight: 600; letter-spacing: -.015em; }
+.upcoming-row .muted { font-size: .78rem; }
+.bottom-nav {
+  max-width: 560px; left: 16px; right: 16px; margin: 0 auto; bottom: calc(10px + var(--safe-bottom));
+  padding: 7px 10px; background: #1a1a1ef0; border: 1px solid #ffffff0d;
+  border-radius: 22px; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.nav-item { min-height: 48px; padding: 4px 0; font-size: .67rem; gap: 4px; }
+.nav-item.active { background: #ffffff08; border-radius: 14px; }
+.nav-icon { opacity: .75; }
+.app-version { font-size: .75rem; line-height: 1.6; }
+.workout-header-row { align-items: center; gap: 8px; }
+.workout-header-row h1 { font-size: 1.6rem; letter-spacing: -.035em; }
+.workout-header-row .back-chevron { min-height: 44px; padding: 0 4px 0 0; }
+.workout-overview .workout-exercise-list { margin-top: 0; }
+.workout-exercise-row { padding: 14px 0; gap: 14px; }
+.exercise-name { line-height: 1.35; letter-spacing: -.012em; }
+.exercise-thumbnail { width: 56px; height: 68px; flex-basis: 56px; border-radius: 12px; border-color: transparent; }
+.exercise-thumbnail.has-motion { background: #f6f6f6; }
+.exercise-thumbnail img { object-fit: contain; }
+.exercise-thumbnail-action { border-radius: 50%; width: 18px; height: 18px; right: 3px; bottom: 3px; }
+.exercise-heading-media { gap: 16px; align-items: center; }
+.exercise-heading h2 { font-size: 1.45rem; letter-spacing: -.035em; line-height: 1.2; margin-bottom: 8px; }
+.exercise-heading-media .exercise-thumbnail { width: 64px; height: 80px; flex-basis: 64px; }
+.exercise-prescription { margin: 0 0 4px; font-size: .95rem; font-weight: 550; font-variant-numeric: tabular-nums; }
+.exercise-heading .muted { font-size: .75rem; }
+.today-suggestion { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 10px; padding: 0; border: 0; border-radius: 0; background: transparent; }
+.today-suggestion .suggestion-heading { font-size: .85rem; font-weight: 550; margin: 0; line-height: 1.4; }
+.today-suggestion > .btn { margin: 0; }
+.today-suggestion .suggestion-details { width: 100%; border: 0; }
+.suggestion-details > summary { font-size: .75rem; color: var(--text-muted); }
+.suggestion-details > p { font-size: .82rem; }
+.increment-field { margin-top: 10px; }
+.set-table { gap: 6px; padding-top: 0; border-top: 0; }
+.set-table > .weight-convention { border: 0; padding: 0; margin: 0 0 8px; }
+.weight-convention > summary { min-height: 36px; font-size: .8rem; color: var(--text-muted); }
+.set-table-header { align-items: end; padding: 0 4px 8px; text-align: center; font-size: .67rem; letter-spacing: .02em; text-transform: none; color: var(--text-muted); }
+.set-target { display: block; margin-top: 2px; font-size: .65rem; font-weight: 400; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+.set-table-row { min-height: 60px; padding: 4px; border-radius: 14px; }
+.set-table-row input { min-height: 48px; border-bottom: 1px solid transparent; border-radius: 10px; padding: 10px 2px; font-size: 1.15rem; font-weight: 550; font-variant-numeric: tabular-nums; }
+.set-table-row input::placeholder { color: var(--text-faint); opacity: .6; font-weight: 400; }
+.set-table-row input:focus { background: #ffffff09; outline: 1px solid #ffffff55; border-bottom-color: transparent; }
+.set-table-row input:disabled { opacity: 1; color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); }
+.set-table-row-current { background: #202026; box-shadow: none; }
+.set-table-row-current .set-table-index { color: var(--text); font-weight: 650; }
+.set-check-btn { border-color: var(--line); color: var(--text-muted); border-radius: 10px; font-size: .72rem; min-height: 44px; }
+.set-table-row-current .set-check-btn { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 650; }
+.set-check-btn-done { background: transparent; border-color: transparent; color: var(--text-muted); }
+.set-table-row-done { background: transparent; }
+.set-completion { text-align: left; margin: 8px 4px 10px; font-size: .75rem; }
+.set-table > .quiet-details:not(.weight-convention) { margin-top: 4px; }
+.set-table > .link-button { justify-content: flex-start; font-size: .8rem; }
+.next-training-note { border: 0; background: var(--bg-inset); border-radius: 16px; padding: 16px; }
+.hold-timer { border: 0; border-radius: 16px; background: var(--bg-inset); }
+.hold-timer .time-options { padding: 0; }
+.hold-timer .time-options .btn { flex: 1; background: #ffffff08; }
+.workout-dock {
+  position: fixed; z-index: 11; bottom: 0; left: 0; right: 0;
+  padding: 12px max(16px, calc((100vw - 560px) / 2)) calc(12px + var(--safe-bottom));
+  background: #141418f5; border-top: 1px solid #ffffff0b;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.workout-dock .workout-nav { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center; padding: 0; }
+.workout-dock .workout-nav .btn { min-height: 48px; font-size: .85rem; }
+.workout-dock .workout-nav .btn-tappable { border: 1px solid var(--line); background: transparent; }
+.rest-timer-host:empty { display: none; }
+.rest-timer-host .compact-timer { border: 0; background: transparent; border-radius: 0; padding: 0 0 10px; gap: 12px; }
+.rest-timer-host .timer-digits { font-size: 1.8rem; margin-top: 2px; letter-spacing: -.035em; }
+.rest-timer-host .timer-actions { gap: 2px; }
+.rest-timer-host .timer-actions .btn { padding: 8px; font-size: .8rem; }
+.rest-timer-host .timer-actions .link-button { font-size: .75rem; padding: 4px 6px; }
+.rest-timer-host .timer-completed { margin-bottom: 10px; padding: 2px 0; border: 0; border-radius: 0; }
+.app-shell:has(.workout-view[data-mode="exercise"]) > .bottom-nav { display: none; }
+.app-shell:has(.workout-view[data-mode="exercise"]) > .main { padding-bottom: calc(126px + var(--safe-bottom)); }
+.app-shell:has(.workout-view[data-mode="exercise"][data-timer-active="true"]) > .main { padding-bottom: calc(218px + var(--safe-bottom)); }
+@media (max-width: 600px) {
+  .workout-view:has(input:focus, select:focus, textarea:focus) .workout-dock { visibility: hidden; pointer-events: none; }
+}
+@media (max-width: 380px) {
+  .main { padding-left: 14px; padding-right: 14px; }
+  .today-card { padding: 20px !important; }
+  .exercise-heading h2 { font-size: 1.25rem; }
+  .exercise-heading-media { gap: 12px; }
+  .exercise-heading-media .exercise-thumbnail { width: 56px; height: 72px; flex-basis: 56px; }
+  .set-table-header, .set-table-row { column-gap: 4px; }
+}

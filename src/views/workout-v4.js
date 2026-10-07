@@ -11,12 +11,20 @@ import { RestTimer } from '../timer.js';
 import { navigate } from '../app.js';
 import { loadSpec, validateSet, historicalLoads, splitSides, loadText } from '../measurements.js';
 import { startClock, pauseClock, resumeClock, finishClock, activeMilliseconds, timingProfile, timingSettings } from '../sessionClock.js';
+import { dayTitle, exerciseTitle, presentedExercise } from '../presentation.js';
 
 const detail = (title, children) => h('details', { class: 'quiet-details' }, [h('summary', {}, title), ...children]);
 const work = entry => entry.sets.filter(s => !s.isWarmup);
 const num = el => el.value.trim() === '' ? null : Number(el.value);
 const positive = n => Number.isFinite(n) && n > 0;
 const clone = x => JSON.parse(JSON.stringify(x));
+const suggestionHeading = status => ({
+  'no-data': 'Arbeitsgewicht wählen', 'confirm-load': 'Frühere Gewichte bestätigen',
+  increase: 'Steigerung möglich', keep: 'Gewicht bestätigen', difficulty: 'Schwierigkeit prüfen',
+  adjust: 'Heute leichter testen', plateau: 'Verlauf prüfen', quality: 'Schnell und sauber',
+  hold: 'Position und Widerstand bestätigen', skill: 'Kontrollierte Versuche',
+  cardio: 'Dauer und Intensität bestätigen', mobility: 'Kontrollierter Bewegungsumfang',
+})[status] || 'Vorschlag für heute';
 
 export async function renderWorkout() {
   let active = await getActiveSession();
@@ -77,7 +85,7 @@ export async function renderWorkout() {
   async function show(index) {
     if (!started) { if (!active.finishedAt) active.startedAt = new Date().toISOString(); started = true; startClock(active); }
     resumeClock(active);
-    stepIndex = index; mode = 'exercise'; await persist(); await render();
+    stepIndex = index; mode = 'exercise'; await persist(); await render(); wrap.scrollIntoView({ block: 'start' });
   }
   async function pause() { if (started) pauseClock(active); await persist(); navigate('#/'); }
   async function finish() {
@@ -110,7 +118,7 @@ export async function renderWorkout() {
   }
   function overview() {
     const plan = active.planSnapshot;
-    const box = h('div', { class: 'view' }, [h('div', { class: 'workout-header-row' }, [h('h1', {}, day.name), h('button', { class: 'btn btn-ghost btn-small', onclick: pause }, started ? 'Pausieren' : 'Zurück')])]);
+    const box = h('div', { class: 'view workout-overview' }, [h('div', { class: 'workout-header-row' }, [h('h1', {}, dayTitle(day)), h('button', { class: 'btn btn-ghost btn-small', onclick: pause }, started ? 'Pausieren' : 'Zurück')])]);
     box.appendChild(timeControls());
     clockLabel = h('p', { class: 'small' }, started ? clockText() : `Ungefähr ${sessionMinutes(exercises(), day.isFullBody, plan.timingFactor || 1)} Minuten · ${exercises().length} Übungen · inklusive Aufwärmen und Satzpausen`);
     box.appendChild(clockLabel);
@@ -119,8 +127,8 @@ export async function renderWorkout() {
     if (day.warmupGeneral) box.appendChild(detail('Aufwärmen', [h('p', { class: 'small' }, day.warmupGeneral)]));
     const list = h('div', { class: 'workout-exercise-list' });
     exercises().forEach((ex, i) => list.appendChild(h('div', { class: 'workout-exercise-row' }, [
-      renderExerciseThumbnail(ex),
-      h('button', { class: 'workout-exercise-open', onclick: () => show(i) }, [h('div', { class: 'workout-exercise-row-main' }, [h('div', { class: 'exercise-name' }, ex.name), h('div', { class: 'muted small' }, `${prescription(ex)} · ${ex.core ? 'Grundblock' : 'Ergänzung'}`)]),
+      renderExerciseThumbnail(presentedExercise(ex)),
+      h('button', { class: 'workout-exercise-open', onclick: () => show(i) }, [h('div', { class: 'workout-exercise-row-main' }, [h('div', { class: 'exercise-name' }, exerciseTitle(ex)), h('div', { class: 'muted small' }, `${prescription(ex)} · ${ex.core ? 'Grundblock' : 'Ergänzung'}`)]),
       h('span', { class: 'check-circle' + (completed(ex) ? ' check-circle-done' : '') }, completed(ex) ? '✓' : doneSets(ex).length ? '·' : ''),
       ]),
     ])));
@@ -131,7 +139,7 @@ export async function renderWorkout() {
       if (day.isFullBody) exercises().sort((a, b) => (a.type === TYPES.POWER ? 0 : a.type === TYPES.SKILL ? 1 : 2) - (b.type === TYPES.POWER ? 0 : b.type === TYPES.SKILL ? 1 : 2));
       stepIndex = Math.max(0, exercises().findIndex(e => e.id === currentId));
       plan.optional = plan.optional.filter(e => e.id !== ex.id); await persist(); await render();
-    } }, `${ex.name} · hinzufügen`)]))]));
+    } }, `${exerciseTitle(ex)} · hinzufügen`)]))]));
     box.appendChild(h('button', { class: 'btn btn-primary btn-block', onclick: () => show(Math.max(0, exercises().findIndex(ex => !completed(ex)))) }, started ? 'Training fortsetzen' : 'Training beginnen'));
     if (started) box.appendChild(h('button', { class: 'btn btn-ghost', onclick: finish }, 'Beenden / verkürzt speichern'));
     const date = h('input', { type: 'date', value: active.startedAt.slice(0, 10), onchange: async e => {
@@ -156,20 +164,19 @@ export async function renderWorkout() {
     const box = h('div', { class: 'view' }, [h('div', { class: 'workout-header-row' }, [
       h('button', { class: 'btn-icon back-chevron', onclick: async () => { mode = 'overview'; await render(); } }, '‹ Übersicht'),
       h('span', { class: 'muted small' }, `${stepIndex + 1} / ${exercises().length}`), h('button', { class: 'btn btn-ghost btn-small', onclick: pause }, 'Pausieren'),
-    ]), h('div', { class: 'exercise-heading exercise-heading-media' }, [renderExerciseThumbnail(ex), h('div', {}, [h('h2', {}, entry.substituteName || ex.name), h('p', { class: 'muted small' }, `${prescription(ex)}${ex.restSec ? ' · Pause ' + fmtRestRange(ex.restSec) : ''}`)])])]);
-    clockLabel = h('p', { class: 'muted small workout-clock' }, clockText()); box.appendChild(clockLabel);
-    box.appendChild(detail('Zeitbudget ändern', [timeControls(), ...(active.planSnapshot.warning ? [h('p', { class: 'hint-box small' }, active.planSnapshot.warning)] : [])]));
-    if (last) box.appendChild(h('div', { class: 'last-perf' }, [h('span', { class: 'card-label' }, 'Zuletzt'), h('p', { class: 'small' }, last.sets.filter(s => !s.isWarmup).map(s => formatLoggedSet(ex, s)).join(' | '))]));
-    const suggestionBox = h('section', { class: 'today-suggestion', 'aria-label': 'Vorschlag für heute' }, [h('span', { class: 'card-label' }, 'Vorschlag für heute'), h('p', { class: 'small' }, suggestion.text), ...(suggestion.suggestedWeight != null ? [h('button', { class: 'btn btn-small', onclick: async () => {
+    ]), h('div', { class: 'exercise-heading exercise-heading-media' }, [renderExerciseThumbnail(presentedExercise(ex)), h('div', {}, [h('h2', {}, entry.substituteName || exerciseTitle(ex)), h('p', { class: 'exercise-prescription' }, prescription(ex)), ...(ex.restSec ? [h('p', { class: 'muted small' }, 'Satzpause ' + fmtRestRange(ex.restSec))] : [])])])]);
+    const suggestionBox = h('section', { class: 'today-suggestion', 'aria-label': 'Vorschlag für heute' }, [h('p', { class: 'suggestion-heading' }, suggestionHeading(suggestion.status)), ...(suggestion.suggestedWeight != null ? [h('button', { class: 'btn btn-tappable btn-small', onclick: async () => {
       for (let i = 0; i < plannedSets(ex); i++) if (!work(entry).some(s => s.slotIndex === i)) entry.drafts[i] = { ...entry.drafts[i], weightKg: suggestion.suggestedWeight };
       await persist(); await render();
     } }, `${suggestion.suggestedWeight} kg übernehmen`)] : [])]);
+    const suggestionDetails = detail(spec && ex.type === TYPES.STRENGTH ? 'Empfehlung & Gewichtsschritt' : 'Warum dieser Vorschlag?', [h('p', { class: 'small' }, suggestion.text)]);
+    suggestionDetails.classList.add('suggestion-details');
     if (spec && ex.type === TYPES.STRENGTH) {
       const increment = h('input', { type: 'number', min: '0.25', step: '0.25', inputmode: 'decimal', value: note.increment ?? '', placeholder: 'z. B. 1', onchange: async e => {
         note.increment = positive(num(e.target)) ? num(e.target) : null;
         await setExerciseNote(ex.id, note); await render();
       } });
-      suggestionBox.appendChild(h('label', { class: 'field increment-field' }, [h('span', {}, `Verfügbarer Gewichtsschritt (${spec.short})`), increment]));
+      suggestionDetails.appendChild(h('label', { class: 'field increment-field' }, [h('span', {}, `Verfügbarer Gewichtsschritt (${spec.short})`), increment]));
     }
     if (last?.loadCompatible === false && spec?.confirmLegacy && last.sets.some(s => !s.weightConvention && s.weightKg != null)) suggestionBox.appendChild(h('button', { class: 'btn btn-small', onclick: async () => {
       note.legacyWeightConventions = { ...note.legacyWeightConventions, [entry.setup]: spec.kind };
@@ -182,15 +189,18 @@ export async function renderWorkout() {
       active.planSnapshot.estimatedMinutes = sessionMinutes(exercises(), day.isFullBody, active.planSnapshot.timingFactor || 1);
       await persist(); await render();
     } }, `Heute ${suggestion.suggestedSets} Sätze testen`));
+    suggestionBox.appendChild(suggestionDetails);
     box.appendChild(suggestionBox);
+    const dock = h('div', { class: 'workout-dock', 'aria-label': 'Trainingssteuerung' });
     if (ex.holdSec || holdTimer.total > 0) {
       box.appendChild(renderHoldTimer(ex, holdTimer, () => holdTimer.completed, seconds => {
         prepareHoldSound();
         timer.skip(); holdTimer.start(seconds, ex.id);
       }));
     }
-    const timerHost = h('div', {}); box.appendChild(timerHost);
+    const timerHost = h('div', { class: 'rest-timer-host' }); dock.appendChild(timerHost);
     const updateTimer = () => {
+      wrap.dataset.timerActive = String(timer.total > 0 || !!timer.completed);
       timerHost.replaceChildren();
       if (timer.completed) { timerHost.appendChild(h('div', { class: 'timer-completed', role: 'status' }, [h('span', {}, 'Satzpause abgelaufen'), h('button', { class: 'link-small link-button', onclick: () => timer.skip() }, 'Schließen')])); return; }
       if (timer.total <= 0) return;
@@ -208,7 +218,11 @@ export async function renderWorkout() {
     if (completed(ex) && (ex.type === TYPES.POWER || ex.type === TYPES.SKILL)) {
       box.appendChild(detail('Bewegungsqualität · optional', [h('p', { class: 'muted small' }, 'Wiederholungen allein zeigen bei Schnellkraft und Fertigkeiten nicht die Qualität.'), h('div', { class: 'feedback-options' }, [['clean', 'Sauber'], ['loss', 'Qualität ließ nach']].map(([value, label]) => h('button', { class: 'feedback-chip' + (entry.quality === value ? ' selected' : ''), 'aria-pressed': String(entry.quality === value), onclick: async () => { entry.quality = entry.quality === value ? null : value; await persist(); await render(); } }, label)))]));
     }
-    box.appendChild(h('div', { class: 'workout-nav' }, [h('button', { class: 'btn', disabled: stepIndex === 0 ? '' : null, onclick: () => show(stepIndex - 1) }, '← Zurück'), h('button', { class: 'btn btn-primary', onclick: () => stepIndex < exercises().length - 1 ? show(stepIndex + 1) : finish() }, stepIndex < exercises().length - 1 ? 'Nächste Übung' : 'Einheit abschließen')]));
+    dock.appendChild(h('div', { class: 'workout-nav' }, [h('button', { class: 'btn btn-ghost', disabled: stepIndex === 0 ? '' : null, onclick: () => show(stepIndex - 1) }, '← Zurück'), h('button', { class: 'btn ' + (completed(ex) ? 'btn-primary' : 'btn-tappable'), onclick: () => stepIndex < exercises().length - 1 ? show(stepIndex + 1) : finish() }, stepIndex < exercises().length - 1 ? 'Nächste Übung' : 'Einheit abschließen')]));
+    box.appendChild(dock);
+    clockLabel = h('p', { class: 'muted small workout-clock' }, clockText());
+    box.appendChild(detail('Zeitbudget ändern', [clockLabel, timeControls(), ...(active.planSnapshot.warning ? [h('p', { class: 'hint-box small' }, active.planSnapshot.warning)] : [])]));
+    if (last) box.appendChild(detail('Letzte Einheit', [h('p', { class: 'small' }, last.sets.filter(s => !s.isWarmup).map(s => formatLoggedSet(ex, s)).join(' · '))]));
     const setup = h('input', { type: 'text', value: entry.setup, placeholder: ex.tracking === 'neck' ? 'Handposition und Gegenhalten' : 'Ringhöhe, Sitzposition, Unterstützung', disabled: entry.sets.length ? '' : null });
     const text = h('input', { type: 'text', value: note.note || '', placeholder: 'Deine Notiz' });
     const saveNote = () => setExerciseNote(ex.id, { ...note, setup: setup.value.trim(), note: text.value });
@@ -230,7 +244,7 @@ export async function renderWorkout() {
     box.appendChild(detail('Technik und Zweck', [h('p', { class: 'small' }, ex.note || `Trainingsaufgabe: ${GROUP_LABELS[ex.group] || 'kontrollierte Bewegung'}. Aufbau und Bewegungsumfang vergleichbar halten.`), ...(ex.alternativeNote ? [h('p', { class: 'small' }, ex.alternativeNote)] : []), ...(ex.video ? [renderVideoCard(ex.video)] : []), h('p', { class: 'muted small' }, 'Die Forschung stützt Trainingsprinzipien; die konkrete Zusammenstellung ist eine praktische Ableitung.'), h('a', { href: SCIENCE_LINKS[ex.tracking === 'neck' ? 4 : 0].url, target: '_blank', rel: 'noopener noreferrer', class: 'link-small' }, 'Wissenschaftlicher Hintergrund ↗')]));
     return box;
   }
-  async function render() { const token = ++renderToken; timer.onTick = () => {}; holdTimer.onTick = () => {}; const view = mode === 'overview' ? overview() : await exerciseScreen(); if (token === renderToken) { closeExerciseMedia(); content.replaceChildren(view); } }
+  async function render() { const token = ++renderToken; timer.onTick = () => {}; holdTimer.onTick = () => {}; const view = mode === 'overview' ? overview() : await exerciseScreen(); if (token === renderToken) { closeExerciseMedia(); wrap.dataset.mode = mode; content.replaceChildren(view); } }
   if (started) await persist();
   await render(); return wrap;
 }
@@ -266,10 +280,12 @@ function setTable(ex, entry, last, onSave, saveDraft) {
   const spec = loadSpec(ex), hasWeight = !!spec;
   const hasReps = !!ex.reps, hasHold = !!ex.holdSec;
   const sideCount = ex.perSide ? 2 : 1;
-  const style = `grid-template-columns: 32px repeat(${Number(hasWeight) + (Number(hasReps) + Number(hasHold)) * sideCount}, minmax(0, 1fr)) 76px`;
-  if (spec) wrap.appendChild(h('div', { class: 'weight-convention' }, [h('strong', { class: 'small' }, spec.label), h('p', { class: 'muted small' }, spec.hint)]));
-  if (ex.perSide) wrap.appendChild(h('p', { class: 'muted small' }, 'Links und rechts getrennt eintragen. Mit der schwächeren Seite beginnen; für Gewichtsvorschläge zählt der kleinere Wert.'));
-  wrap.appendChild(h('div', { class: 'set-table-header', style }, [h('span', {}, 'Satz'), ...(hasWeight ? [h('span', {}, 'kg')] : []), ...(hasReps ? (ex.perSide ? ['L Wdh.', 'R Wdh.'] : ['Wdh.']).map(label => h('span', {}, label)) : []), ...(hasHold ? (ex.perSide ? ['L Sek.', 'R Sek.'] : ['Sek.']).map(label => h('span', {}, label)) : []), h('span', {}, '')]));
+  const style = `grid-template-columns: 26px repeat(${Number(hasWeight) + (Number(hasReps) + Number(hasHold)) * sideCount}, minmax(0, 1fr)) 76px`;
+  const help = detail(spec ? spec.label : 'Links und rechts', [...(spec ? [h('p', { class: 'muted small' }, spec.hint)] : []), ...(ex.perSide ? [h('p', { class: 'muted small' }, 'Links und rechts getrennt eintragen. Mit der schwächeren Seite beginnen; für Gewichtsvorschläge zählt der kleinere Wert.')] : [])]);
+  help.classList.add('weight-convention');
+  if (spec || ex.perSide) wrap.appendChild(help);
+  const targetHeader = (label, range) => h('span', {}, [h('span', {}, label), h('small', { class: 'set-target' }, `${range.min}–${range.max}`)]);
+  wrap.appendChild(h('div', { class: 'set-table-header', style }, [h('span', {}, 'Satz'), ...(hasWeight ? [h('span', {}, 'kg')] : []), ...(hasReps ? (ex.perSide ? ['Links', 'Rechts'] : ['Wdh.']).map(label => targetHeader(label, ex.reps)) : []), ...(hasHold ? (ex.perSide ? ['Links', 'Rechts'] : ['Sek.']).map(label => targetHeader(label, ex.holdSec)) : []), h('span', {}, '')]));
   const rows = work(entry), defaults = setDefaults(ex, rows, last), allDetails = [];
   const nextSlot = Array.from({ length: plannedSets(ex) }, (_, i) => i).find(i => !rows.some(s => s.slotIndex === i));
   const count = Math.max(plannedSets(ex) + (entry.extraSets || 0), ...rows.map(s => (s.slotIndex ?? 0) + 1));
@@ -288,8 +304,8 @@ function setTable(ex, entry, last, onSave, saveDraft) {
       if (hasWeight) add('weightKg', 'Gewicht', '0.25', '–');
       for (const [key, label, range] of [['reps', 'Wiederholungen', ex.reps], ['holdSec', 'Haltezeit', ex.holdSec]]) {
         if (!range) continue;
-        if (ex.perSide) { add(key + 'Left', label + ' links', '1', `${range.min}–${range.max}`); add(key + 'Right', label + ' rechts', '1', `${range.min}–${range.max}`); }
-        else add(key, label, '1', `${range.min}–${range.max}`);
+        if (ex.perSide) { add(key + 'Left', label + ' links', '1', '–'); add(key + 'Right', label + ' rechts', '1', '–'); }
+        else add(key, label, '1', '–');
       }
     }
     const error = h('p', { class: 'small save-error', role: 'alert', hidden: '' });

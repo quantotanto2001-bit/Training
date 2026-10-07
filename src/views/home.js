@@ -5,6 +5,7 @@ import { getCurrentDay, getCurrentProgramState, getRecoveryHint, skipCurrentDay 
 import { getActiveSession, clearActiveSession, getSettings, saveSettings, getAllSessionLogs } from '../db.js';
 import { timingSettings, activeMilliseconds } from '../sessionClock.js';
 import { navigate } from '../app.js';
+import { dayTitle, daySubtitle } from '../presentation.js';
 
 const SKIP_REASONS = ['Verletzung / Beschwerden', 'Equipment nicht verfügbar', 'Zeit', 'Sonstiges'];
 
@@ -40,12 +41,13 @@ export async function renderHome() {
       h('div', { class: 'today-card-head' }, [
         h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]), day.blocks[0].exercises[0].id)),
         h('div', {}, [
-          h('h2', {}, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
+          h('h2', {}, dayTitle(day)),
+          h('p', { class: 'today-subtitle' }, daySubtitle(day)),
           h('p', { class: 'muted small' }, active.clock ? `${Math.floor(activeMilliseconds(active) / 60000)} Min aktiv · noch ca. ${Math.ceil(remainingSeconds(active, day) / 60)} Min` : `ca. ${durationMin} Min · ${exCount} Übungen`),
         ]),
       ]),
       h('div', { class: 'progress-track' }, [h('div', { class: 'progress-fill', style: `width:${pct}%` })]),
-      h('p', { class: 'muted small' }, `${doneCount} / ${exCount} Übungen`),
+      h('p', { class: 'muted small' }, `${doneCount} von ${exCount} Übungen erledigt`),
       h('a', { href: '#/workout', class: 'btn btn-primary btn-block' }, 'Training fortsetzen'),
       h('button', {
         class: 'link-small link-button',
@@ -60,13 +62,13 @@ export async function renderHome() {
   }
 
   wrap.appendChild(h('div', { class: 'time-picker' }, [
-    h('p', { class: 'section-title' }, 'WIE VIEL ZEIT HAST DU?'),
+    h('p', { class: 'section-title' }, 'Deine Zeit'),
     h('div', { class: 'time-options' }, timeOptions(day).map(min => h('button', {
       class: 'time-option' + (planned.budgetMinutes === min ? ' selected' : ''),
       'aria-pressed': String(planned.budgetMinutes === min),
       onclick: async () => { await saveSettings({ [day.isFullBody ? 'strengthMinutes' : 'otherMinutes']: min }); navigate('#/'); },
     }, `${min} Min`))),
-    h('p', { class: 'muted small' }, 'Grundbewegungen zuerst. Mehr Zeit ergänzt Sätze und passende Zusatzübungen.'),
+    h('p', { class: 'muted small' }, 'Inklusive Aufwärmen und Satzpausen.'),
     planned.warning ? h('p', { class: 'hint-box small' }, planned.warning) : null,
   ]));
 
@@ -74,12 +76,13 @@ export async function renderHome() {
     h('div', { class: 'today-card-head' }, [
       h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]), day.blocks[0].exercises[0].id)),
       h('div', {}, [
-        h('h2', {}, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
+        h('h2', {}, dayTitle(day)),
+        h('p', { class: 'today-subtitle' }, daySubtitle(day)),
         h('p', { class: 'muted small' }, `ca. ${durationMin} Min · ${exCount} Übungen`),
       ]),
     ]),
     h('div', { class: 'progress-track' }, [h('div', { class: 'progress-fill', style: 'width:0%' })]),
-    h('p', { class: 'muted small' }, `0 / ${exCount} Übungen · Zyklus ${programState.currentCycle}`),
+    h('p', { class: 'today-cycle muted small' }, `Einheit ${day.order + 1} von ${PLAN.length} · Zyklus ${programState.currentCycle}`),
     h('button', { class: 'btn btn-primary btn-block', onclick: onStartClick }, 'Training ansehen & starten'),
     h('div', { class: 'next-card-links' }, [
       h('a', { href: '#/plan', class: 'link-small' }, 'Plan ansehen'),
@@ -93,9 +96,9 @@ export async function renderHome() {
     const preview = buildSessionPlan(d, defaultMinutes(d, settings), settings);
     const dCount = preview.exercises.length;
     return h('a', { href: '#/plan', class: 'upcoming-row' }, [
-      h('div', { class: 'exercise-icon-badge' }, typeIcon(iconFor(d.blocks[0].exercises[0]), d.blocks[0].exercises[0].id)),
+      h('span', { class: 'upcoming-number', 'aria-hidden': 'true' }, String(d.order + 1).padStart(2, '0')),
       h('div', { class: 'workout-exercise-row-main' }, [
-        h('div', { class: 'exercise-name' }, d.name + (d.subtitle ? ' — ' + d.subtitle : '')),
+        h('div', { class: 'exercise-name' }, dayTitle(d)),
         h('div', { class: 'muted small' }, `ca. ${preview.estimatedMinutes} Min · ${dCount} Übungen`),
       ]),
       h('span', { class: 'chevron' }, '›'),

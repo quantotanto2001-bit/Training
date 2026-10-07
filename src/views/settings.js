@@ -2,6 +2,7 @@ import { h } from '../ui.js';
 import { getSettings, saveSettings } from '../db.js';
 import { PLAN_VERSION, SCIENCE_LINKS } from '../training.js';
 import { renderBackupSection } from './history.js';
+import { APP_VERSION } from '../presentation.js';
 
 export async function renderSettings() {
   const settings = await getSettings();
@@ -21,6 +22,6 @@ export async function renderSettings() {
     h('details', { class: 'quiet-details' }, [h('summary', {}, 'Grundlage und Quellen'),
       h('p', { class: 'small' }, 'Die Planung verwendet untersuchte Trainingsprinzipien. Übungsauswahl, Zeitverteilung und Alternativen sind praktische Ableitungen. Kein wissenschaftlich bewiesenes individuelles Optimum und keine Garantie gegen muskuläre Ungleichgewichte.'),
       ...SCIENCE_LINKS.map(source => h('a', { class: 'source-link', href: source.url, target: '_blank', rel: 'noopener noreferrer' }, source.label + ' ↗')),
-    ]), h('p', { class: 'muted small' }, `Universal Athlete · Plan ${PLAN_VERSION} · Daten lokal auf diesem Gerät`),
+  ]), h('p', { class: 'muted small app-version' }, `Universal Athlete · App ${APP_VERSION} · Plan ${PLAN_VERSION} · Daten lokal auf diesem Gerät`),
   ]);
 }
