@@ -113,3 +113,14 @@ test('a shorter endurance budget reduces only unlogged duration and preserves ty
  assert.equal(protectedPlan.exercises.find(e=>e.id==='di-cardio').durationSec.min,session.planSnapshot.exercises.find(e=>e.id==='di-cardio').durationSec.min);
  assert.equal(session.entries['di-cardio'].formDraft.durationSec,1800);
 });
+
+test('fully logged work has no remaining warmup estimate, even when entered quickly',()=>{
+ const day=PLAN[0],session={planSnapshot:buildSessionPlan(day,45),entries:{}};startClock(session,0);
+ for(const ex of session.planSnapshot.exercises)session.entries[ex.id]={sets:Array.from({length:plannedSets(ex)},()=>({reps:5}))};
+ assert.equal(remainingSeconds(session,day,1000),0);
+});
+
+test('a common legacy side value cannot be labelled as the measured weaker side',()=>{
+ const ex=resolveExercise('mo-splitsquat'),row={sets:[{weightKg:5,weightConvention:'per-dumbbell',reps:10}]};
+ assert.equal(comparePerformance(ex,row,row),null);
+});

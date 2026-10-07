@@ -186,6 +186,7 @@ export function buildSessionPlan(day, minutes = defaultMinutes(day), settings = 
 }
 
 export function remainingSeconds(session, day, now = Date.now()) {
+  if (sessionExercises(session).every(ex => (session.entries[ex.id]?.sets || []).filter(s => !s.isWarmup).length >= plannedSets(ex))) return 0;
   const elapsed = activeMilliseconds(session, now) / 1000;
   let seconds = Math.max(0, (day.isFullBody ? 420 : 120) - elapsed);
   for (const ex of sessionExercises(session)) {

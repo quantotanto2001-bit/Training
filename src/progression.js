@@ -75,6 +75,7 @@ export function comparePerformance(ex, newer, older) {
   if (!newer || !older || newer.loadCompatible === false || older.loadCompatible === false) return null;
   const a = newer.sets.filter(s => !s.isWarmup), b = older.sets.filter(s => !s.isWarmup);
   if (!a.length || a.length !== b.length || qualityLost({ ...newer, work: a }) || qualityLost({ ...older, work: b })) return null;
+  if (ex.perSide && [...a,...b].some(s => !splitSides(ex,s))) return null;
   if (a.some((s,i) => (s.weightConvention || '') !== (b[i].weightConvention || '') || (ex.perSide && splitSides(ex,s) !== splitSides(ex,b[i])))) return null;
   if (ex.type === TYPES.STRENGTH && ex.reps && a.every((s,i) => validWeight(ex,s.weightKg) && validWeight(ex,b[i].weightKg) && effectiveValue(ex,s) != null && effectiveValue(ex,b[i]) != null)) {
     if (a.every((s,i) => Number.isFinite(s.weightKg) && Number.isFinite(b[i].weightKg) && s.weightKg > b[i].weightKg && effectiveValue(ex,s) >= ex.reps.min)) return { kind: 'load', text: `Laststeigerung bestätigt: ${loadText(ex, b[0].weightKg)} → ${loadText(ex, a[0].weightKg)} bei gleicher Satzzahl und Wiederholungen im Zielbereich.` };

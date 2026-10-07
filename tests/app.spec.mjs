@@ -392,3 +392,40 @@ test('history-driven adjustment is visible and an accepted reduction only change
   const logs=await page.evaluate(async()=>(await import('/src/db.js')).getAllSessionLogs());
   expect(logs[0].entries['do-bench~db'].sets[0].weightKg).toBe(10);
 });
+
+test('ambiguous old dumbbell kg require confirmation before prefill and recommendations',async({page})=>{
+ await open(page);
+ await page.evaluate(async()=>{
+  const db=await import('/src/db.js'),{resolveExercise,PLAN_VERSION}=await import('/src/training.js');
+  const ex=resolveExercise('do-bench');ex.sets=3;ex.core=true;
+  await db.setExerciseNote(ex.id,{increment:1});
+  await db.saveSessionLog({id:'ambiguous-db',dayId:'do',planVersion:'4.0',status:'completed',startedAt:'2026-01-01T12:00:00Z',finishedAt:'2026-01-01T13:00:00Z',entries:{[ex.id]:{exercise:ex,plannedSets:3,sets:Array.from({length:3},()=>({weightKg:10,reps:10}))}}});
+  await db.setActiveSession({sessionId:'confirmation',dayId:'do',planVersion:PLAN_VERSION,startedAt:new Date().toISOString(),entries:{},planSnapshot:{budgetMinutes:60,exercises:[ex],optional:[]}});
+ });
+ await page.goto('/#/workout');
+ await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('');
+ await expect(page.getByRole('button',{name:'11 kg übernehmen',exact:true})).toHaveCount(0);
+ await page.getByRole('button',{name:'Frühere Werte bestätigen: kg/Hantel',exact:true}).click();
+ await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('10');
+ await expect(page.getByRole('button',{name:'11 kg übernehmen',exact:true})).toBeVisible();
+ const old=await page.evaluate(async()=>(await(await import('/src/db.js')).getAllSessionLogs())[0]);
+ expect(old.entries['do-bench~db'].sets[0].weightConvention).toBeUndefined();
+});
+
+test('editing a split-sided history set keeps the other side and older common-side logs',async({page})=>{
+ await open(page);
+ await page.evaluate(async()=>{
+  const db=await import('/src/db.js'),{resolveExercise}=await import('/src/training.js');const ex=resolveExercise('mo-splitsquat');
+  await db.saveSessionLog({id:'side-history',dayId:'mo',planVersion:'4.1',status:'partial',startedAt:'2026-01-01T12:00:00Z',finishedAt:'2026-01-01T13:00:00Z',entries:{[ex.id]:{exercise:ex,sets:[{weightKg:5,weightConvention:'per-dumbbell',repsLeft:10,repsRight:9},{weightKg:5,reps:8}]}}});
+ });
+ await page.goto('/#/history/side-history');
+ await page.getByRole('button',{name:'Bearbeiten',exact:true}).first().click();
+ await page.getByLabel('Wiederholungen links',{exact:true}).fill('8');
+ await page.getByRole('button',{name:'Speichern',exact:true}).click();
+ const record=await page.evaluate(async()=>(await(await import('/src/db.js')).getAllSessionLogs())[0]);
+ expect(record.entries['mo-splitsquat'].sets[0].repsLeft).toBe(8);expect(record.entries['mo-splitsquat'].sets[0].repsRight).toBe(9);
+ expect(record.entries['mo-splitsquat'].sets[1].reps).toBe(8);expect(record.entries['mo-splitsquat'].sets[1].repsLeft).toBeUndefined();
+ await page.getByRole('button',{name:'Bearbeiten',exact:true}).nth(1).click();
+ await expect(page.getByText(/Dieser ältere Satz enthält einen gemeinsamen Wert/)).toBeVisible();
+ await expect(page.getByLabel('Wiederholungen',{exact:true})).toHaveValue('8');
+});
