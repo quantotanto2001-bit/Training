@@ -153,7 +153,7 @@ export async function getExerciseHistory(exerciseId, setup = null) {
       if (setup != null && (entry.setup || '') !== setup) continue;
       out.push({ date: log.finishedAt || log.startedAt, dayId: log.dayId, sets: entry.sets, status: log.status,
         plannedSets: entry.plannedSets, setup: entry.setup || '', feedback: entry.feedback, quality: entry.quality,
-        rirReliable: log.planVersion === '4.0', exercise: entryExercise(key, entry, log) });
+        rirReliable: ['4.0', '4.1'].includes(log.planVersion), exercise: entryExercise(key, entry, log) });
     }
   }
   return out;
@@ -190,9 +190,9 @@ export async function getAllExerciseNotes() {
   return reqToPromise(store.getAll());
 }
 
-export async function setExerciseNote(exerciseId, { note, nextTimeIntent, setup = '', increment = null }) {
+export async function setExerciseNote(exerciseId, { note, nextTimeIntent, setup = '', increment = null, legacyWeightConventions = {} }) {
   const store = await tx(STORE_EX_NOTES, 'readwrite');
-  await reqToPromise(store.put({ exerciseId, note: note || '', nextTimeIntent: nextTimeIntent || '', setup, increment, updatedAt: new Date().toISOString() }));
+  await reqToPromise(store.put({ exerciseId, note: note || '', nextTimeIntent: nextTimeIntent || '', setup, increment, legacyWeightConventions, updatedAt: new Date().toISOString() }));
 }
 
 export async function getSettings() {

@@ -7,7 +7,7 @@ export class RestTimer {
   constructor({ onTick, onDone, sessionId, storageKey = STORAGE_KEY } = {}) {
     Object.assign(this, { onTick, onDone, sessionId, storageKey, total: 0, running: false,
       ownerId: null, endAt: null, _remainingMs: 0, _intervalId: null,
-      _lastRemaining: null });
+      _lastRemaining: null, completed: null });
     this._onVisibility = () => {
       if (document.hidden) this._clearLoop();
       else this._resumeDisplay();
@@ -26,6 +26,7 @@ export class RestTimer {
 
   start(seconds, ownerId = null) {
     if (!Number.isFinite(seconds) || seconds <= 0) return;
+    this.completed = null;
     this.total = seconds;
     this._remainingMs = seconds * 1000;
     this.endAt = Date.now() + this._remainingMs;
@@ -69,9 +70,9 @@ export class RestTimer {
   _persist() {
     if (!this.sessionId) return;
     try {
-      if (this.total <= 0) localStorage.removeItem(this.storageKey);
+      if (this.total <= 0 && !this.completed) localStorage.removeItem(this.storageKey);
       else localStorage.setItem(this.storageKey, JSON.stringify({
-        version: 1, sessionId: this.sessionId, ownerId: this.ownerId,
+        version: 2, sessionId: this.sessionId, ownerId: this.ownerId, completed: this.completed,
         total: this.total, running: this.running,
         endAt: this.endAt, remainingMs: this._remainingMs,
       }));
@@ -83,13 +84,21 @@ export class RestTimer {
     try {
       const state = JSON.parse(localStorage.getItem(this.storageKey));
       if (!state) return;
-      const valid = state.version === 1 && state.sessionId === this.sessionId
+      if (![1,2].includes(state.version) || state.sessionId !== this.sessionId) { localStorage.removeItem(this.storageKey); return; }
+      if (state.completed?.expired === true && Number.isFinite(state.completed.seconds) && state.completed.seconds > 0) {
+        this.completed = state.completed; return;
+      }
+      const valid = state.sessionId === this.sessionId
         && Number.isFinite(state.total) && state.total > 0
         && typeof state.running === 'boolean'
         && (state.running
-          ? Number.isFinite(state.endAt) && state.endAt > Date.now()
+          ? Number.isFinite(state.endAt)
           : Number.isFinite(state.remainingMs) && state.remainingMs > 0);
       if (!valid) { localStorage.removeItem(this.storageKey); return; }
+      if (state.running && state.endAt <= Date.now()) {
+        this.completed = { ownerId: typeof state.ownerId === 'string' ? state.ownerId : null, seconds: state.total, expired: true, finishedAt: state.endAt };
+        this._persist(); return;
+      }
       this.total = state.total;
       this.ownerId = typeof state.ownerId === 'string' ? state.ownerId : null;
       this.running = state.running;
@@ -126,7 +135,8 @@ export class RestTimer {
   }
 
   _finish(vibrate = false) {
-    const result = { ownerId: this.ownerId, seconds: this.total, expired: vibrate };
+    const result = { ownerId: this.ownerId, seconds: this.total, expired: vibrate, finishedAt: vibrate ? this.endAt : null };
+    this.completed = vibrate ? result : null;
     this.running = false;
     this.total = 0;
     this._remainingMs = 0;
@@ -136,7 +146,7 @@ export class RestTimer {
     this._persist();
     this._notify();
     this.onDone && this.onDone(result);
-    if (vibrate && !document.hidden && navigator.vibrate) {
+    if (vibrate && !document.hidden && Date.now() - result.finishedAt < 1500 && navigator.vibrate) {
       try { navigator.vibrate([200, 100, 200]); } catch (e) { /* optional */ }
     }
   }

@@ -54,7 +54,9 @@ test('expiry during suspension completes once and cannot restart on +30', () => 
   assert.equal(timer.remaining, 0);
   assert.equal(timer.total, 0);
   assert.equal(done, 1);
-  assert.equal(e.data.size, 0);
+  assert.equal(e.data.size, 1);
+  assert.equal(timer.completed.ownerId, 'pullup');
+  assert.equal(JSON.parse([...e.data.values()][0]).completed.expired, true);
   timer.extend(30);
   assert.equal(timer.total, 0);
   timer.dispose();
@@ -103,13 +105,17 @@ test('skip clears persistence and a new workout cannot inherit an old timer', ()
   fresh.dispose();
 }));
 
-test('an expired saved timer is discarded without a delayed completion alert', () => environment(e => {
+test('an expired saved timer retains completion without a delayed completion alert', () => environment(e => {
   const timer = new RestTimer({ sessionId: 'session' });
   timer.start(30, 'pullup'); timer.dispose(); e.advance(40000);
   const restored = new RestTimer({ sessionId: 'session', onDone: () => assert.fail('stale alert') });
   assert.equal(restored.total, 0);
-  assert.equal(e.data.size, 0);
+  assert.equal(restored.completed.seconds, 30);
+  assert.equal(restored.completed.ownerId, 'pullup');
   restored.dispose();
+  const again = new RestTimer({ sessionId: 'session', onDone: result => { if (result.expired) assert.fail('replayed alert'); } });
+  assert.equal(again.completed.seconds, 30);
+  again.skip(); assert.equal(e.data.size, 0); again.dispose();
 }));
 
 test('disposed views cannot revive loops or call old UI callbacks', () => environment(e => {
@@ -141,7 +147,7 @@ test('hold timer has independent persistence, survives reload and reports expiry
   assert.equal(restored.remaining,30);assert.equal(rest.remaining,105);
   restored.togglePause();e.advance(10000);assert.equal(restored.remaining,30);
   restored.togglePause();e.advance(30000);e.show();
-  assert.deepEqual(result,{ownerId:'stretch',seconds:45,expired:true});
-  assert.equal(rest.remaining,65);assert.equal(e.data.has('hold'),false);
+  assert.deepEqual(result,{ownerId:'stretch',seconds:45,expired:true,finishedAt:1055000});
+  assert.equal(rest.remaining,65);assert.equal(JSON.parse(e.data.get('hold')).completed.seconds,45);
   rest.dispose();restored.dispose();
 }));

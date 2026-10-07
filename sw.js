@@ -1,4 +1,4 @@
-const CACHE_NAME = 'universal-athlete-v4-animations-1';
+const CACHE_NAME = 'universal-athlete-v4-usability-1';
 const APP_SHELL = [
   './',
   './index.html',
@@ -10,6 +10,8 @@ const APP_SHELL = [
   './src/state.js',
   './src/plan.js',
   './src/training.js',
+  './src/measurements.js',
+  './src/sessionClock.js',
   './src/motion.js',
   './src/motionCatalog.js',
   './assets/motion/ring-dip/1.png',

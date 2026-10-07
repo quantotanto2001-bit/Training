@@ -59,10 +59,10 @@ test('previous load is prefilled; increase is optional; different setup has its 
   await page.reload();await start(page);
   await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('10');
   await expect(page.getByLabel('Satz 1 Wiederholungen',{exact:true})).toHaveValue('');
-  await page.getByText('Vorschlag für heute',{exact:true}).click();
+  await expect(page.getByRole('region',{name:'Vorschlag für heute',exact:true})).toBeVisible();
   await page.getByRole('button',{name:'11 kg übernehmen',exact:true}).click();
   await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('11');
-  await page.getByText('Aufbau, Gewichtsschritt und Notizen',{exact:true}).click();
+  await page.getByText('Aufbau und Notizen',{exact:true}).click();
   await page.getByLabel('Vergleichbarer Aufbau',{exact:true}).fill('mit anderem Band');
   await page.getByLabel('Vergleichbarer Aufbau',{exact:true}).press('Tab');
   await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('');
@@ -250,6 +250,8 @@ test('three completed target sets produce a next-session recommendation without 
   await page.getByRole('button',{name:'45 Min',exact:true}).click();
   await start(page);
   await expect(page.getByText('Technik und RIR · optional',{exact:true})).toHaveCount(1);
+  await page.evaluate(async()=>{const db=await import('/src/db.js');const active=await db.getActiveSession();active.planSnapshot.exercises[0].sets=3;active.entries['mo-pullup'] ||= {sets:[],drafts:{}};active.entries['mo-pullup'].plannedSets=3;await db.setActiveSession(active);});
+  await page.reload();
   await page.getByLabel('Satz 1 Gewicht',{exact:true}).fill('5');
   for(let i=1;i<=3;i++){
     await page.getByLabel(`Satz ${i} Wiederholungen`,{exact:true}).fill('7');
@@ -287,12 +289,105 @@ test('hold timer uses prescribed seconds, survives reload and never fabricates a
   await card.getByRole('button',{name:'Timer fortsetzen',exact:true}).click();
   await page.clock.runFor(43000);
   await expect(card.getByRole('status')).toContainText('45 Sekunden abgelaufen');
-  await expect(page.getByLabel('Satz 1 Haltezeit',{exact:true})).toHaveValue('');
+  await expect(page.getByLabel('Satz 1 Haltezeit links',{exact:true})).toHaveValue('');
+  await page.reload();
+  await expect(card.getByRole('status')).toContainText('45 Sekunden abgelaufen');
   expect(await page.evaluate(async()=>((await (await import('/src/db.js')).getActiveSession()).entries['di-hipflexor']?.sets || []).length)).toBe(0);
   await page.screenshot({path:`test-results/previews/halte-timer-${info.project.name}.png`});
   await card.getByRole('button',{name:'30 s starten',exact:true}).click();
-  await page.getByLabel('Satz 1 Haltezeit',{exact:true}).fill('30');
+  await page.getByLabel('Satz 1 Haltezeit links',{exact:true}).fill('30');
+  await page.getByLabel('Satz 1 Haltezeit rechts',{exact:true}).fill('30');
   await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).click();
   await expect(card.getByRole('timer')).toBeHidden();
   await expect(page.getByText('Satzpause',{exact:true})).toBeVisible();
+});
+
+test('loaded exercises require kg and save an explicit convention with clear buttons',async({page},info)=>{
+  await open(page);
+  await page.evaluate(async()=>{
+    const db=await import('/src/db.js'),{resolveExercise,PLAN_VERSION}=await import('/src/training.js');
+    const ex=resolveExercise('do-bench');ex.sets=3;ex.targetSets=3;ex.core=true;
+    await db.setActiveSession({sessionId:'weight-check',dayId:'do',planVersion:PLAN_VERSION,startedAt:new Date().toISOString(),entries:{},planSnapshot:{budgetMinutes:60,exercises:[ex],optional:[]}});
+  });
+  await page.goto('/#/workout');
+  await expect(page.getByText('Gewicht je Hantel (kg)',{exact:true})).toBeVisible();
+  await page.getByLabel('Satz 1 Wiederholungen',{exact:true}).fill('8');
+  await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).click();
+  await expect(page.getByRole('alert')).toContainText('Bitte das Gewicht');
+  await page.getByLabel('Satz 1 Gewicht',{exact:true}).fill('10');
+  await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Satz 1 wieder öffnen',exact:true})).toHaveText('✓ Ändern');
+  const set=await page.evaluate(async()=>(await (await import('/src/db.js')).getActiveSession()).entries['do-bench~db'].sets[0]);
+  expect(set.weightKg).toBe(10);expect(set.weightConvention).toBe('per-dumbbell');
+  await expect(page.getByRole('region',{name:'Vorschlag für heute',exact:true})).toBeVisible();
+  await expect(page.getByLabel('Verfügbarer Gewichtsschritt (kg/Hantel)',{exact:true})).toBeVisible();
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:`test-results/previews/gewicht-eingabe-${info.project.name}.png`});
+});
+
+test('unilateral reps survive reload and changing the remaining budget preserves drafts',async({page},info)=>{
+  await open(page);
+  await page.getByRole('button',{name:'90 Min',exact:true}).click();await start(page);
+  await page.getByRole('button',{name:'‹ Übersicht',exact:true}).click();
+  await page.getByRole('button',{name:/^Deep Bulgarian Split Squat KH/}).click();
+  await expect(page.getByLabel('Satz 1 Wiederholungen links',{exact:true})).toBeVisible();
+  await page.getByLabel('Satz 1 Gewicht',{exact:true}).fill('5');
+  await page.getByLabel('Satz 1 Wiederholungen links',{exact:true}).fill('10');
+  await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).click();
+  await expect(page.getByRole('alert')).toContainText('links und rechts');
+  await page.getByLabel('Satz 1 Wiederholungen rechts',{exact:true}).fill('9');
+  await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).click();
+  await page.getByLabel('Satz 3 Wiederholungen links',{exact:true}).fill('8');
+  await page.getByLabel('Satz 3 Wiederholungen rechts',{exact:true}).fill('7');
+  await page.getByText('Zeitbudget ändern',{exact:true}).click();
+  await page.getByRole('button',{name:'45 Min',exact:true}).click();
+  await expect(page.getByLabel('Satz 3 Wiederholungen links',{exact:true})).toHaveValue('8');
+  await page.reload();
+  await expect(page.getByLabel('Satz 1 Wiederholungen links',{exact:true})).toHaveValue('10');
+  await expect(page.getByLabel('Satz 1 Wiederholungen rechts',{exact:true})).toHaveValue('9');
+  await expect(page.getByLabel('Satz 3 Wiederholungen rechts',{exact:true})).toHaveValue('7');
+  const active=await page.evaluate(async()=>(await import('/src/db.js')).getActiveSession());
+  expect(active.planSnapshot.budgetMinutes).toBe(45);expect(active.entries['mo-splitsquat'].sets).toHaveLength(1);
+  expect(active.entries['mo-splitsquat'].sets[0].repsRight).toBe(9);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.screenshot({path:`test-results/previews/links-rechts-${info.project.name}.png`});
+});
+
+test('an explicit workout pause excludes time at home and remains paused after reload',async({page})=>{
+  await page.clock.install();await open(page);await start(page);
+  await page.clock.runFor(60000);
+  await page.getByRole('button',{name:'Pausieren',exact:true}).click();
+  await expect(page.getByText('TRAINING PAUSIERT',{exact:true})).toBeVisible();
+  await page.clock.runFor(900000);await page.reload();
+  await expect(page.getByText('TRAINING PAUSIERT',{exact:true})).toBeVisible();
+  await page.getByRole('link',{name:'Training fortsetzen',exact:true}).click();
+  await expect(page.getByRole('button',{name:'Training fortsetzen',exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'Training fortsetzen',exact:true}).click();
+  await page.clock.runFor(60000);
+  const elapsed=await page.evaluate(async()=>{const a=await(await import('/src/db.js')).getActiveSession();return(await import('/src/sessionClock.js')).activeMilliseconds(a);});
+  expect(elapsed).toBeGreaterThanOrEqual(120000);expect(elapsed).toBeLessThan(130000);
+  await page.getByLabel('Satz 1 Wiederholungen',{exact:true}).fill('5');
+  await page.getByRole('button',{name:'Satz 1 speichern',exact:true}).click();
+  await page.getByRole('button',{name:'‹ Übersicht',exact:true}).click();
+  page.once('dialog',d=>d.accept());await page.getByRole('button',{name:'Beenden / verkürzt speichern',exact:true}).click();
+  const log=await page.evaluate(async()=>(await (await import('/src/db.js')).getAllSessionLogs())[0]);
+  expect(log.activeDurationSec).toBeGreaterThanOrEqual(120);expect(log.activeDurationSec).toBeLessThan(130);
+  await page.goto(`/#/history/${log.id}`);await expect(page.getByText(/Min aktiv.*ohne Trainingsunterbrechungen/)).toBeVisible();
+});
+
+test('history-driven adjustment is visible and an accepted reduction only changes today',async({page})=>{
+  await open(page);
+  await page.evaluate(async()=>{
+    const db=await import('/src/db.js'),{resolveExercise,PLAN_VERSION}=await import('/src/training.js');
+    const ex=resolveExercise('do-bench');ex.sets=3;ex.core=true;
+    await db.setExerciseNote(ex.id,{increment:1});
+    for(let i=0;i<2;i++)await db.saveSessionLog({id:'miss-'+i,dayId:'do',planVersion:PLAN_VERSION,status:'completed',startedAt:`2026-01-0${i+1}T12:00:00Z`,finishedAt:`2026-01-0${i+1}T13:00:00Z`,entries:{[ex.id]:{exercise:ex,plannedSets:3,sets:Array.from({length:3},()=>({weightKg:10,weightConvention:'per-dumbbell',reps:5}))}}});
+    await db.setActiveSession({sessionId:'adjustment',dayId:'do',planVersion:PLAN_VERSION,startedAt:new Date().toISOString(),entries:{},planSnapshot:{budgetMinutes:60,exercises:[ex],optional:[]}});
+  });
+  await page.goto('/#/workout');
+  await expect(page.getByRole('region',{name:'Vorschlag für heute',exact:true})).toContainText('In zwei vergleichbaren Einheiten');
+  await page.getByRole('button',{name:'9 kg übernehmen',exact:true}).click();
+  await expect(page.getByLabel('Satz 1 Gewicht',{exact:true})).toHaveValue('9');
+  const logs=await page.evaluate(async()=>(await import('/src/db.js')).getAllSessionLogs());
+  expect(logs[0].entries['do-bench~db'].sets[0].weightKg).toBe(10);
 });

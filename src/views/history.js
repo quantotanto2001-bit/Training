@@ -3,6 +3,7 @@ import { h, fmtDateTime, fmtDate, fmtDuration } from '../ui.js';
 import { getAllSessionLogs, getActiveSession, deleteSessionLog, saveSessionLog, exportAllData, importAllData } from '../db.js';
 import { PLAN } from '../plan.js';
 import { formatLoggedSet, buildSetForm } from '../setForms.js';
+import { validateSet } from '../measurements.js';
 import { rerender } from '../app.js';
 
 function statusLabel(status) {
@@ -220,7 +221,7 @@ export async function renderHistoryDetail(id) {
   }
   const day = PLAN.find((d) => d.id === log.dayId);
 
-  const duration = fmtDuration(log.startedAt, log.finishedAt);
+  const duration = Number.isFinite(log.activeDurationSec) ? `${Math.floor(log.activeDurationSec / 60)} Min aktiv${log.clock?.partialMeasurement ? ' (ab Aktualisierung erfasst)' : ' · ohne Trainingsunterbrechungen'}` : fmtDuration(log.startedAt, log.finishedAt);
   wrap.appendChild(h('div', { class: 'header' }, [
     h('a', { href: '#/history', class: 'back-link' }, '← Verlauf'),
     h('h1', {}, day ? day.name : log.dayId),
@@ -279,7 +280,7 @@ function renderEditableExerciseCard(log, exx, entry) {
       editWrap.classList.toggle('set-edit-hidden');
       if (editWrap.classList.contains('set-edit-hidden')) return;
       editWrap.innerHTML = '';
-      const form = buildSetForm(exx, { ...s, durationMin: s.durationSec != null ? s.durationSec / 60 : null });
+      const form = buildSetForm(exx, { ...s, durationMin: s.durationSec != null ? s.durationSec / 60 : null }, { legacy: true });
       editWrap.appendChild(form.el);
       const error = h('p', { class: 'save-error small', role: 'alert', hidden: '' });
       editWrap.appendChild(error);
@@ -287,7 +288,9 @@ function renderEditableExerciseCard(log, exx, entry) {
         class: 'btn btn-small',
         onclick: async () => {
           const values = form.read();
-          const measures = ['reps', 'holdSec', 'durationSec', 'rounds'].filter(key => key in values);
+          const issue = validateSet(exx, values, { legacySides: form.legacySides, legacyWeight: !s.weightConvention });
+          if (issue) { error.textContent = issue; error.hidden = false; return; }
+          const measures = ['reps', 'holdSec', 'repsLeft', 'repsRight', 'holdSecLeft', 'holdSecRight', 'durationSec', 'rounds'].filter(key => key in values);
           if ((measures.length && !measures.some(key => Number.isFinite(values[key]) && values[key] > 0)) || (values.weightKg != null && values.weightKg < 0)) { error.textContent = 'Bitte gültige absolvierte Werte eintragen.'; error.hidden = false; return; }
           Object.assign(s, values);
           await saveSessionLog(log);

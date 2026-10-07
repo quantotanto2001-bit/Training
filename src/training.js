@@ -1,7 +1,8 @@
 import { PLAN, TYPES, allExercises } from './plan.js';
+import { activeMilliseconds } from './sessionClock.js';
 
 // Versioned prescriptions; the original catalogue remains available for old logs.
-export const PLAN_VERSION = '4.0';
+export const PLAN_VERSION = '4.1';
 export const DEFAULT_SETTINGS = { strengthMinutes: 60, otherMinutes: 30, focus: 'allround', variants: {}, increments: {} };
 export const GROUP_LABELS = {
   verticalPull: 'Vertikales Ziehen', row: 'Rudern', chestPush: 'Brust / Trizeps',
@@ -62,6 +63,7 @@ function baseExercise(id) {
   if (id === 'mo-rdl') { ex.name = 'RDL mit Kurzhanteln'; ex.id = id + '~db'; }
   if (id === 'sa-revlunge') { ex.name = 'Reverse Lunge mit Kurzhanteln'; ex.id = id + '~reverse'; }
   if (id === 'sa-rotpower') ex.name = 'Explosive Kabelrotation';
+  if (id === 'mo-extrot') ex.perSide = true;
   if (ex.group === 'neck') {
     ex.tracking = 'neck';
     ex.note = 'Kopf neutral und still. Widerstand mit der Hand allmählich aufbauen. Gleiche Handposition, Richtung und Anstrengung dokumentieren. Nur kontrolliert und beschwerdefrei steigern; Sekunden allein messen keine Nackenkraft.';
@@ -115,19 +117,23 @@ export function prescription(ex) {
   const amount = ex.reps ? `${ex.reps.min}–${ex.reps.max} Wdh.` : ex.holdSec ? `${ex.holdSec.min}–${ex.holdSec.max} Sek.` : '';
   return `${ex.sets || 1} × ${amount}${ex.perSide ? ' je Seite' : ''}${ex.directions ? ' je Richtung' : ''}`;
 }
+export function restSeconds(ex) {
+  return ex.restSec ? Math.round((ex.restSec.min + (ex.restSec.max || ex.restSec.min)) / 2) : 30;
+}
 export function exerciseSeconds(ex) {
   if (ex.durationSec) return ex.durationSec.min + 30;
   const n = plannedSets(ex);
   const repTime = ex.type === TYPES.POWER ? 2 : 4;
   const work = ((ex.reps?.max || 0) * repTime + (ex.holdSec?.max || 0)) * (ex.perSide ? 2 : 1);
   const warmup = { heavy: 180, moderate: 90, power: 90, light: 30 }[ex.warmup] || 0;
-  return n * Math.max(work, 15) + Math.max(0, n - 1) * (ex.restSec?.min || 30) + warmup + 45;
+  return n * Math.max(work, 15) + Math.max(0, n - 1) * restSeconds(ex) + warmup + 45;
 }
-export function sessionMinutes(exercises, fullBody = false) {
-  return Math.ceil(((fullBody ? 420 : 120) + exercises.reduce((s, ex) => s + exerciseSeconds(ex), 0)) / 60);
+export function sessionMinutes(exercises, fullBody = false, timingFactor = 1) {
+  return Math.ceil(((fullBody ? 420 : 120) + exercises.reduce((s, ex) => s + exerciseSeconds(ex), 0)) * timingFactor / 60);
 }
 
 export function buildSessionPlan(day, minutes = defaultMinutes(day), settings = DEFAULT_SETTINGS) {
+  const timingFactor = Math.max(1, Math.min(1.5, settings.timingFactor || settings.timingFactors?.[day.isFullBody ? 'strength' : 'other'] || 1));
   const coreIds = [...CORE[day.id]];
   let extras = [...EXTRAS[day.id]];
   if (settings.focus === 'splits') {
@@ -149,8 +155,8 @@ export function buildSessionPlan(day, minutes = defaultMinutes(day), settings = 
     return e;
   };
   const selected = coreIds.map(id => prepare(id, true));
-  const baseMinutes = sessionMinutes(selected, day.isFullBody);
-  const fits = list => sessionMinutes(list, day.isFullBody) <= minutes;
+  const baseMinutes = sessionMinutes(selected, day.isFullBody, timingFactor);
+  const fits = list => sessionMinutes(list, day.isFullBody, timingFactor) <= minutes;
   // Dose the complete core first; extra exercises never displace a main pattern.
   for (let pass = 0; pass < 3; pass++) {
     for (const e of selected) {
@@ -174,9 +180,64 @@ export function buildSessionPlan(day, minutes = defaultMinutes(day), settings = 
   const rank = e => e.type === TYPES.POWER ? 0 : e.type === TYPES.SKILL ? 1 : e.type === TYPES.STRENGTH ? 2 : 3;
   if (day.isFullBody) selected.sort((a, b) => rank(a) - rank(b));
   for (const e of [...selected, ...omitted]) e.dosage = prescription(e);
-  return { version: PLAN_VERSION, dayId: day.id, budgetMinutes: minutes, estimatedMinutes: sessionMinutes(selected, day.isFullBody),
+  return { version: PLAN_VERSION, dayId: day.id, fullBody: day.isFullBody, timingFactor, budgetMinutes: minutes, estimatedMinutes: sessionMinutes(selected, day.isFullBody, timingFactor),
     minimumMinutes: baseMinutes, exercises: selected, optional: omitted,
     warning: baseMinutes > minutes ? `Für den vollständigen Grundblock sind ungefähr ${baseMinutes} Minuten nötig. Wähle mehr Zeit oder speichere die Einheit bei Bedarf als verkürzt. Pausen bleiben erhalten.` : null };
+}
+
+export function remainingSeconds(session, day, now = Date.now()) {
+  const elapsed = activeMilliseconds(session, now) / 1000;
+  let seconds = Math.max(0, (day.isFullBody ? 420 : 120) - elapsed);
+  for (const ex of sessionExercises(session)) {
+    const done = (session.entries[ex.id]?.sets || []).filter(s => !s.isWarmup).length;
+    const left = Math.max(0, plannedSets(ex) - done);
+    if (!left) continue;
+    if (ex.durationSec) { seconds += ex.durationSec.min + 30; continue; }
+    const perSet = Math.max(15, ((ex.reps?.max || 0) * (ex.type === TYPES.POWER ? 2 : 4) + (ex.holdSec?.max || 0)) * (ex.perSide ? 2 : 1));
+    const warmup = done ? 0 : ({ heavy: 180, moderate: 90, power: 90, light: 30 }[ex.warmup] || 0);
+    seconds += left * perSet + Math.max(0, left - (done ? 0 : 1)) * restSeconds(ex) + warmup + 45;
+  }
+  return Math.ceil(seconds * (session.planSnapshot?.timingFactor || 1));
+}
+
+export function replanRemaining(session, day, minutes, now = Date.now()) {
+  const plan = copy(session.planSnapshot), entries = session.entries || {};
+  const done = ex => (entries[ex.id]?.sets || []).filter(s => !s.isWarmup);
+  const draftCount = ex => Math.max(0, ...Object.entries(entries[ex.id]?.drafts || {}).filter(([,v]) => Object.values(v).some(x => x != null && x !== '' && x !== false)).map(([k]) => Number(k) + 1));
+  const complete = ex => done(ex).length >= plannedSets(ex);
+  const minimum = ex => {
+    const slotCount = Math.max(0, ...done(ex).map((s,i) => (s.slotIndex ?? i) + 1), draftCount(ex));
+    const dirs = ex.directions?.length || 1;
+    if (dirs > 1 && slotCount) return ex.sets;
+    return Math.max(Math.ceil(slotCount / dirs), Math.min(ex.sets || 1, ex.core && day.isFullBody ? 2 : 1));
+  };
+  const available = Math.max(0, minutes * 60 - activeMilliseconds(session, now) / 1000);
+  const fits = () => remainingSeconds({ ...session, planSnapshot: plan }, day, now) <= available;
+  // Remove unstarted extras first. Never lose a saved set or an input draft.
+  if (!fits()) for (let i = plan.exercises.length - 1; i >= 0 && !fits(); i--) {
+    const ex = plan.exercises[i], entry = entries[ex.id];
+    if (!ex.core && !done(ex).length && !draftCount(ex) && !Object.values(entry?.formDraft || {}).some(v => v != null && v !== '')) {
+      plan.exercises.splice(i, 1); plan.optional ||= []; plan.optional.push(ex);
+    }
+  }
+  while (!fits()) {
+    const candidate = [...plan.exercises].reverse().find(ex => ex.sets && !complete(ex) && ex.sets > minimum(ex));
+    if (!candidate) break;
+    candidate.sets--;
+  }
+  if (minutes > (session.planSnapshot.budgetMinutes || minutes)) {
+    for (let pass = 0; pass < 3; pass++) for (const ex of plan.exercises) {
+      // Once work has been logged, a longer budget does not add sets to it.
+      if (!ex.sets || done(ex).length || ex.sets >= (ex.targetSets || ex.sets)) continue;
+      ex.sets++; if (!fits()) ex.sets--;
+    }
+  }
+  for (const ex of plan.exercises) ex.dosage = prescription(ex);
+  plan.budgetMinutes = minutes;
+  plan.estimatedMinutes = sessionMinutes(plan.exercises, day.isFullBody, plan.timingFactor || 1);
+  plan.remainingMinutes = Math.ceil(remainingSeconds({ ...session, planSnapshot: plan }, day, now) / 60);
+  plan.warning = !fits() ? `Der verbleibende Grundblock braucht etwa ${plan.remainingMinutes} Minuten. Erledigte Sätze und Eingaben bleiben erhalten; bei Zeitende kannst du verkürzt speichern. Satzpausen werden nicht gekürzt.` : null;
+  return plan;
 }
 
 export function sessionExercises(session) {

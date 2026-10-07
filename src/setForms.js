@@ -1,5 +1,6 @@
 import { h, fmtRepRange } from './ui.js';
 import { TYPES } from './plan.js';
+import { loadSpec, loadText, splitSides } from './measurements.js';
 
 // Baut das Eingabeformular für einen neuen Satz, passend zum Übungstyp.
 // Gibt { el, read } zurück. read() liefert das Satz-Objekt oder null (ungültig).
@@ -41,7 +42,7 @@ function readText(id) {
   return el && el.value ? el.value.trim() : null;
 }
 
-export function buildSetForm(exercise, defaults = {}) {
+export function buildSetForm(exercise, defaults = {}, { legacy = false } = {}) {
   const uidBase = 'f_' + Math.random().toString(36).slice(2, 8);
   const ids = {
     weight: uidBase + '_w', reps: uidBase + '_r', rir: uidBase + '_rir', tech: uidBase + '_tech',
@@ -151,18 +152,44 @@ export function buildSetForm(exercise, defaults = {}) {
   }
 
   const el = h('div', { class: 'set-form-fields' }, fields);
-  return { el, read };
+  const legacySides = legacy && exercise.perSide && !splitSides(exercise, defaults);
+  const sideIds = {};
+  if (exercise.perSide && !legacySides) for (const [key, id, label] of [['reps', ids.reps, 'Wiederholungen'], ['holdSec', ids.hold, 'Haltezeit (s)']]) {
+    if (!exercise[key]) continue;
+    const original = fields.find(field => field.querySelector?.('input')?.id === id);
+    if (!original) continue;
+    sideIds[key] = [id + '_left', id + '_right'];
+    original.replaceWith(...['Left', 'Right'].map((side,i) => numInput({ id: sideIds[key][i], label: label + (i ? ' rechts' : ' links'), step: '1', value: defaults[key + side] })));
+  }
+  const spec = loadSpec(exercise);
+  const weightField = el.querySelector(`#${ids.weight}`);
+  if (weightField) {
+    if (!spec) weightField.parentElement.remove();
+    else weightField.parentElement.querySelector('span').textContent = spec.label;
+  }
+  const readFields = read;
+  read = () => {
+    const values = readFields();
+    for (const [key, ids] of Object.entries(sideIds)) { values[key] = null; values[key + 'Left'] = readNum(ids[0]); values[key + 'Right'] = readNum(ids[1]); }
+    if (spec && (!legacy || defaults.weightConvention)) values.weightConvention = defaults.weightConvention || spec.kind;
+    if (!spec) delete values.weightKg;
+    return values;
+  };
+  if (legacySides) el.prepend(h('p', { class: 'muted small' }, 'Dieser ältere Satz enthält einen gemeinsamen Wert je Seite; er bleibt in dieser Form erhalten. Neue Sätze erfassen links und rechts getrennt.'));
+  return { el, read, legacySides };
 }
 
 export function formatLoggedSet(exercise, set) {
   const parts = [];
-  if (set.weightKg != null) parts.push(`${set.weightKg} kg`);
-  if (set.reps != null) parts.push(`${set.reps} Wdh`);
+  if (set.weightKg != null) parts.push(set.weightConvention ? loadText(exercise, set.weightKg, set.weightConvention) : `${set.weightKg} kg (frühere Angabe)`);
+  if (set.repsLeft != null || set.repsRight != null) parts.push(`L ${set.repsLeft ?? '–'} / R ${set.repsRight ?? '–'} Wdh`);
+  else if (set.reps != null) parts.push(`${set.reps} Wdh${exercise.perSide ? ' je Seite (gemeinsam erfasst)' : ''}`);
   if (set.direction) parts.push(set.direction);
   if (set.resistance) parts.push('Widerstand: ' + set.resistance);
   if (set.effort) parts.push('Anstrengung: ' + set.effort);
   if (set.rir) parts.push(`RIR ${set.rir}`);
-  if (set.holdSec != null) parts.push(`${set.holdSec}s halten`);
+  if (set.holdSecLeft != null || set.holdSecRight != null) parts.push(`L ${set.holdSecLeft ?? '–'} / R ${set.holdSecRight ?? '–'} s halten`);
+  else if (set.holdSec != null) parts.push(`${set.holdSec}s halten${exercise.perSide ? ' je Seite (gemeinsam erfasst)' : ''}`);
   if (set.support) parts.push(set.support);
   if (set.romPosition) parts.push(`ROM ${set.romPosition}`);
   if (set.durationSec != null) parts.push(`${Math.round(set.durationSec / 60)} min`);

@@ -1,8 +1,9 @@
-import { buildSessionPlan, defaultMinutes, timeOptions, sessionExercises, plannedSets } from '../training.js';
+import { buildSessionPlan, defaultMinutes, timeOptions, sessionExercises, plannedSets, remainingSeconds } from '../training.js';
 import { h, typeIcon } from '../ui.js';
 import { PLAN, estimateDurationMin, iconFor } from '../plan.js';
 import { getCurrentDay, getCurrentProgramState, getRecoveryHint, skipCurrentDay } from '../state.js';
-import { getActiveSession, clearActiveSession, getSettings, saveSettings } from '../db.js';
+import { getActiveSession, clearActiveSession, getSettings, saveSettings, getAllSessionLogs } from '../db.js';
+import { timingSettings, activeMilliseconds } from '../sessionClock.js';
 import { navigate } from '../app.js';
 
 const SKIP_REASONS = ['Verletzung / Beschwerden', 'Equipment nicht verfügbar', 'Zeit', 'Sonstiges'];
@@ -21,13 +22,13 @@ export async function renderHome() {
   const overlayHost = h('div', {});
   wrap.appendChild(overlayHost);
 
-  const settings = await getSettings();
+  const settings = timingSettings(await getSettings(), await getAllSessionLogs());
   const planned = active?.planSnapshot || buildSessionPlan(day, defaultMinutes(day, settings), settings);
   const todayExercises = active ? sessionExercises(active) : planned.exercises;
   const exCount = todayExercises.length;
   const durationMin = planned.estimatedMinutes || estimateDurationMin(day);
 
-  wrap.appendChild(h('p', { class: 'section-title' }, active ? 'TRAINING LÄUFT' : 'HEUTE'));
+  wrap.appendChild(h('p', { class: 'section-title' }, active ? active.clock?.paused ? 'TRAINING PAUSIERT' : 'TRAINING LÄUFT' : 'HEUTE'));
 
   if (active) {
     const doneCount = todayExercises.filter((exx) => {
@@ -40,7 +41,7 @@ export async function renderHome() {
         h('div', { class: 'exercise-icon-badge today-icon' }, typeIcon(iconFor(day.blocks[0].exercises[0]), day.blocks[0].exercises[0].id)),
         h('div', {}, [
           h('h2', {}, day.name + (day.subtitle ? ' — ' + day.subtitle : '')),
-          h('p', { class: 'muted small' }, `ca. ${durationMin} Min · ${exCount} Übungen`),
+          h('p', { class: 'muted small' }, active.clock ? `${Math.floor(activeMilliseconds(active) / 60000)} Min aktiv · noch ca. ${Math.ceil(remainingSeconds(active, day) / 60)} Min` : `ca. ${durationMin} Min · ${exCount} Übungen`),
         ]),
       ]),
       h('div', { class: 'progress-track' }, [h('div', { class: 'progress-fill', style: `width:${pct}%` })]),

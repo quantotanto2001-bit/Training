@@ -2,7 +2,19 @@
 
 Private Trainingsplanung als statische, offlinefähige Web-App: [App öffnen](https://quantotanto2001-bit.github.io/Training/).
 
-## Version 4
+## Version 4.1
+
+- Gewichtsangabe direkt an den Sätzen: je Kurzhantel, Gesamtlast, Kabelanzeige oder Zusatzgewicht. Belastete Übungen verlangen eine gültige Last; zulässige Varianten ohne Zusatzgewicht können 0 verwenden. Frühere uneindeutige kg-Werte werden erst nach einer ausdrücklichen Bestätigung für Empfehlungen verwendet und nicht umgerechnet.
+- Vorschlag für heute und verfügbarer Gewichtsschritt sind sichtbar. Sätze haben beschriftete Speichern-/Ändern-Knöpfe; Technik und RIR bleiben freiwillig aufklappbar.
+- Einseitige Übungen erfassen links und rechts getrennt, einschließlich Haltezeiten. Die schwächere Seite bestimmt die Laststeigerung. Alte gemeinsame Seitenwerte bleiben als solche lesbar und bearbeitbar.
+- Zeitplanung nutzt die Mitte der vorgegebenen Pausenbereiche. Ab drei vollständig und aktiv erfassten vergleichbaren Einheiten berücksichtigt sie den tatsächlichen Zeitbedarf. Der begrenzte Korrekturfaktor kürzt keine Pausen und wird getrennt für Kraft- und übrige Einheiten ermittelt.
+- Das Zeitbudget ist auch während einer Einheit änderbar. Die verbleibende Planung entfernt zuerst unbegonnene Ergänzungen, dann zusätzliche Sätze. Gespeicherte Sätze, Varianten und Eingaben bleiben erhalten; absolvierte Übungen bekommen durch ein größeres Budget keine neuen Pflichtsätze. Ein zu knappes Budget erhält einen konkreten Hinweis.
+- Die aktive Dauer schließt ausdrücklich pausierte Trainingsunterbrechungen aus und übersteht Neuladen. Satzpausen und ein normaler Appwechsel zählen weiter. Bei älteren laufenden Einheiten beginnt diese Erfassung mit dem Update; ihre vorherige aktive Dauer wird nicht erfunden.
+- Wiederholt verfehlte Zielbereiche oder Ausführungsverlust in zwei vergleichbaren Einheiten können einen leichteren Gewichtsschritt oder einen Satz weniger vorschlagen. Drei vergleichbare Einheiten ohne zusätzliche Wiederholung geben einen erklärten Stillstandshinweis. Verkürzte, unvollständige Vorgaben gelten dafür nicht als Misserfolg. Diese konservativen Regeln sind praktische Heuristiken, keine wissenschaftlich nachgewiesene optimale individuelle Dosierung oder automatische Erholungsdiagnose.
+- Fortschritt zeigt bestätigte Laststeigerungen trotz zunächst geringerer Wiederholungen im Zielbereich, zusätzliche Wiederholungen, Haltezeiten und die getrennten Seitenwerte. Vergleiche bleiben auf dieselbe Variante, denselben Aufbau, dieselbe Gewichtsangabe und gleiche Satzzahl beschränkt.
+- Halte- und Pausentimer bewahren den Abschlusszustand nach einem Neuladen. Ein verpasster Ablauf wird angezeigt, ohne einen verspäteten Alarmton zu wiederholen. Keine externe Datensicherung oder Cloud-Synchronisierung wurde ergänzt.
+
+## Grundfunktionen
 
 - Drei Bereiche: Training, Fortschritt und Einstellungen.
 - Flexibler Zyklus mit sechs Einheiten; das ist keine Vorgabe für sechs Trainingstage pro Woche.

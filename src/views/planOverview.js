@@ -1,5 +1,6 @@
 import { buildSessionPlan, defaultMinutes } from '../training.js';
-import { getSettings } from '../db.js';
+import { getSettings, getAllSessionLogs } from '../db.js';
+import { timingSettings } from '../sessionClock.js';
 import { h, fmtRestRange, matchBadge, openVideoModal } from '../ui.js';
 import { PLAN, TYPE_LABELS } from '../plan.js';
 import { getCurrentProgramState } from '../state.js';
@@ -31,7 +32,7 @@ export async function renderPlanOverview() {
     })),
   ]));
 
-  const settings = await getSettings();
+  const settings = timingSettings(await getSettings(), await getAllSessionLogs());
   for (const originalDay of PLAN) {
     const planned = buildSessionPlan(originalDay, defaultMinutes(originalDay, settings), settings);
     const day = { ...originalDay, blocks: [{ title: 'Geplant für dein Zeitbudget', exercises: planned.exercises }, { title: 'Optionale Ergänzungen', exercises: planned.optional }] };

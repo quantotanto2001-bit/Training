@@ -1,8 +1,10 @@
 import { h, fmtDate } from '../ui.js';
 import { TYPES } from '../plan.js';
-import { getAllSessionLogs, getExerciseHistory } from '../db.js';
+import { getAllSessionLogs, getExerciseHistory, getExerciseNote } from '../db.js';
 import { entryExercise, historyKey, groupFor, GROUP_LABELS } from '../training.js';
 import { formatLoggedSet } from '../setForms.js';
+import { historicalLoads, effectiveValue } from '../measurements.js';
+import { comparePerformance, adaptationFor } from '../progression.js';
 
 export function weeklySummary(logs, now = new Date()) {
   const start = new Date(now); start.setHours(0, 0, 0, 0); start.setDate(start.getDate() - (start.getDay() + 6) % 7);
@@ -47,7 +49,7 @@ export async function renderProgressList() {
   return wrap;
 }
 export async function renderProgressDetail(rawId) {
-  const id = decodeURIComponent(rawId), history = await getExerciseHistory(id);
+  const id = decodeURIComponent(rawId), history = await getExerciseHistory(id), note = await getExerciseNote(id);
   const ex = history[0]?.exercise;
   if (!ex) return h('div', { class: 'view' }, [h('a', { href: '#/progress' }, '← Fortschritt'), h('p', {}, 'Noch keine Daten für diese Variante.')]);
   const wrap = h('div', { class: 'view' }, [h('a', { href: '#/progress', class: 'back-link' }, '← Fortschritt'), h('h1', {}, ex.name)]);
@@ -55,13 +57,18 @@ export async function renderProgressDetail(rawId) {
   const content = h('div', { class: 'view' });
   function render(setup) {
     content.replaceChildren();
-    const rows = history.filter(row => row.setup === setup);
+    const rows = historicalLoads(ex, history.filter(row => row.setup === setup), note.legacyWeightConventions?.[setup]);
     content.appendChild(h('p', { class: 'muted small' }, 'Nur diese Übungsvariante und dieser Aufbau werden verglichen. Mehr Gewicht oder Haltezeit allein ist kein Nachweis besserer Ausführung.'));
-    if (rows.length >= 2 && ex.type === TYPES.STRENGTH) {
-      const a = rows[0].sets.filter(s => !s.isWarmup), b = rows[1].sets.filter(s => !s.isWarmup);
-      if (a.length === b.length && a.length && a.every((s, i) => s.weightKg === b[i].weightKg && Number.isFinite(s.reps) && Number.isFinite(b[i].reps) && !s.technikverlust && !b[i].technikverlust)) {
-        const delta = a.reduce((n, s) => n + s.reps, 0) - b.reduce((n, s) => n + s.reps, 0);
-        content.appendChild(h('p', { class: 'hint-box small' }, `Bei gleichen Gewichten und gleicher Satzzahl: ${delta > 0 ? '+' : ''}${delta} Wiederholungen gegenüber der vorherigen Einheit. Einzelne Tagesunterschiede nicht überbewerten.`));
+    const comparison = comparePerformance(ex, rows[0], rows[1]);
+    if (comparison) content.appendChild(h('p', { class: 'hint-box small' }, comparison.text + ' Einzelne Tagesunterschiede nicht überbewerten.'));
+    const trend = adaptationFor(ex, rows, note.increment);
+    if (trend) content.appendChild(h('p', { class: 'small' }, trend.text));
+    if (ex.perSide) {
+      const key = ex.reps ? 'reps' : 'holdSec', recent = rows[0]?.sets.filter(s => !s.isWarmup) || [];
+      const pairs = recent.filter(s => Number.isFinite(s[key+'Left']) && Number.isFinite(s[key+'Right']));
+      if (pairs.length) {
+        const left = pairs.reduce((n,s) => n+s[key+'Left'],0), right = pairs.reduce((n,s) => n+s[key+'Right'],0);
+        content.appendChild(h('p', { class: 'muted small' }, `Zuletzt links ${left} / rechts ${right} ${key === 'reps' ? 'Wiederholungen' : 'Sekunden'} insgesamt. Für Steigerungen zählt der kleinere Wert je Satz; ein einzelner Seitenunterschied ist keine diagnostizierte Dysbalance.`));
       }
     }
     for (const row of rows) content.appendChild(h('div', { class: 'card' }, [h('div', { class: 'card-label' }, fmtDate(row.date) + (row.status === 'partial' ? ' · verkürzt' : '')), ...row.sets.filter(s => !s.isWarmup).map((s, i) => h('p', { class: 'small' }, `Satz ${i + 1}: ${formatLoggedSet(ex, s)}`))]));
