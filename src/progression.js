@@ -10,7 +10,8 @@ export function progressionFor(exercise, last, increment = null, history = []) {
   if (exercise.type === TYPES.CARDIO) return { status: 'cardio', text: 'Dauer und Strecke bei vergleichbarer Ausdauerform und Intensität betrachten. Locker: zusammenhängende Sätze sprechen können.' };
   if (exercise.type !== TYPES.STRENGTH) return { status: 'mobility', text: 'Bewegungsumfang und Kontrolle vergleichen. Ruhig arbeiten; zusätzliche Last oder tiefere Position nur kontrolliert steigern.' };
   if (!last) return { status: 'no-data', text: 'Erste Vergleichseinheit: ein gut kontrollierbares Arbeitsgewicht wählen und die tatsächlichen Wiederholungen eintragen.' };
-  if (last.loadCompatible === false) return { status: 'confirm-load', text: 'Frühere kg-Werte haben noch keine bestätigte Gewichtsangabe. Bestätige unten, wie du sie eingetragen hast; bis dahin wird daraus kein Gewichtsvorschlag berechnet.' };
+  const spec = loadSpec(exercise);
+  if (last.loadCompatible === false || (spec?.confirmLegacy && last.sets.some(s => !s.isWarmup && s.weightConvention !== spec.kind))) return { status: 'confirm-load', text: 'Frühere kg-Werte haben noch keine bestätigte Gewichtsangabe. Für eine Empfehlung müssen die Werte eindeutig zur angegebenen Last gehören. Alte Angaben bleiben erhalten.' };
   const sets = last.sets.filter(s => !s.isWarmup && effectiveValue(exercise, s) != null);
   if (!sets.length) return { status: 'no-data', text: 'Noch keine vergleichbaren Arbeitssätze gespeichert.' };
   const lastWeight = sets.at(-1).weightKg;
@@ -40,13 +41,15 @@ export function setDefaults(exercise, currentSets, last) {
   const work = currentSets.filter(s => !s.isWarmup);
   const previous = work.at(-1) || (last?.loadCompatible !== false ? last?.sets.filter(s => !s.isWarmup)[0] : null) || {};
   // History is a reference, not a newly performed set or a fresh effort rating.
-  return { weightKg: previous.weightKg ?? null, resistance: previous.resistance || '', setup: previous.setup || '',
+  const spec = loadSpec(exercise), unconfirmed = spec?.confirmLegacy && previous.weightConvention !== spec.kind;
+  return { weightKg: unconfirmed ? null : previous.weightKg ?? null, resistance: previous.resistance || '', setup: previous.setup || '',
     durationMin: previous.durationSec ? previous.durationSec / 60 : null };
 }
 
 function comparableRows(ex, history) {
+  const spec = loadSpec(ex);
   return history.filter(row => row.loadCompatible !== false).map(row => ({ ...row, work: row.sets.filter(s => !s.isWarmup) }))
-    .filter(row => row.work.length >= Math.max(plannedSets(ex), row.plannedSets || 0) && (row.status !== 'partial' || row.plannedSets) && row.work.every(s => effectiveValue(ex, s) != null && validWeight(ex, s.weightKg) && (!ex.perSide || splitSides(ex, s))));
+    .filter(row => row.work.length >= Math.max(plannedSets(ex), row.plannedSets || 0) && (row.status !== 'partial' || row.plannedSets) && row.work.every(s => effectiveValue(ex, s) != null && validWeight(ex, s.weightKg) && (!spec?.confirmLegacy || s.weightConvention === spec.kind) && (!ex.perSide || splitSides(ex, s))));
 }
 const sameLoad = (a,b) => a.length === b.length && a.every((s,i) => s.weightKg === b[i].weightKg && (s.weightConvention || '') === (b[i].weightConvention || ''));
 const qualityLost = row => row.quality === 'loss' || row.feedback === 'limit' || row.work.some(s => s.technikverlust);

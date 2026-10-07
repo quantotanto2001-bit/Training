@@ -496,9 +496,10 @@ html, body {
 .today-suggestion { padding: 14px; background: var(--bg-inset); border: 1px solid var(--line); border-radius: 12px; }
 .today-suggestion p { margin: 8px 0; line-height: 1.5; }
 .today-suggestion .btn { margin: 6px 0; }
-.increment-field { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
+.increment-field { display: flex; flex-direction: row; align-items: center; gap: 12px; margin-top: 10px; }
 .increment-field span { flex: 1; min-width: 0; }
 .increment-field input { width: 72px; min-width: 0; flex: 0 0 72px; }
+.increment-field input::-webkit-inner-spin-button, .increment-field input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .weight-convention p { margin: 6px 0; line-height: 1.4; }
 .workout-clock { font-variant-numeric: tabular-nums; }
 .timer-completed { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; font-size: .85rem; }

@@ -101,7 +101,7 @@ export async function renderWorkout() {
         settings = { ...settings, [day.isFullBody ? 'strengthMinutes' : 'otherMinutes']: min };
         active.planSnapshot = started ? replanRemaining(active, day, min) : buildSessionPlan(day, min, settings);
         if (started) {
-          for (const ex of exercises()) if (active.entries[ex.id]) active.entries[ex.id].plannedSets = plannedSets(ex);
+          for (const ex of exercises()) if (active.entries[ex.id]) { active.entries[ex.id].plannedSets = plannedSets(ex); if (active.entries[ex.id].exercise) active.entries[ex.id].exercise = clone(ex); }
           stepIndex = Math.max(0, exercises().findIndex(ex => ex.id === currentId));
         }
         await saveSettings(settings); await persist(); await render();
@@ -126,8 +126,10 @@ export async function renderWorkout() {
     ])));
     box.appendChild(list);
     if (plan.optional?.length) box.appendChild(detail('Weitere Übungen bei Bedarf', [h('p', { class: 'muted small' }, 'Ergänzungen verlängern die Dauer. Du musst sie nicht nachholen.'), ...plan.optional.map(ex => h('div', { class: 'optional-exercise-row' }, [renderExerciseThumbnail(ex), h('button', { class: 'optional-row', onclick: async () => {
+      const currentId = exercises()[stepIndex]?.id;
       exercises().push(ex);
       if (day.isFullBody) exercises().sort((a, b) => (a.type === TYPES.POWER ? 0 : a.type === TYPES.SKILL ? 1 : 2) - (b.type === TYPES.POWER ? 0 : b.type === TYPES.SKILL ? 1 : 2));
+      stepIndex = Math.max(0, exercises().findIndex(e => e.id === currentId));
       plan.optional = plan.optional.filter(e => e.id !== ex.id); await persist(); await render();
     } }, `${ex.name} · hinzufügen`)]))]));
     box.appendChild(h('button', { class: 'btn btn-primary btn-block', onclick: () => show(Math.max(0, exercises().findIndex(ex => !completed(ex)))) }, started ? 'Training fortsetzen' : 'Training beginnen'));
@@ -264,7 +266,7 @@ function setTable(ex, entry, last, onSave, saveDraft) {
   const spec = loadSpec(ex), hasWeight = !!spec;
   const hasReps = !!ex.reps, hasHold = !!ex.holdSec;
   const sideCount = ex.perSide ? 2 : 1;
-  const style = `grid-template-columns: 26px repeat(${Number(hasWeight) + (Number(hasReps) + Number(hasHold)) * sideCount}, minmax(0, 1fr)) 76px`;
+  const style = `grid-template-columns: 32px repeat(${Number(hasWeight) + (Number(hasReps) + Number(hasHold)) * sideCount}, minmax(0, 1fr)) 76px`;
   if (spec) wrap.appendChild(h('div', { class: 'weight-convention' }, [h('strong', { class: 'small' }, spec.label), h('p', { class: 'muted small' }, spec.hint)]));
   if (ex.perSide) wrap.appendChild(h('p', { class: 'muted small' }, 'Links und rechts getrennt eintragen. Mit der schwächeren Seite beginnen; für Gewichtsvorschläge zählt der kleinere Wert.'));
   wrap.appendChild(h('div', { class: 'set-table-header', style }, [h('span', {}, 'Satz'), ...(hasWeight ? [h('span', {}, 'kg')] : []), ...(hasReps ? (ex.perSide ? ['L Wdh.', 'R Wdh.'] : ['Wdh.']).map(label => h('span', {}, label)) : []), ...(hasHold ? (ex.perSide ? ['L Sek.', 'R Sek.'] : ['Sek.']).map(label => h('span', {}, label)) : []), h('span', {}, '')]));

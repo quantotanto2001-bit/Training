@@ -350,6 +350,7 @@ test('unilateral reps survive reload and changing the remaining budget preserves
   expect(active.planSnapshot.budgetMinutes).toBe(45);expect(active.entries['mo-splitsquat'].sets).toHaveLength(1);
   expect(active.entries['mo-splitsquat'].sets[0].repsRight).toBe(9);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.locator('.set-table').evaluate(el=>el.scrollIntoView({block:'start'}));
   await page.screenshot({path:`test-results/previews/links-rechts-${info.project.name}.png`});
 });
 
@@ -360,9 +361,9 @@ test('an explicit workout pause excludes time at home and remains paused after r
   await expect(page.getByText('TRAINING PAUSIERT',{exact:true})).toBeVisible();
   await page.clock.runFor(900000);await page.reload();
   await expect(page.getByText('TRAINING PAUSIERT',{exact:true})).toBeVisible();
-  await page.getByRole('link',{name:'Training fortsetzen',exact:true}).click();
-  await expect(page.getByRole('button',{name:'Training fortsetzen',exact:true})).toBeVisible();
-  await page.getByRole('button',{name:'Training fortsetzen',exact:true}).click();
+  await page.getByRole('link',{name:/^Training fortsetzen/}).click();
+  await expect(page.getByRole('button',{name:/^Training fortsetzen/})).toBeVisible();
+  await page.getByRole('button',{name:/^Training fortsetzen/}).click();
   await page.clock.runFor(60000);
   const elapsed=await page.evaluate(async()=>{const a=await(await import('/src/db.js')).getActiveSession();return(await import('/src/sessionClock.js')).activeMilliseconds(a);});
   expect(elapsed).toBeGreaterThanOrEqual(120000);expect(elapsed).toBeLessThan(130000);

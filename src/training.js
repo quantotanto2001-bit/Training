@@ -225,6 +225,12 @@ export function replanRemaining(session, day, minutes, now = Date.now()) {
     if (!candidate) break;
     candidate.sets--;
   }
+  while (!fits()) {
+    const cardio = plan.exercises.find(ex => ex.type === TYPES.CARDIO && !done(ex).length && !Object.values(entries[ex.id]?.formDraft || {}).some(v => v != null && v !== '') && ex.durationSec.min > (day.id === 'di' ? 900 : 600));
+    if (!cardio) break;
+    cardio.durationSec.min = Math.max(day.id === 'di' ? 900 : 600, cardio.durationSec.min - 300);
+    cardio.durationSec.max = cardio.durationSec.min;
+  }
   if (minutes > (session.planSnapshot.budgetMinutes || minutes)) {
     for (let pass = 0; pass < 3; pass++) for (const ex of plan.exercises) {
       // Once work has been logged, a longer budget does not add sets to it.

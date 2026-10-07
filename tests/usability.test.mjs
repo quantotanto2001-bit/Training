@@ -35,11 +35,11 @@ test('old dumbbell weights need explicit confirmation and are never silently con
 
 test('both sides must reach the upper target; old aggregate side logs remain visible', () => {
   const ex=resolveExercise('mo-splitsquat'); ex.sets=2;
-  const row={plannedSets:2,status:'completed',sets:[{weightKg:5,repsLeft:10,repsRight:9},{weightKg:5,repsLeft:10,repsRight:10}]};
+  const row={plannedSets:2,status:'completed',sets:[{weightKg:5,weightConvention:'per-dumbbell',repsLeft:10,repsRight:9},{weightKg:5,weightConvention:'per-dumbbell',repsLeft:10,repsRight:10}]};
   assert.equal(effectiveValue(ex,row.sets[0]),9);
   assert.equal(progressionFor(ex,row,1).status,'keep');
   row.sets[0].repsRight=10; assert.equal(progressionFor(ex,row,1).suggestedWeight,6);
-  const old={...row,sets:[{weightKg:5,reps:10},{weightKg:5,reps:10}]};
+  const old={...row,sets:[{weightKg:5,weightConvention:'per-dumbbell',reps:10},{weightKg:5,weightConvention:'per-dumbbell',reps:10}]};
   assert.equal(progressionFor(ex,old,1).status,'keep');
   assert.match(formatLoggedSet(ex,old.sets[0]),/gemeinsam erfasst/);
 });
@@ -101,4 +101,15 @@ test('planning uses the middle of the rest range and calibration excludes pauses
   assert.equal(timingProfile([log,log,{...log,dateBackfilled:true}],true).factor,1);
   assert.equal(timingProfile([log,log,{...log,status:'partial'}],true).factor,1);
   assert.equal(timingProfile([log,log,log],false).factor,1);
+});
+
+test('a shorter endurance budget reduces only unlogged duration and preserves typed duration',()=>{
+ const day=PLAN.find(d=>d.id==='di'),session={planSnapshot:buildSessionPlan(day,45),entries:{}};
+ startClock(session,0);
+ const shorter=replanRemaining(session,day,20,0), cardio=shorter.exercises.find(e=>e.type==='cardio');
+ assert.ok(cardio.durationSec.min<=1200);assert.ok(shorter.remainingMinutes<=20 || shorter.warning);
+ session.entries['di-cardio']={sets:[],formDraft:{durationSec:1800,durationMin:30}};
+ const protectedPlan=replanRemaining(session,day,20,0);
+ assert.equal(protectedPlan.exercises.find(e=>e.id==='di-cardio').durationSec.min,session.planSnapshot.exercises.find(e=>e.id==='di-cardio').durationSec.min);
+ assert.equal(session.entries['di-cardio'].formDraft.durationSec,1800);
 });
