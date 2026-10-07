@@ -1,0 +1,12 @@
+{
+  "mesh_vertices": 19158,
+  "visible_triangles": 26756,
+  "source": "MakeHuman core assets, CC0",
+  "frames": 80,
+  "fps": 16,
+  "checked_pose_samples": 81,
+  "arm_vertices_inside_pad": 0,
+  "minimum_sampled_arm_vertex_pad_distance_m": 0.06439918486147851,
+  "maximum_limb_length_error_m": 1.6653345369377348e-16,
+  "limitations": "Vertex sample check is not a complete triangle collision solver or biomechanical validation."
+}

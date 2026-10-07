@@ -1,5 +1,21 @@
 # Bankdrücken: geometrischer 3D-Prototyp
 
+## Neues menschliches Modell (07.10.2026)
+
+`bench-human.mp4` und `bench-human.gif` verwenden die detaillierte CC0-Körperoberfläche, das Skelett und die Hautgewichte aus den MakeHuman-Core-Assets. `human.py` setzt diese mit eigener inverser Kinematik und linearem Skinning in die Bankdrück-Pose; `animate-human.py` rendert die Schleife und prüft 81 Posen. Graue Oberfläche, dunkle Shorts/Schuhe und rote Brustmarkierung orientieren sich an der vom Nutzer vorgegebenen Fitness-Illustration. Dies ist eine stilistische Annäherung, keine Kopie des Shutterstock-Clips und keine Animation aus dessen Originalmodell.
+
+Der neue Renderer verwendet einen Tiefenpuffer je Pixel und interpolierte Oberflächennormalen. Er beseitigt die falsche Überdeckung zwischen Arm und Bank im alten Flächensortierer. Die Prüfung zählt Körperpunkte mit überwiegendem Arm-Einfluss innerhalb des Bankpolsters und prüft konstante Knochenlängen; sie ist keine vollständige Kollisionsprüfung sämtlicher Dreiecke. Die untere, mittlere und obere Pose wurden zusätzlich aus zwei Blickwinkeln betrachtet (`human-review.png`). Fingerbewegung, Muskelmarkierung und Schulterbewegung sind weiterhin illustrative Vereinfachungen. Keine fachliche Freigabe als Technikanleitung.
+
+Wiederherstellung: `python animate-human.py`. `human-source.zip` enthält die vollständigen Quelltexte und benötigten CC0-Assets einschließlich Lizenztexten. Die Live-App wurde noch nicht umgestellt.
+
+### Herkunft
+
+- [MakeHuman Core-Repository](https://github.com/makehumancommunity/makehuman): `makehuman/data/3dobjs/base.obj`, `data/rigs/default.mhskel`, `data/rigs/default_weights.mhw`.
+- Morphs: `caucasian-male-young.target`, `universal-male-young-maxmuscle-minweight.target` aus `data/targets/macrodetails`.
+- [Asset-Lizenz](https://github.com/makehumancommunity/makehuman/blob/master/LICENSE.md): mitgelieferte Modell-Assets unter CC0 1.0. Originalhinweise in `human-assets/LICENSE.md` und `human-assets/LICENSE.ASSETS.md`.
+
+## Historischer einfacher Prototyp
+
 Eigenständig erstellte Low-Poly-Figur mit festem Rumpf, zwei Armsegmenten pro Seite und inverser Kinematik. Hände und Kurzhanteln benutzen dieselbe lokale Transformation. Keine KI-Bildinterpolation, keine Fremdmodelle. Dies ist ein Bewegungs-/Darstellungsprototyp zur Beurteilung durch den Nutzer, keine freigegebene Technikanleitung. Die Live-App verwendet weiterhin die bisherige Animation.
 
 ## Dateien
