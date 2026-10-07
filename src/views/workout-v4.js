@@ -21,7 +21,7 @@ const clone = x => JSON.parse(JSON.stringify(x));
 const suggestionHeading = status => ({
   'no-data': 'Arbeitsgewicht wählen', 'confirm-load': 'Frühere Gewichte bestätigen',
   increase: 'Steigerung möglich', keep: 'Gewicht bestätigen', difficulty: 'Schwierigkeit prüfen',
-  adjust: 'Heute leichter testen', plateau: 'Verlauf prüfen', quality: 'Schnell und sauber',
+  adjust: 'Belastung anpassen', plateau: 'Verlauf prüfen', quality: 'Schnell und sauber',
   hold: 'Position und Widerstand bestätigen', skill: 'Kontrollierte Versuche',
   cardio: 'Dauer und Intensität bestätigen', mobility: 'Kontrollierter Bewegungsumfang',
 })[status] || 'Vorschlag für heute';
@@ -65,12 +65,22 @@ export async function renderWorkout() {
   timer.onDone = completionSound;
   const holdTimer = new RestTimer({ sessionId: active.timerSessionId, storageKey: 'universal-athlete-hold-timer', onDone: completionSound });
   const wrap = h('div', { class: 'view workout-view' });
+  const updateKeyboard = () => {
+    const focused = document.activeElement;
+    const editing = wrap.contains(focused) && focused?.matches('input, select, textarea');
+    // A focused input alone does not mean a software keyboard is open (desktop,
+    // hardware keyboard, or dismissed iPhone keyboard). Keep navigation usable.
+    wrap.classList.toggle('keyboard-open', !!editing && !!window.visualViewport && window.innerHeight - window.visualViewport.height > 120);
+  };
+  window.visualViewport?.addEventListener('resize', updateKeyboard);
+  wrap.addEventListener('focusin', updateKeyboard);
+  wrap.addEventListener('focusout', updateKeyboard);
   const error = h('p', { class: 'save-error', role: 'alert', hidden: '' });
   const content = h('div', {}); wrap.append(error, content);
   let clockLabel = null;
   const clockText = () => `${Math.floor(activeMilliseconds(active) / 60000)} Min aktiv · noch etwa ${Math.ceil(remainingSeconds(active, day) / 60)} Min${active.clock?.paused ? ' · pausiert' : ''}`;
   const clockLoop = setInterval(() => { if (clockLabel && started) clockLabel.textContent = clockText(); }, 10000);
-  wrap.dispose = () => { renderToken++; clearInterval(clockLoop); timer.dispose(); holdTimer.dispose(); holdAudio?.close().catch(() => {}); closeExerciseMedia(); };
+  wrap.dispose = () => { renderToken++; clearInterval(clockLoop); timer.dispose(); holdTimer.dispose(); holdAudio?.close().catch(() => {}); closeExerciseMedia(); window.visualViewport?.removeEventListener('resize', updateKeyboard); };
   const exercises = () => active.planSnapshot.exercises;
   const doneSets = ex => (active.entries[ex.id]?.sets || []).filter(s => !s.isWarmup);
   const completed = ex => doneSets(ex).length >= plannedSets(ex);

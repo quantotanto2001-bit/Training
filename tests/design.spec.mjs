@@ -16,7 +16,7 @@ test('focused training keeps real inputs, timers and navigation reachable on nar
   await page.locator('.exercise-thumbnail img').evaluateAll(images => Promise.all(images.map(img => img.decode())));
   await page.screenshot({ path: `test-results/previews/design-training-${info.project.name}.png` });
   await reps.fill('7');
-  await expect(page.locator('.workout-dock')).toBeHidden();
+  await expect(page.locator('.workout-dock')).toBeVisible();
   await page.getByLabel('Satz 1 Gewicht', { exact: true }).fill('5');
   await page.getByRole('button', { name: 'Satz 1 speichern', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Satz 1 wieder öffnen', exact: true })).toBeVisible();

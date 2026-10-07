@@ -765,7 +765,7 @@ button:focus-visible, a:focus-visible, summary:focus-visible { outline: 2px soli
 .app-shell:has(.workout-view[data-mode="exercise"]) > .main { padding-bottom: calc(126px + var(--safe-bottom)); }
 .app-shell:has(.workout-view[data-mode="exercise"][data-timer-active="true"]) > .main { padding-bottom: calc(218px + var(--safe-bottom)); }
 @media (max-width: 600px) {
-  .workout-view:has(input:focus, select:focus, textarea:focus) .workout-dock { visibility: hidden; pointer-events: none; }
+  .workout-view.keyboard-open .workout-dock { visibility: hidden; pointer-events: none; }
 }
 @media (max-width: 380px) {
   .main { padding-left: 14px; padding-right: 14px; }

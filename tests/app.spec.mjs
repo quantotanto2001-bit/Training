@@ -359,9 +359,9 @@ test('an explicit workout pause excludes time at home and remains paused after r
   await page.clock.install();await open(page);await start(page);
   await page.clock.runFor(60000);
   await page.getByRole('button',{name:'Pausieren',exact:true}).click();
-  await expect(page.getByText('TRAINING PAUSIERT',{exact:true})).toBeVisible();
+  await expect(page.getByText('Training pausiert',{exact:true})).toBeVisible();
   await page.clock.runFor(900000);await page.reload();
-  await expect(page.getByText('TRAINING PAUSIERT',{exact:true})).toBeVisible();
+  await expect(page.getByText('Training pausiert',{exact:true})).toBeVisible();
   await page.getByRole('link',{name:/^Training fortsetzen/}).click();
   await expect(page.getByRole('button',{name:/^Training fortsetzen/})).toBeVisible();
   await page.getByRole('button',{name:/^Training fortsetzen/}).click();

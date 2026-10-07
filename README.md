@@ -7,7 +7,7 @@ Private Trainingsplanung als statische, offlinefähige Web-App: [App öffnen](ht
 - Kompakte dunkle Oberfläche mit einer deutlich erkennbaren Hauptaktion. Die aktuelle Einheit erhält eine eigene Fläche; die übrigen Bereiche bleiben ruhig.
 - Die aktuelle Satzzeile hebt den Speicherbutton hervor. Erledigte Sätze sind dezenter und weiterhin bearbeitbar. Zielbereiche stehen über der Eingabe und werden nicht als scheinbar eingetragene Wiederholungen angezeigt.
 - Übung, Vorgabe und Satzeingabe stehen dicht zusammen. Empfehlungen, Gewichtsschritte, Gewichtsbeispiele und Zeitverwaltung bleiben aufklappbar erreichbar. Vorgeschlagene Lasten werden weiterhin erst auf Wunsch übernommen.
-- Während einer Übung ersetzt eine feste Trainingssteuerung die allgemeine Navigation. Satzpausen bleiben dort sichtbar. Über die Übersicht oder Pausieren sind die übrigen Bereiche erreichbar. Beim Bearbeiten eines Feldes auf schmalen Bildschirmen wird die Leiste ausgeblendet, damit sie der Bildschirmtastatur nicht im Weg steht.
+- Während einer Übung ersetzt eine feste Trainingssteuerung die allgemeine Navigation. Satzpausen bleiben dort sichtbar. Über die Übersicht oder Pausieren sind die übrigen Bereiche erreichbar. Bei einer geöffneten Bildschirmtastatur auf schmalen Bildschirmen wird die Leiste ausgeblendet. Ein fokussiertes Feld allein blendet sie nicht aus.
 - Einheitliche Bezeichnungen und Bildrahmen, größere echte Trainingswerte, sichtbarer Tastaturfokus und ausreichender Abstand zur unteren Steuerung. Bestehende Übungsbilder, Animationen, Trainingsvorgaben und gespeicherte Daten bleiben erhalten.
 
 ## Plan 4.1

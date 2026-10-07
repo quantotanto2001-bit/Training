@@ -5,7 +5,7 @@ import { PLAN } from '../plan.js';
 import { formatLoggedSet, buildSetForm } from '../setForms.js';
 import { validateSet } from '../measurements.js';
 import { rerender } from '../app.js';
-import { dayTitle, daySubtitle, exerciseTitle } from '../presentation.js';
+import { dayTitle, exerciseTitle } from '../presentation.js';
 
 function statusLabel(status) {
   if (status === 'completed') return 'Abgeschlossen';

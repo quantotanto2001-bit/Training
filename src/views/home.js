@@ -29,7 +29,7 @@ export async function renderHome() {
   const exCount = todayExercises.length;
   const durationMin = planned.estimatedMinutes || estimateDurationMin(day);
 
-  wrap.appendChild(h('p', { class: 'section-title' }, active ? active.clock?.paused ? 'TRAINING PAUSIERT' : 'TRAINING LÄUFT' : 'HEUTE'));
+  wrap.appendChild(h('p', { class: 'section-title' }, active ? active.clock?.paused ? 'Training pausiert' : 'Training läuft' : 'Heute'));
 
   if (active) {
     const doneCount = todayExercises.filter((exx) => {
@@ -91,7 +91,7 @@ export async function renderHome() {
   ]));
 
   const upcoming = [1, 2].map((offset) => PLAN[(day.order + offset) % PLAN.length]);
-  wrap.appendChild(h('p', { class: 'section-title' }, 'NÄCHSTE EINHEITEN'));
+  wrap.appendChild(h('p', { class: 'section-title' }, 'Als Nächstes'));
   wrap.appendChild(h('div', { class: 'card upcoming-card' }, upcoming.map((d) => {
     const preview = buildSessionPlan(d, defaultMinutes(d, settings), settings);
     const dCount = preview.exercises.length;
