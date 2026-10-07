@@ -288,7 +288,7 @@ test('hold timer uses prescribed seconds, survives reload and never fabricates a
   await page.clock.runFor(43000);
   await expect(card.getByRole('status')).toContainText('45 Sekunden abgelaufen');
   await expect(page.getByLabel('Satz 1 Haltezeit',{exact:true})).toHaveValue('');
-  expect(await page.evaluate(async()=>(await (await import('/src/db.js')).getActiveSession()).entries['di-hipflexor'].sets.length)).toBe(0);
+  expect(await page.evaluate(async()=>((await (await import('/src/db.js')).getActiveSession()).entries['di-hipflexor']?.sets || []).length)).toBe(0);
   await page.screenshot({path:`test-results/previews/halte-timer-${info.project.name}.png`});
   await card.getByRole('button',{name:'30 s starten',exact:true}).click();
   await page.getByLabel('Satz 1 Haltezeit',{exact:true}).fill('30');
