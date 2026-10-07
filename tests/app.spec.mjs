@@ -218,7 +218,12 @@ test.describe('offline installation',()=>{
     try{
       await page.goto(origin);
       await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
-      await expect.poll(()=>page.evaluate(()=>!!navigator.serviceWorker.controller),{timeout:30000}).toBe(true);
+      // Initial activation legitimately reloads the home screen. A poll can
+      // cross that navigation; retry just the destroyed-context case.
+      await expect.poll(async()=>{
+        try { return await page.evaluate(()=>!!navigator.serviceWorker.controller); }
+        catch (error) { if (String(error.message).includes('Execution context was destroyed')) return false; throw error; }
+      },{timeout:30000}).toBe(true);
       await page.reload();
       await expect(page.getByRole('heading',{name:'Hallo, Jona'})).toBeVisible();
       server.closeAllConnections();

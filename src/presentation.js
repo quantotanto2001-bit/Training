@@ -29,7 +29,7 @@ const EXERCISES = {
   'do-straddlegm': 'Vorbeuge im Grätschsitz',
   'do-pikelift': 'Beinheben im Sitz',
   'do-pancake': 'Vorbeuge im Grätschsitz halten',
-  'do-wallshoulder': 'Schulterheben an der Wand',
+  'do-wallshoulder': 'Arme von der Wand abheben',
   'do-latstretch': 'Schulter- und Lat-Dehnung an Ringen',
   'sa-pogo': 'Pogo-Sprünge',
   'sa-explosivepullup': 'Explosiver Klimmzug',
